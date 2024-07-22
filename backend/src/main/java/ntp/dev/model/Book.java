@@ -1,6 +1,7 @@
 package ntp.dev.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -38,7 +39,8 @@ public class Book implements Serializable {
     private String title;
     private String author;
     private String publisher;
-    private String publicationDate;
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date publicationDate;
     @Enumerated(EnumType.STRING)
     private Genre genre;
     private double price;
@@ -54,6 +56,10 @@ public class Book implements Serializable {
     private float width;
     private float heigh;
     private float weight; // gram
+    
+    private double flashSale;
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date flashSaleExpired;
     
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookImage> images;

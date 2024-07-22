@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -44,7 +45,7 @@ public class Order implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-	
+	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date orderDate;
 	private double totalProductPrice;
 	private double totalDiscountPrice;// Tiền giảm từ Voucher
@@ -55,7 +56,7 @@ public class Order implements Serializable {
     private PaymentMethod paymentMethod;
     
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus;// Trạng thái hiện tại của đơn hàng # với tất cả trạng thái của đơn hạng xuyên xuốt 
     
     @ManyToOne
     @JoinColumn(name = "user_id")

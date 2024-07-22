@@ -3,59 +3,658 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EBook</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/button1.css">
 </head>
 <body>
-    <div class="main-container">
-        <div id="editor">
-            <p>Hello from CKEditor 5!</p>
+    <div class="container-fluid">
+        <div class="row" style="background-color: crimson;">
+            <div class="col-lg-12">
+                <div class="d-flex">
+                    <div class="col-lg-3">
+                        <a href="./"><img src="./images/ebook-logo.png" alt="EBook Store" width="100%" /></a>
+                    </div>
+
+
+                    <div class="col-lg-6 d-flex align-items-center position-relative">
+                        <div class="d-flex justify-content-around align-items-center flex-fill">
+                            <div class="dropdownContainer">
+                                <i class="fa-solid fa-square-poll-horizontal text-white fa-2x crs"></i>
+                                <div class="dropdownContent">
+                                    <div class="d-flex">
+                                        <div class="pe-2 border-end">
+                                            <a href="." class="crs default-focus text-nowrap">Sách Trong Nước</a><br>
+                                            <a href="." class="crs text-nowrap">FOREIGN BOOKS</a><br>
+                                        </div>
+                                        <div id="categoryContainer" class="d-flex flex-wrap p-3 text-white">
+                                            <div class="col-3 p-1 small">
+                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">VĂN HỌC</span>
+                                                <span class="d-block crs">Tiểu Thuyết</span>
+                                                <span class="d-block crs">Truyện Ngắn - Tản Văn</span>
+                                                <span class="d-block crs">Light Novel</span>
+                                                <span class="d-block crs">Ngôn Tình</span>
+                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                            </div>
+                                            <div class="col-3 p-1 small">
+                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">KINH TẾ</span>
+                                                <span class="d-block crs">Nhân Vật - Bài Học Kinh Doanh</span>
+                                                <span class="d-block crs">Quản Trị - Lãnh Đạo</span>
+                                                <span class="d-block crs">Marketing - Bán Hàng</span>
+                                                <span class="d-block crs">Phân Tích Kinh Tế</span>
+                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                            </div>
+                                            <div class="col-3 p-1 small">
+                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">TÂM LÝ - KĨ NĂNG SỐNG</span>
+                                                <span class="d-block crs">Kỹ Năng Sống</span>
+                                                <span class="d-block crs">Rèn Luyện Nhân Cách</span>
+                                                <span class="d-block crs">Tâm Lý</span>
+                                                <span class="d-block crs">Sách Cho Tuổi Mới Lớn</span>
+                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                            </div>
+                                            <div class="col-3 p-1 small">
+                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">NUÔI DẠY CON</span>
+                                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
+                                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
+                                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
+                                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
+                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                            </div>
+                                            <div class="col-3 p-1 small">
+                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">SÁCH THIẾU NHI</span>
+                                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
+                                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
+                                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
+                                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
+                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>&emsp;
+                            <input type="text" class="form-control" name="" id="" placeholder="Tìm kiếm sách ở đây...">&emsp;
+                            <i class="fa-solid fa-magnifying-glass text-white fa-2x crs"></i>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-3 d-flex align-items-center justify-content-end">
+                        <div class="text-center crs">
+                            <i class="fa-brands fa-shopify text-white fa-2x d-block"></i>
+                            <a href="" class="text-white">Giỏ hàng</a>
+                        </div>
+                        <div class="text-center mx-2 crs position-relative dropdownContainer">
+                            <i class="fa-regular fa-user text-white fa-2x d-block"></i>
+                            <a href="" class="text-white">Tài khoản</a>
+                            <div class="dropdownContent" style="right: 0;">
+                                <div><button class="btn btn-outline-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button></div>
+                                <div><button class="btn btn-light w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FlashSale -->
+        <div class="row mt-3 mx-5 bg-white">
+            <div class="col-lg-12">
+                <!-- FlashSale Logo -->
+                <div class="d-flex">
+                    <div class="flex-fill">
+                        <img src="./images/flashsale.gif" alt="flashsale" width="128" height="64">
+                        <span class="fwl">Kết thúc trong</span>
+                        <span id="flashSaleExpired"><span class="badge bg-dark p-2 mx-1">09 Giờ</span>:<span class="badge bg-dark p-2 mx-1">26 Phút</span>:<span class="badge bg-dark p-2 mx-1">55 Giây</span></span>
+                        <span class="fwl">. Nhanh tay kẻo lỡ nhé!</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="text-danger text-decoration-underline crs">Xem tất cả <i class="fas fa-angle-right"></i></span>
+                    </div>
+                </div>
+                <hr>
+                <!-- FlashSale Items -->
+                <div class="d-flex overflow-auto">
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white" style="background-color: #f72a3d;">
+                        <div class="position-absolute top-0 start-0 m-1">
+                            <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-1">
+                            <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
+                        </div>
+                        <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
+                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <span>
+                            <span class="fwl fw-bold">49.000 đ</span>
+                        </span><br>
+                        <span class="text-decoration-line-through">65.000 đ</span>
+                    </div>
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white" style="background-color: #f72a3d;">
+                        <div class="position-absolute top-0 start-0 m-1">
+                            <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-1">
+                            <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
+                        </div>
+                        <div class="text-center"><img src="https://simg.zalopay.com.vn/zlp-website/assets/sach_hay_nen_doc_nha_gia_kim_ea63da0d8f.jpeg" alt="dac-nhan-tam" width="150" height="200"></div>
+                        <p class="fixed-height">Nhà Giả Kim</p>
+                        <span>
+                            <span class="fwl fw-bold">49.000 đ</span>
+                            <span class="small badge bg-danger fst-italic">-15%</span>
+                        </span><br>
+                        <span class="text-decoration-line-through">65.000 đ</span>
+                    </div>
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white" style="background-color: #f72a3d;">
+                        <div class="position-absolute top-0 start-0 m-1">
+                            <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-1">
+                            <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
+                        </div>
+                        <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
+                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <span>
+                            <span class="fwl fw-bold">49.000 đ</span>
+                        </span><br>
+                        <span class="text-decoration-line-through">65.000 đ</span>
+                    </div>
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white" style="background-color: #f72a3d;">
+                        <div class="position-absolute top-0 start-0 m-1">
+                            <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-1">
+                            <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
+                        </div>
+                        <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
+                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <span>
+                            <span class="fwl fw-bold">49.000 đ</span>
+                        </span><br>
+                        <span class="text-decoration-line-through">65.000 đ</span>
+                    </div>
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white" style="background-color: #f72a3d;">
+                        <div class="position-absolute top-0 start-0 m-1">
+                            <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-1">
+                            <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
+                        </div>
+                        <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
+                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <span>
+                            <span class="fwl fw-bold">49.000 đ</span>
+                        </span><br>
+                        <span class="text-decoration-line-through">65.000 đ</span>
+                    </div>
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white" style="background-color: #f72a3d;">
+                        <div class="position-absolute top-0 start-0 m-1">
+                            <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-1">
+                            <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
+                        </div>
+                        <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
+                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <span>
+                            <span class="fwl fw-bold">49.000 đ</span>
+                        </span><br>
+                        <span class="text-decoration-line-through">65.000 đ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Sold -->
+        <div class="row mt-3 mx-5 bg-white">
+            <div class="col-lg-12">
+                <div class="mt-2">
+                    <i class="fas fa-book fwl text-danger"></i> <span class="fwl">TOP Sách Bán Chạy Nhất</span>
+                    <img src="https://media.tenor.com/K3j9pwWlME0AAAAj/fire-flame.gif" alt="" width="24" height="24">
+                    <hr>
+                </div>
+                <div class="d-flex overflow-auto">
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 3)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center border me-2 p-1 small">
+                        <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <div class="d-flex">
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                            <span class="fst-italic">(Đã bán 999)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended -->
+        <div class="row my-3 mx-5 bg-white">
+            <div class="col-lg-12">
+                <div class="col-lg-12">
+                    <div class="mt-2">
+                        <i class="fas fa-bars fwl text-danger"></i> <span class="fwl">Gợi Ý Khác Cho Bạn</span>
+                        <hr>
+                    </div>
+                    <div class="d-flex overflow-auto">
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span>(5⭐)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span>(4.3⭐)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                        <div class="col-1 text-center border me-2 p-1 small">
+                            <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
+                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <div class="d-flex">
+                                <span class="flex-fill text-danger fw-bold">55.000 đ</span>
+                                <span class="fst-italic">(Đã bán 999)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="background-color: crimson;">
+            <div class="col-lg-12">
+                <div class="d-flex text-white">
+                    <div class="col-4 p-2 border-end border-secondary">
+                        <img src="./images/ebook-logo.png" alt="ebook-logo-end">
+                        <p>✨ ĐỊA CHỈ / CHI NHÁNH: Lầu 5, 387-389 Hai Bà Trưng Quận 3 TP HCMCông Ty Cổ Phần Phát Hành Sách TP HCM - EBOOK60 - 62 Lê Lợi, Quận 1, TP. HCM, Việt Nam <i class="fas fa-map-marker-alt"></i>.</p>
+                        <p>✨ Ebook.com nhận đặt hàng trực tuyến và giao hàng tận nơi. KHÔNG hỗ trợ đặt mua và nhận hàng trực tiếp tại văn phòng cũng như tất cả Hệ Thống Ebook trên toàn quốc.</p>
+                        <div class="d-flex">
+                            ✨&emsp13;
+                            <i class="fab fa-facebook-square fa-2x"></i>&emsp;
+                            <i class="fab fa-instagram-square fa-2x"></i>&emsp;
+                            <i class="fab fa-twitter-square fa-2x"></i>&emsp;
+                            <i class="fab fa-youtube-square fa-2x"></i>&emsp;
+                            <i class="fab fa-pinterest-p fa-2x"></i>&emsp;
+                            <i class="fab fa-tumblr-square fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="col-6 px-5 pt-5">
+                        <img src="https://cdn.pixabay.com/photo/2018/07/12/13/04/copyright-3533368_1280.png" alt="" width="100" height="100" style="float: right;">
+                        <span>Giấy chứng nhận Đăng ký Kinh doanh số 0304132047 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp ngày 20/12/2005, đăng ký thay đổi lần thứ 10, ngày 20/05/2022.</span>
+                        <br>
+                        <p>- CHĂM SÓC KHÁCH HÀNG: <i class="fas fa-phone-volume"></i> 0338188506</p>
+                        <p>- Chịu trách nhiệm và hỗ trợ. Liên hệ:</p>
+                        <ul>
+                            <li>Hotline: 098 164 0961</li>
+                            <li>Email: info@ebook.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex">
+                        <div class="text-center position-relative w-100 underlineLoginPassive mx-2 csp">Đăng nhập</div>
+                        <div class="text-center position-relative w-100 underlineLoginActive mx-2 csp" onclick="showRegisterModal();">Đăng ký</div>
+                    </div>
+                    <div>
+                        <form action="/action_page.php">
+                            <div class="mb-3 mt-3">
+                              <label for="email" class="form-label">Số điện thoại / Email:</label>
+                              <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+                            </div>
+                            <div class="mb-3">
+                              <label for="pwd" class="form-label">Mật khẩu:</label>
+                              <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+                            </div>
+                            <div class="form-check mb-3">
+                              <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="remember"> Remember me
+                              </label>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger px-5">Đăng nhập</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex">
+                        <div class="text-center position-relative w-100 underlineRegisterActive mx-2 csp" onclick="showLoginModal();">Đăng nhập</div>
+                        <div class="text-center position-relative w-100 underlineRegisterPassive mx-2 csp">Đăng ký</div>
+                    </div>
+                    <div>
+                        <form action="/action_page.php">
+                            <div class="mb-3 mt-3">
+                              <label for="re-email" class="form-label">Số điện thoại / Email:</label>
+                              <input type="text" class="form-control" id="re-email" placeholder="Enter email" name="re-email">
+                            </div>
+                            <div class="mb-3">
+                              <label for="re-pwd" class="form-label">Mật khẩu:</label>
+                              <input type="password" class="form-control" id="re-pwd" placeholder="Enter password" name="re-pswd">
+                            </div>
+                            <div class="mb-3">
+                                <label for="re-repwd" class="form-label">Nhập lại Mật khẩu:</label>
+                                <input type="password" class="form-control" id="re-repwd" placeholder="Enter password" name="re-repswd">
+                              </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-light px-5">Đăng ký</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        /* Toggle Modal */
+        function showLoginModal() {
+            $("#registerModal").modal('toggle');
+            $("#loginModal").modal('toggle');
+        }
+        function showRegisterModal() {
+            $("#loginModal").modal('toggle');
+            $("#registerModal").modal('toggle');
+        }
 
+        /* FlashSale Countdown */
+        function updateCountdown() {
+            const now = new Date();
+            const saleEndTime = new Date('2024-07-22T21:00:00'); // Thời gian kết thúc flashsale
+            const timeDifference = saleEndTime - now;
 
+            if (timeDifference > 0) {
+                const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+                document.getElementById('flashSaleExpired').textContent = `${hours} giờ ${minutes} phút ${seconds} giây`;
+            } else {
+                document.getElementById('flashSaleExpired').textContent = 'Flash sale đã kết thúc';
+                clearInterval(interval);
             }
         }
-    </script>
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Paragraph,
-            Bold,
-            Italic,
-            Font
-        } from 'ckeditor5';
 
-        ClassicEditor
-            .create( document.querySelector( '#editor' ), {
-                plugins: [ Essentials, Paragraph, Bold, Italic, Font ],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                ]
-            } )
-            .then( editor => {
-                window.editor = editor;
-            } )
-            .catch( error => {
-                console.error( error );
-            } );
-    </script>
-    <script>
-        toastr.success('success', 'Thành công!');
+        // const interval = setInterval(updateCountdown, 1000);
+        // updateCountdown(); // Cập nhật ngay lập tức khi trang được load
+        // toastr.success('success', 'Thành công!');
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownLinks = document.querySelectorAll('.dropdownContent a');
+            
+            dropdownLinks.forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    document.querySelector('.default-focus').classList.remove('default-focus');
+                    this.classList.add('default-focus');
+                    console.log('this=', this.textContent);
+                    const category = this.textContent.trim();
+                    switch (category) {
+                        case "FOREIGN BOOKS":
+                                document.getElementById('categoryContainer').innerHTML = `
+                                <div class="col-3 p-1 small">
+                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">FICTION</span>
+                                    <span class="d-block crs">Contemporary Fiction</span>
+                                    <span class="d-block crs">Romance</span>
+                                    <span class="d-block crs">Fantasy</span>
+                                    <span class="d-block crs">Classics</span>
+                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                </div>
+                                <div class="col-3 p-1 small">
+                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">BUSINESS & MANAGEMENT</span>
+                                    <span class="d-block crs">Business & Management</span>
+                                    <span class="d-block crs">Economics</span>
+                                    <span class="d-block crs">Finance & Accounting</span>
+                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                </div>
+                                <div class="col-3 p-1 small">
+                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">PERSONAL DEVELOPMENT</span>
+                                    <span class="d-block crs">Popular Psychology</span>
+                                    <span class="d-block crs">Advice On Careers & Achieving</span>
+                                    <span class="d-block crs">Personal Finance</span>
+                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                </div>
+                                <div class="col-3 p-1 small">
+                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">CHILDREN'S BOOKS</span>
+                                    <span class="d-block crs">Picture & Activity Book</span>
+                                    <span class="d-block crs">Fiction (For Kids & Teen)</span>
+                                    <span class="d-block crs">Education</span>
+                                    <span class="d-block crs">Non-Fiction</span>
+                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                                </div>
+                                `;
+                            break;
+                    
+                        default:
+                            document.getElementById('categoryContainer').innerHTML = `
+                            <div class="col-3 p-1 small">
+                                <span class="d-block fw-bold mb-2 text-truncate fs-6">VĂN HỌC</span>
+                                <span class="d-block crs">Tiểu Thuyết</span>
+                                <span class="d-block crs">Truyện Ngắn - Tản Văn</span>
+                                <span class="d-block crs">Light Novel</span>
+                                <span class="d-block crs">Ngôn Tình</span>
+                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                            </div>
+                            <div class="col-3 p-1 small">
+                                <span class="d-block fw-bold mb-2 text-truncate fs-6">KINH TẾ</span>
+                                <span class="d-block crs">Nhân Vật - Bài Học Kinh Doanh</span>
+                                <span class="d-block crs">Quản Trị - Lãnh Đạo</span>
+                                <span class="d-block crs">Marketing - Bán Hàng</span>
+                                <span class="d-block crs">Phân Tích Kinh Tế</span>
+                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                            </div>
+                            <div class="col-3 p-1 small">
+                                <span class="d-block fw-bold mb-2 text-truncate fs-6">TÂM LÝ - KĨ NĂNG SỐNG</span>
+                                <span class="d-block crs">Kỹ Năng Sống</span>
+                                <span class="d-block crs">Rèn Luyện Nhân Cách</span>
+                                <span class="d-block crs">Tâm Lý</span>
+                                <span class="d-block crs">Sách Cho Tuổi Mới Lớn</span>
+                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                            </div>
+                            <div class="col-3 p-1 small">
+                                <span class="d-block fw-bold mb-2 text-truncate fs-6">NUÔI DẠY CON</span>
+                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
+                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
+                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
+                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
+                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                            </div>
+                            <div class="col-3 p-1 small">
+                                <span class="d-block fw-bold mb-2 text-truncate fs-6">SÁCH THIẾU NHI</span>
+                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
+                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
+                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
+                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
+                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
+                            </div>
+                            `;
+                            break;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
