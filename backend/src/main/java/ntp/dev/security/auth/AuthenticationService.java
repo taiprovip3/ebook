@@ -15,6 +15,7 @@ import ntp.dev.security.dto.RegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -39,21 +41,22 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
-    var user = User.builder()
-        .firstName(request.getFirstname())
-        .lastName(request.getLastname())
-        .email(request.getEmail())
-        .pass_word(passwordEncoder.encode(request.getPassword()))
-        .role(request.getRole())
-        .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
-    return AuthenticationResponse.builder()
-        .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-        .build();
+	  var user = User.builder()
+  	        .firstName(request.getFirstname())
+  	        .lastName(request.getLastname())
+  	        .email(request.getEmail())
+  	        .pass_word(passwordEncoder.encode(request.getPassword()))
+  	        .role(request.getRole())
+  	        .createdAt(new Date())
+  	        .build();
+  	    var savedUser = repository.save(user);
+  	    var jwtToken = jwtService.generateToken(user);
+  	    var refreshToken = jwtService.generateRefreshToken(user);
+  	    saveUserToken(savedUser, jwtToken);
+  	    return AuthenticationResponse.builder()
+  	        .accessToken(jwtToken)
+  	            .refreshToken(refreshToken)
+  	        .build();
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -135,7 +138,14 @@ public class AuthenticationService {
 		final String currentPrincipalName = authentication.getName();
 		 return findByEmail(currentPrincipalName).get();
 
-	}
+  }
   
-  
+  @Transactional
+  public void logout(String token) {
+      tokenRepository.findByToken(token).ifPresent(storedToken -> {
+          storedToken.setRevoked(true);
+          storedToken.setExpired(true);
+          tokenRepository.save(storedToken);
+      });
+  }
 }

@@ -1,20 +1,26 @@
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/ebook?useSSL=false&serverTimezone=UTC
-    username: root
-    password: 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        show_sql: true
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/ebook?useSSL=false&serverTimezone=UTC
+#    username: root
+#    password: 
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#        show_sql: true
         
-application:
-  security:
-    jwt:
-      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-      expiration: 86400000 # a day
-      refresh-token:
-        expiration: 604800000 # 7 days
+#application:
+#  security:
+#    jwt:
+#      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+#      expiration: 86400000 # a day
+#      refresh-token:
+#        expiration: 604800000 # 7 days
+
+#minio:
+#  endpoint: http://localhost:9000
+#  accessKey: VMxcGTPVGsxJFfF6tXip
+#  secretKey: HrM4hBAf3HrkCAJEZ1JnYDqfdOa7XZNZHFZysHqj
+#  bucketName: ebook

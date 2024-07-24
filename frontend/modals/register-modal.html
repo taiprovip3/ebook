@@ -1,0 +1,120 @@
+<!-- Register Modal -->
+<div class="modal" id="registerModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex">
+                    <div class="text-center position-relative w-100 underlineRegisterActive mx-2 csp" onclick="showLoginModal();">Đăng nhập</div>
+                    <div class="text-center position-relative w-100 underlineRegisterPassive mx-2 csp">Đăng ký</div>
+                </div>
+                <div>
+                    <form id="registerForm">
+                        <div class="d-flex">
+                            <div class="mb-3 mt-3 me-1 w-100">
+                                <label for="re-firstName" class="form-label">Họ:</label>
+                                <input type="text" class="form-control" id="re-firstName" placeholder="Enter first name" name="re-firstName">
+                            </div>
+                            <div class="mb-3 mt-3 w-100">
+                                <label for="re-lastName" class="form-label">Tên:</label>
+                                <input type="text" class="form-control" id="re-lastName" placeholder="Enter last name" name="re-lastName">
+                            </div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="re-email" class="form-label">Số điện thoại / Email:</label>
+                            <input type="text" class="form-control" id="re-email" placeholder="Enter email" name="re-email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="re-pwd" class="form-label">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="re-pwd" placeholder="Enter password" name="re-pwd">
+                        </div>
+                        <div class="mb-3">
+                            <label for="re-repwd" class="form-label">Nhập lại Mật khẩu:</label>
+                            <input type="password" class="form-control" id="re-repwd" placeholder="Enter password" name="re-repswd">
+                            </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger px-5">Đăng ký</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#registerForm").on('submit', function(e) {
+        e.preventDefault();
+
+        const firstName = $("#re-firstName").val().trim();
+        const lastName = $("#re-lastName").val().trim();
+        const email = $("#re-email").val().trim();
+        const password = $("#re-pwd").val().trim();
+        const confirmPassword = $("#re-repwd").val().trim();
+
+        // Validate inputs
+        if (firstName === "" || lastName === "" || email === "" || password === "" || confirmPassword === "") {
+            toastr.error("Vui lòng điền đầy đủ thông tin.", "Validation!");
+            return;
+        }
+
+        // Validate email format
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            toastr.error("Email không hợp lệ.", "Validation!");
+            $("#re-email").focus();
+            return;
+        }
+
+        // Validate password length
+        if (password.length < 8) {
+            toastr.error("Mật khẩu phải có ít nhất 8 ký tự.", "Validation!");
+            $("#re-pwd").focus();
+            return;
+        }
+
+        // Validate confirm password
+        if (password !== confirmPassword) {
+            toastr.error("Mật khẩu không khớp.", "Validation!");
+            $("#re-repwd").focus();
+            return;
+        }
+
+        const formData = {
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            password: password,
+            role: "USER",
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/auth/register",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function(response) {
+                if (response.access_token && response.refresh_token) {
+                    sessionStorage.setItem("user_access_token", response.access_token);
+                    toastr.success("Đăng ký thành công!");
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    toastr.error("Đăng ký thất bại. Vui lòng thử lại.", "Internal Server Error!");
+                }
+            },
+            error: function(error) {
+                console.error(error);
+                toastr.error(error.responseText, "Lỗi!");
+            }
+        });
+    });
+
+    function showRegisterModal() {
+        $("#loginModal").modal('toggle');
+        $("#registerModal").modal('toggle');
+    }
+</script>

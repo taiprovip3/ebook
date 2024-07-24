@@ -1,4 +1,4 @@
-package ntp.dev.service.imlp;
+package ntp.dev.service.impl;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import ntp.dev.service.UserService;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImlp implements UserService {
+public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	

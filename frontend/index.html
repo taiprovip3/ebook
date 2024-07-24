@@ -94,9 +94,12 @@
                         <div class="text-center mx-2 crs position-relative dropdownContainer">
                             <i class="fa-regular fa-user text-white fa-2x d-block"></i>
                             <a href="" class="text-white">Tài khoản</a>
-                            <div class="dropdownContent" style="right: 0;">
+                            <div class="dropdownContent" style="right: 0;" id="accountMutable">
                                 <div><button class="btn btn-outline-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button></div>
                                 <div><button class="btn btn-light w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button></div>
+                                <div><button class="btn btn-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#userInfoModal">Xem thông tin</button></div>
+                                <div><button class="btn btn-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi mật khẩu</button></div>
+                                <div><button type="button" class="btn btn-light w-100 rounded-0" onclick="logout('user');">Đăng xuất <i class="fas fa-sign-out-alt"></i></button></div>
                             </div>
                         </div>
                     </div>
@@ -427,6 +430,7 @@
             </div>
         </div>
 
+        <!-- Footer -->
         <div class="row" style="background-color: crimson;">
             <div class="col-lg-12">
                 <div class="d-flex text-white">
@@ -459,88 +463,87 @@
             </div>
         </div>
     </div>
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="d-flex">
-                        <div class="text-center position-relative w-100 underlineLoginPassive mx-2 csp">Đăng nhập</div>
-                        <div class="text-center position-relative w-100 underlineLoginActive mx-2 csp" onclick="showRegisterModal();">Đăng ký</div>
-                    </div>
-                    <div>
-                        <form action="/action_page.php">
-                            <div class="mb-3 mt-3">
-                              <label for="email" class="form-label">Số điện thoại / Email:</label>
-                              <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
-                            </div>
-                            <div class="mb-3">
-                              <label for="pwd" class="form-label">Mật khẩu:</label>
-                              <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
-                            </div>
-                            <div class="form-check mb-3">
-                              <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="remember"> Remember me
-                              </label>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-danger px-5">Đăng nhập</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Register Modal -->
-    <div class="modal" id="registerModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="d-flex">
-                        <div class="text-center position-relative w-100 underlineRegisterActive mx-2 csp" onclick="showLoginModal();">Đăng nhập</div>
-                        <div class="text-center position-relative w-100 underlineRegisterPassive mx-2 csp">Đăng ký</div>
-                    </div>
-                    <div>
-                        <form action="/action_page.php">
-                            <div class="mb-3 mt-3">
-                              <label for="re-email" class="form-label">Số điện thoại / Email:</label>
-                              <input type="text" class="form-control" id="re-email" placeholder="Enter email" name="re-email">
-                            </div>
-                            <div class="mb-3">
-                              <label for="re-pwd" class="form-label">Mật khẩu:</label>
-                              <input type="password" class="form-control" id="re-pwd" placeholder="Enter password" name="re-pswd">
-                            </div>
-                            <div class="mb-3">
-                                <label for="re-repwd" class="form-label">Nhập lại Mật khẩu:</label>
-                                <input type="password" class="form-control" id="re-repwd" placeholder="Enter password" name="re-repswd">
-                              </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-light px-5">Đăng ký</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="modals-container"></div>
+    <script src="./js/logout.js"></script>
     <script>
-        /* Toggle Modal */
-        function showLoginModal() {
-            $("#registerModal").modal('toggle');
-            $("#loginModal").modal('toggle');
-        }
-        function showRegisterModal() {
-            $("#loginModal").modal('toggle');
-            $("#registerModal").modal('toggle');
-        }
+        $(document).ready(function() {
+            // 01. Tải modals
+            $.when(
+                $.get("./modals/login-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/register-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/change-password-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/user-info-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                })
+            ).done(function() {
+                console.log("Tất cả các modal đã được tải xong");
+            }).fail(function() {
+                console.log("Lỗi khi tải modal");
+            });
 
+            // 02. Kiểm tra token khi trang được tải
+            const accessToken = sessionStorage.getItem('user_access_token');
+            if (!accessToken) {
+                console.log('eeasdasd');
+                const noLoginContentHtml = `
+                    <div><button class="btn btn-outline-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button></div>
+                    <div><button class="btn btn-light w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button></div>
+                `;
+                $("#accountMutable").html(noLoginContentHtml);
+            } else {
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/user/whoiam',
+                    type: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                    },
+                    credentials: 'include', // Để gửi cookie trong request
+                    success: function(userData) {
+                        console.log('response=', userData);
+                        // Render data user info modal
+                        const htmlContent = `
+                            <dt class="col-sm-4">ID:</dt>
+                            <dd class="col-sm-8" id="userId">#${userData.id}</dd>
+
+                            <dt class="col-sm-4">Họ:</dt>
+                            <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
+
+                            <dt class="col-sm-4">Tên:</dt>
+                            <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
+
+                            <dt class="col-sm-4">Tên đầy đủ:</dt>
+                            <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
+
+                            <dt class="col-sm-4">Tên đăng nhập:</dt>
+                            <dd class="col-sm-8" id="userName">${userData.username}</dd>
+
+                            <dt class="col-sm-4">Email:</dt>
+                            <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
+
+                            <dt class="col-sm-4">Ngày tạo:</dt>
+                            <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
+                        `;
+                        $("#userInfoModalData").html(htmlContent);
+                        const loginContentHtml = `
+                            <div><button class="btn btn-danger w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#userInfoModal">Xem thông tin</button></div>
+                            <div><button class="btn btn-danger w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi mật khẩu</button></div>
+                            <div><button type="button" class="btn btn-danger w-100 rounded-0" onclick="logout('user');"><i class="fas fa-sign-out-alt"></i></button></div>
+                        `;
+                        $("#accountMutable").html(loginContentHtml);
+    ;                },
+                    error: function(xhr, status, error) {
+                        toastr.error('http://localhost:8080/api/v1/users/whoiam error.');
+                    }
+                });
+            }
+        });
+        
         /* FlashSale Countdown */
         function updateCountdown() {
             const now = new Date();
@@ -561,95 +564,193 @@
 
         // const interval = setInterval(updateCountdown, 1000);
         // updateCountdown(); // Cập nhật ngay lập tức khi trang được load
-        // toastr.success('success', 'Thành công!');
+
+        const genreGroupTranslations = {
+            "EDUCATIONS": "GIÁO DỤC",
+            "OTHERS": "KHÁC",
+            "TEXTBOOKS": "SÁCH GIÁO KHOA - THAM KHẢO",
+            "ECONOMICS": "KINH TẾ",
+            "SPYCHOLOGIES": "TÂM LÝ & KỸ NĂNG SỐNG",
+            "LANGUAGES": "NGOẠI NGỮ",
+            "CHILDRENS": "SÁCH THIẾU NHI",
+            "BIOGRAPHIES": "TIỂU SỬ & HỒI KÝ",
+            "LITERATURES": "VĂN HỌC"
+        };
+        const genreTranslations = {
+            "PARENTING_GUIDES": "Hướng dẫn nuôi dạy con cái",
+            "CHILD_DEVELOPMENT": "Phát triển trẻ em",
+            "POSITIVE_PARENTING": "Nuôi dạy con cái tích cực",
+            "DISCIPLINE": "Kỷ luật",
+            "PARENTING_STYLES": "Các kiểu nuôi dạy con cái",
+            "SINGLE_PARENTING": "Nuôi dạy con cái đơn thân",
+            "WORK_LIFE_BALANCE": "Cân bằng công việc và cuộc sống",
+            "PARENTING_CHALLENGES": "Thách thức trong nuôi dạy con cái",
+            "SPECIAL_NEEDS": "Những nhu cầu đặc biệt",
+            "FAMILY_RELATIONSHIPS": "Mối quan hệ gia đình",
+            "PARENTING_TIPS": "Mẹo nuôi dạy con cái",
+            // Add other translations here
+            "COOKING": "Nấu ăn",
+            "TRAVEL": "Du lịch",
+            "HEALTH": "Sức khỏe",
+            "ART": "Nghệ thuật",
+            "MUSIC": "Âm nhạc",
+            "RELIGION": "Tôn giáo",
+            "SPIRITUALITY": "Tâm linh",
+            "SCIENCE": "Khoa học",
+            "PHILOSOPHY": "Triết học",
+            "BUSINESS": "Kinh doanh",
+            "EDUCATION": "Giáo dục",
+            "GRAPHIC_NOVEL": "Tiểu thuyết đồ họa",
+            "SPORTS": "Thể thao",
+            "TECHNOLOGY": "Công nghệ",
+            "TEXTBOOK": "Sách giáo khoa",
+            "REFERENCE_BOOK": "Sách tham khảo",
+            "WORKBOOK": "Sách bài tập",
+            "GUIDE": "Hướng dẫn",
+            "HANDBOOK": "Sổ tay",
+            "ENCYCLOPEDIA": "Từ điển bách khoa",
+            "ATLAS": "Bản đồ",
+            "DICTIONARY": "Từ điển",
+            "MANUAL": "Sách hướng dẫn",
+            "TEXTBOOK_SERIES": "Chuỗi sách giáo khoa",
+            "MICROECONOMICS": "Kinh tế vi mô",
+            "MACROECONOMICS": "Kinh tế vĩ mô",
+            "ECONOMIC_THEORY": "Lý thuyết kinh tế",
+            "DEVELOPMENT_ECONOMICS": "Kinh tế phát triển",
+            "INTERNATIONAL_ECONOMICS": "Kinh tế quốc tế",
+            "BEHAVIORAL_ECONOMICS": "Kinh tế hành vi",
+            "PUBLIC_ECONOMICS": "Kinh tế công",
+            "ENVIRONMENTAL_ECONOMICS": "Kinh tế môi trường",
+            "ECONOMETRICS": "Kinh tế lượng",
+            "LABOR_ECONOMICS": "Kinh tế lao động",
+            "FINANCIAL_ECONOMICS": "Kinh tế tài chính",
+            "HEALTH_ECONOMICS": "Kinh tế y tế",
+            "INDUSTRIAL_ORGANIZATION": "Tổ chức công nghiệp",
+            "SELF_HELP": "Tự trợ giúp",
+            "PERSONAL_DEVELOPMENT": "Phát triển cá nhân",
+            "EMOTIONAL_INTELLIGENCE": "Trí tuệ cảm xúc",
+            "MINDFULNESS": "Chánh niệm",
+            "STRESS_MANAGEMENT": "Quản lý căng thẳng",
+            "TIME_MANAGEMENT": "Quản lý thời gian",
+            "COMMUNICATION_SKILLS": "Kỹ năng giao tiếp",
+            "CONFLICT_RESOLUTION": "Giải quyết xung đột",
+            "MOTIVATION": "Động lực",
+            "LEADERSHIP": "Lãnh đạo",
+            "RESILIENCE": "Khả năng phục hồi",
+            "DECISION_MAKING": "Ra quyết định",
+            "RELATIONSHIP_BUILDING": "Xây dựng mối quan hệ",
+            "SELF_AWARENESS": "Nhận thức bản thân",
+            "LANGUAGE_TEXTBOOK": "Sách giáo khoa ngôn ngữ",
+            "GRAMMAR_GUIDE": "Hướng dẫn ngữ pháp",
+            "VOCABULARY_BOOK": "Sách từ vựng",
+            "LANGUAGE_WORKBOOK": "Sách bài tập ngôn ngữ",
+            "PHRASEBOOK": "Sách cụm từ",
+            "CONVERSATION_GUIDE": "Hướng dẫn hội thoại",
+            "AUDIO_LINGUAL_BOOK": "Sách ngôn ngữ âm thanh",
+            "LANGUAGE_EXERCISES": "Bài tập ngôn ngữ",
+            "LANGUAGE_COURSEBOOK": "Sách khóa học ngôn ngữ",
+            "LANGUAGE_DICTIONARY": "Từ điển ngôn ngữ",
+            "CULTURE_GUIDE": "Hướng dẫn văn hóa",
+            "LANGUAGE_ATHLETICS": "Sách thể thao ngôn ngữ",
+            "PICTURE_BOOKS": "Sách tranh",
+            "BOARD_BOOKS": "Sách bìa cứng",
+            "EARLY_READERS": "Sách đọc sớm",
+            "CHAPTER_BOOKS": "Sách chương",
+            "MIDDLE_GRADE": "Sách trung cấp",
+            "YOUNG_ADULT": "Sách cho người lớn tuổi",
+            "FAIRY_TALES": "Truyện cổ tích",
+            "EDUCATIONAL": "Giáo dục",
+            "ANIMAL_STORIES": "Truyện về động vật",
+            "EASY_READERS": "Sách dễ đọc",
+            "HUMOR": "Hài hước",
+            "BEDTIME_STORIES": "Truyện trước khi đi ngủ",
+            "FABLES": "Truyền thuyết",
+            "AUTOBIOGRAPHY": "Tự truyện",
+            "MEMOIR": "Hồi ký",
+            "BIOGRAPHY": "Tiểu sử",
+            "DIARY": "Nhật ký",
+            "PERSONAL_NARRATIVE": "Tường thuật cá nhân",
+            "AUTOBIOGRAPHICAL_NOVEL": "Tiểu thuyết tự truyện",
+            "HISTORICAL_MEMOIR": "Hồi ký lịch sử",
+            "CELEBRITY_MEMOIR": "Hồi ký của người nổi tiếng",
+            "FICTION": "Tiểu thuyết",
+            "NON_FICTION": "Phi hư cấu",
+            "MYSTERY": "Trinh thám",
+            "THRILLER": "Hồi hộp",
+            "FANTASY": "Kỳ ảo",
+            "ROMANCE": "Lãng mạn",
+            "HISTORICAL": "Lịch sử",
+            "POETRY": "Thơ",
+            "DRAMA": "Kịch",
+            "HORROR": "Kinh dị",
+            "SCIENCE_FICTION": "Khoa học viễn tưởng",
+            "CONTEMPORARY": "Hiện đại",
+            "CLASSICS": "Cổ điển",
+            "ADVENTURE": "Phiêu lưu",
+            "DYSTOPIAN": "Hậu tận thế",
+            "COMICS": "Truyện tranh"
+        };
+
+
+        async function getGenres() {
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/genre/grouped',
+                type: 'GET',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownLinks = document.querySelectorAll('.dropdownContent a');
             
             dropdownLinks.forEach(link => {
-                link.addEventListener('mouseover', function() {
+                link.addEventListener('mouseover', async function() {
                     document.querySelector('.default-focus').classList.remove('default-focus');
                     this.classList.add('default-focus');
-                    console.log('this=', this.textContent);
+                    const mygenres = await getGenres();
                     const category = this.textContent.trim();
+                    const container = document.getElementById('categoryContainer');
                     switch (category) {
-                        case "FOREIGN BOOKS":
-                                document.getElementById('categoryContainer').innerHTML = `
-                                <div class="col-3 p-1 small">
-                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">FICTION</span>
-                                    <span class="d-block crs">Contemporary Fiction</span>
-                                    <span class="d-block crs">Romance</span>
-                                    <span class="d-block crs">Fantasy</span>
-                                    <span class="d-block crs">Classics</span>
-                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                </div>
-                                <div class="col-3 p-1 small">
-                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">BUSINESS & MANAGEMENT</span>
-                                    <span class="d-block crs">Business & Management</span>
-                                    <span class="d-block crs">Economics</span>
-                                    <span class="d-block crs">Finance & Accounting</span>
-                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                </div>
-                                <div class="col-3 p-1 small">
-                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">PERSONAL DEVELOPMENT</span>
-                                    <span class="d-block crs">Popular Psychology</span>
-                                    <span class="d-block crs">Advice On Careers & Achieving</span>
-                                    <span class="d-block crs">Personal Finance</span>
-                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                </div>
-                                <div class="col-3 p-1 small">
-                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">CHILDREN'S BOOKS</span>
-                                    <span class="d-block crs">Picture & Activity Book</span>
-                                    <span class="d-block crs">Fiction (For Kids & Teen)</span>
-                                    <span class="d-block crs">Education</span>
-                                    <span class="d-block crs">Non-Fiction</span>
-                                    <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                </div>
+                        case "Sách Trong Nước":
+                            container.innerHTML = '';
+                            for (const [group, genres] of Object.entries(mygenres)) {
+                                const groupName = genreGroupTranslations[group] || group;
+                                const limitedGenres = genres.slice(0, 5);
+                                let genreItems = limitedGenres.map(genre => {
+                                    const translatedGenre = genreTranslations[genre] || genre.replace(/_/g, ' ');
+                                    return `<span class="d-block crs">${translatedGenre}</span>`;
+                                }).join('');
+                                genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
+
+                                const columnHtml = `
+                                    <div class="col-3 p-2 mb-1 small">
+                                        <span class="d-block fw-bold mb-2 text-truncate fs-6">${groupName}</span>
+                                        ${genreItems}
+                                    </div>
                                 `;
+                                container.innerHTML += columnHtml;
+                            }
+                            break;
+                        case "FOREIGN BOOKS":
+                            container.innerHTML = '';
+                            for (const [group, genres] of Object.entries(mygenres)) {
+                                const groupName = group;
+                                const limitedGenres = genres.slice(0, 5);
+                                let genreItems = limitedGenres.map(genre => `<span class="d-block crs">${genre.replace(/_/g, ' ')}</span>`).join('');
+                                genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
+
+                                const columnHtml = `
+                                    <div class="col-3 p-2 mb-1 small">
+                                        <span class="d-block fw-bold mb-2 text-truncate fs-6">${groupName}</span>
+                                        ${genreItems}
+                                    </div>
+                                `;
+                                container.innerHTML += columnHtml;
+                            }
                             break;
                     
                         default:
-                            document.getElementById('categoryContainer').innerHTML = `
-                            <div class="col-3 p-1 small">
-                                <span class="d-block fw-bold mb-2 text-truncate fs-6">VĂN HỌC</span>
-                                <span class="d-block crs">Tiểu Thuyết</span>
-                                <span class="d-block crs">Truyện Ngắn - Tản Văn</span>
-                                <span class="d-block crs">Light Novel</span>
-                                <span class="d-block crs">Ngôn Tình</span>
-                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                            </div>
-                            <div class="col-3 p-1 small">
-                                <span class="d-block fw-bold mb-2 text-truncate fs-6">KINH TẾ</span>
-                                <span class="d-block crs">Nhân Vật - Bài Học Kinh Doanh</span>
-                                <span class="d-block crs">Quản Trị - Lãnh Đạo</span>
-                                <span class="d-block crs">Marketing - Bán Hàng</span>
-                                <span class="d-block crs">Phân Tích Kinh Tế</span>
-                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                            </div>
-                            <div class="col-3 p-1 small">
-                                <span class="d-block fw-bold mb-2 text-truncate fs-6">TÂM LÝ - KĨ NĂNG SỐNG</span>
-                                <span class="d-block crs">Kỹ Năng Sống</span>
-                                <span class="d-block crs">Rèn Luyện Nhân Cách</span>
-                                <span class="d-block crs">Tâm Lý</span>
-                                <span class="d-block crs">Sách Cho Tuổi Mới Lớn</span>
-                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                            </div>
-                            <div class="col-3 p-1 small">
-                                <span class="d-block fw-bold mb-2 text-truncate fs-6">NUÔI DẠY CON</span>
-                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
-                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
-                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
-                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
-                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                            </div>
-                            <div class="col-3 p-1 small">
-                                <span class="d-block fw-bold mb-2 text-truncate fs-6">SÁCH THIẾU NHI</span>
-                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
-                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
-                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
-                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
-                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                            </div>
-                            `;
                             break;
                     }
                 });

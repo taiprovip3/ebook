@@ -52,6 +52,9 @@ public class SecurityConfiguration {
                 "/api/v1/auth/**",
                 "/api/v1/demo-controller/**",
                 "/api/v1/management/**",
+                "/api/v1/user/**",
+                "/api/v1/book/**",
+                "/api/v1/genre/**",
                 "/v2/api-docs",
                 "/v3/api-docs",
                 "/v3/api-docs/**",
@@ -76,19 +79,14 @@ public class SecurityConfiguration {
         .anyRequest()
           .authenticated()
         .and()
-          .sessionManagement()
-          .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
+          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider)
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-        .logout()
-        .logoutUrl("/api/v1/auth/logout")
-        .addLogoutHandler(logoutHandler)
-        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
-
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//        .logout()
+//        .logoutUrl("/api/v1/auth/logout")
+//        .addLogoutHandler(logoutHandler)
+//        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+	  			
     return http.build();
   }
-  
-  
- 
 }

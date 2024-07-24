@@ -1,6 +1,7 @@
 package ntp.dev.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ntp.dev.enumric.BookType;
 import ntp.dev.enumric.Genre;
 
 @Data
@@ -39,10 +41,12 @@ public class Book implements Serializable {
     private String title;
     private String author;
     private String publisher;
-    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date publicationDate;
+//    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp publicationDate;
     @Enumerated(EnumType.STRING)
     private Genre genre;
+    @Enumerated(value = EnumType.STRING)
+    private BookType bookType;
     private double price;
     private double discount;
     private int stockQuantity;
@@ -54,16 +58,16 @@ public class Book implements Serializable {
     
     private float length;
     private float width;
-    private float heigh;
+    private float height;
     private float weight; // gram
     
     private double flashSale;
-    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date flashSaleExpired;
+//    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp flashSaleExpired;
     
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book")
     private List<BookImage> images;
     
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book")
     private List<CartItem> cartItems;
 }

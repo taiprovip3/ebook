@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBOOK Admin - Book</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .modal-header {
+            background-color: #343a40;
+            color: white;
+        }
+        .modal-footer {
+            justify-content: center;
+        }
+        .modal-footer .btn {
+            width: 100px;
+        }
+        .action-btns i {
+            cursor: pointer;
+        }
+        .action-btns i:hover {
+            color: #0d6efd;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .fade {
+            transition: opacity 0.1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./homepage.html">EBOOK Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Quản Lý Tài Khoản
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#userInfoModal">Xem Thông Tin Tài Khoản</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi Mật Khẩu</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);" onclick="logout('admin');">Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold text-white" href="javascript:void(0);">Quản Lý Sách</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Quản Lý Hóa Đơn</a>
+                    </li>
+                </ul>
+                <!-- <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form> -->
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Book Management</h2>
+            <div>
+                <button type="button" class="btn btn-primary" onclick="addBook();">Add Book</button>
+                <button id="deleteSelectedBtn" class="btn btn-danger">Xóa Chọn</button>
+            </div>
+        </div>
+        <input type="text" id="searchBar" class="form-control search-bar" placeholder="Search books...">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col"><input type="checkbox" id="selectAll"></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Publisher</th>
+                    <th scope="col">Publication Date</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Stocks</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Flash Sale</th>
+                    <th scope="col">CBM (LxWxHxW)</th>
+                    <th scope="col">Cover Image</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="bookTable">
+                <!-- Rows will be added here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Book Modal -->
+    <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookModalLabel">Add/Edit Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bookForm">
+                        <input type="hidden" id="bookId">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="isbn" class="form-label">ISBN</label>
+                                <input type="text" class="form-control" id="isbn">
+                            </div>
+                            <div class="col">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="author" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="author">
+                            </div>
+                            <div class="col">
+                                <label for="publisher" class="form-label">Publisher</label>
+                                <input type="text" class="form-control" id="publisher">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="publicationDate" class="form-label">Publication Date</label>
+                                <input type="date" class="form-control" id="publicationDate" value="2024-01-01">
+                            </div>
+                            <div class="col">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="price" step="0.01">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="stockQuantity" class="form-label">Stock Quantity</label>
+                                <input type="number" class="form-control" id="stockQuantity">
+                            </div>
+                            <div class="col">
+                                <label for="genre" class="form-label">Genre</label>
+                                <select id="genre" class="form-select">
+                                    <option value="FICTION">Fiction (Hư cấu)</option>
+                                    <option value="NON_FICTION">Non-fiction (Phi hư cấu)</option>
+                                    <option value="MYSTERY">Mystery (Bí ẩn)</option>
+                                    <option value="THRILLER">Thriller (Hồi hộp)</option>
+                                    <option value="FANTASY">Fantasy (Huyền bí)</option>
+                                    <option value="ROMANCE">Romance (Lãng mạn)</option>
+                                    <option value="HISTORICAL">Historical (Lịch sử)</option>
+                                    <option value="POETRY">Poetry (Thơ)</option>
+                                    <option value="DRAMA">Drama (Kịch)</option>
+                                    <option value="HORROR">Horror (Kinh dị)</option>
+                                    <option value="SCIENCE_FICTION">Science Fiction (Khoa học viễn tưởng)</option>
+                                    <option value="CONTEMPORARY">Contemporary (Đương đại)</option>
+                                    <option value="CLASSICS">Classics (Kinh điển)</option>
+                                    <option value="ADVENTURE">Adventure (Phiêu lưu)</option>
+                                    <option value="DYSTOPIAN">Dystopian (Hậu tận thế)</option>
+                                    <option value="COMICS">Comics (Truyện cười)</option>
+                                    <option value="MICROECONOMICS">Microeconomics (Kinh tế vi mô)</option>
+                                    <option value="MACROECONOMICS">Macroeconomics (Kinh tế vĩ mô)</option>
+                                    <option value="ECONOMIC_THEORY">Economic Theory (Lý thuyết kinh tế)</option>
+                                    <option value="DEVELOPMENT_ECONOMICS">Development Economics (Kinh tế phát triển)</option>
+                                    <option value="INTERNATIONAL_ECONOMICS">International Economics (Kinh tế quốc tế)</option>
+                                    <option value="BEHAVIORAL_ECONOMICS">Behavioral Economics (Kinh tế hành vi)</option>
+                                    <option value="PUBLIC_ECONOMICS">Public Economics (Kinh tế công)</option>
+                                    <option value="ENVIRONMENTAL_ECONOMICS">Environmental Economics (Kinh tế môi trường)</option>
+                                    <option value="ECONOMETRICS">Econometrics (Kinh tế lượng)</option>
+                                    <option value="LABOR_ECONOMICS">Labor Economics (Kinh tế lao động)</option>
+                                    <option value="FINANCIAL_ECONOMICS">Financial Economics (Kinh tế tài chính)</option>
+                                    <option value="HEALTH_ECONOMICS">Health Economics (Kinh tế y tế)</option>
+                                    <option value="INDUSTRIAL_ORGANIZATION">Industrial Organization (Tổ chức công nghiệp)</option>
+                                    <option value="SELF_HELP">Self Help (Tự giúp đỡ bản thân)</option>
+                                    <option value="PERSONAL_DEVELOPMENT">Personal Development (Phát triển cá nhân)</option>
+                                    <option value="EMOTIONAL_INTELLIGENCE">Emotional Intelligence (Trí tuệ cảm xúc)</option>
+                                    <option value="MINDFULNESS">Mindfulness (Chánh niệm)</option>
+                                    <option value="STRESS_MANAGEMENT">Stress Management (Quản lý căng thẳng)</option>
+                                    <option value="TIME_MANAGEMENT">Time Management (Quản lý thời gian)</option>
+                                    <option value="COMMUNICATION_SKILLS">Communication Skills (Kỹ năng giao tiếp)</option>
+                                    <option value="CONFLICT_RESOLUTION">Conflict Resolution (Giải quyết xung đột)</option>
+                                    <option value="MOTIVATION">Motivation (Động lực)</option>
+                                    <option value="LEADERSHIP">Leadership (Lãnh đạo)</option>
+                                    <option value="RESILIENCE">Resilience (Khả năng phục hồi)</option>
+                                    <option value="DECISION_MAKING">Decision Making (Ra quyết định)</option>
+                                    <option value="RELATIONSHIP_BUILDING">Relationship Building (Xây dựng mối quan hệ)</option>
+                                    <option value="SELF_AWARENESS">Self Awareness (Nhận thức về bản thân)</option>
+                                    <option value="PICTURE_BOOKS">Picture Books (Sách tranh)</option>
+                                    <option value="BOARD_BOOKS">Board Books (Sách bìa cứng)</option>
+                                    <option value="EARLY_READERS">Early Readers (Sách đọc sớm)</option>
+                                    <option value="CHAPTER_BOOKS">Chapter Books (Sách chương)</option>
+                                    <option value="MIDDLE_GRADE">Middle Grade (Sách trung học)</option>
+                                    <option value="YOUNG_ADULT">Young Adult (Sách thiếu niên)</option>
+                                    <option value="FAIRY_TALES">Fairy Tales (Truyện cổ tích)</option>
+                                    <option value="EDUCATIONAL">Educational (Giáo dục)</option>
+                                    <option value="ANIMAL_STORIES">Animal Stories (Câu chuyện về động vật)</option>
+                                    <option value="EASY_READERS">Easy Readers (Sách đọc dễ)</option>
+                                    <option value="HUMOR">Humor (Hài hước)</option>
+                                    <option value="BEDTIME_STORIES">Bedtime Stories (Câu chuyện trước khi đi ngủ)</option>
+                                    <option value="FABLES">Fables (Huyền thoại)</option>
+                                    <option value="PARENTING_GUIDES">Parenting Guides (Hướng dẫn nuôi dạy con)</option>
+                                    <option value="CHILD_DEVELOPMENT">Child Development (Phát triển trẻ em)</option>
+                                    <option value="POSITIVE_PARENTING">Positive Parenting (Nuôi dạy tích cực)</option>
+                                    <option value="DISCIPLINE">Discipline (Kỷ luật)</option>
+                                    <option value="PARENTING_STYLES">Parenting Styles (Phong cách nuôi dạy)</option>
+                                    <option value="SINGLE_PARENTING">Single Parenting (Nuôi dạy con một mình)</option>
+                                    <option value="WORK_LIFE_BALANCE">Work-Life Balance (Cân bằng công việc và cuộc sống)</option>
+                                    <option value="PARENTING_CHALLENGES">Parenting Challenges (Thách thức trong nuôi dạy)</option>
+                                    <option value="SPECIAL_NEEDS">Special Needs (Nhu cầu đặc biệt)</option>
+                                    <option value="FAMILY_RELATIONSHIPS">Family Relationships (Mối quan hệ gia đình)</option>
+                                    <option value="PARENTING_TIPS">Parenting Tips (Mẹo nuôi dạy)</option>
+                                    <option value="AUTOBIOGRAPHY">Autobiography (Tự truyện)</option>
+                                    <option value="MEMOIR">Memoir (Hồi ký)</option>
+                                    <option value="BIOGRAPHY">Biography (Tiểu sử)</option>
+                                    <option value="DIARY">Diary (Nhật ký)</option>
+                                    <option value="PERSONAL_NARRATIVE">Personal Narrative (Tường thuật cá nhân)</option>
+                                    <option value="AUTOBIOGRAPHICAL_NOVEL">Autobiographical Novel (Tiểu thuyết tự truyện)</option>
+                                    <option value="HISTORICAL_MEMOIR">Historical Memoir (Hồi ký lịch sử)</option>
+                                    <option value="CELEBRITY_MEMOIR">Celebrity Memoir (Hồi ký của người nổi tiếng)</option>
+                                    <option value="TEXTBOOK">Textbook (Sách giáo khoa)</option>
+                                    <option value="REFERENCE_BOOK">Reference Book (Sách tham khảo)</option>
+                                    <option value="WORKBOOK">Workbook (Sách bài tập)</option>
+                                    <option value="GUIDE">Guide (Hướng dẫn)</option>
+                                    <option value="HANDBOOK">Handbook (Cẩm nang)</option>
+                                    <option value="ENCYCLOPEDIA">Encyclopedia (Từ điển bách khoa)</option>
+                                    <option value="ATLAS">Atlas (Atlas)</option>
+                                    <option value="DICTIONARY">Dictionary (Từ điển)</option>
+                                    <option value="MANUAL">Manual (Sổ tay)</option>
+                                    <option value="TEXTBOOK_SERIES">Textbook Series (Bộ sách giáo khoa)</option>
+                                    <option value="LANGUAGE_TEXTBOOK">Language Textbook (Sách giáo khoa ngoại ngữ)</option>
+                                    <option value="GRAMMAR_GUIDE">Grammar Guide (Hướng dẫn ngữ pháp)</option>
+                                    <option value="VOCABULARY_BOOK">Vocabulary Book (Sách từ vựng)</option>
+                                    <option value="LANGUAGE_WORKBOOK">Language Workbook (Sách bài tập ngoại ngữ)</option>
+                                    <option value="PHRASEBOOK">Phrasebook (Sách cụm từ)</option>
+                                    <option value="CONVERSATION_GUIDE">Conversation Guide (Hướng dẫn hội thoại)</option>
+                                    <option value="AUDIO_LINGUAL_BOOK">Audio-Lingual Book (Sách học ngôn ngữ qua audio)</option>
+                                    <option value="LANGUAGE_EXERCISES">Language Exercises (Bài tập ngôn ngữ)</option>
+                                    <option value="LANGUAGE_COURSEBOOK">Language Coursebook (Sách khóa học ngôn ngữ)</option>
+                                    <option value="LANGUAGE_DICTIONARY">Language Dictionary (Từ điển ngôn ngữ)</option>
+                                    <option value="CULTURE_GUIDE">Culture Guide (Hướng dẫn văn hóa)</option>
+                                    <option value="LANGUAGE_ATHLETICS">Language Athletics (Sách luyện tập ngôn ngữ)</option>
+                                    <option value="COOKING">Cooking (Nấu ăn)</option>
+                                    <option value="TRAVEL">Travel (Du lịch)</option>
+                                    <option value="HEALTH">Health (Sức khỏe)</option>
+                                    <option value="ART">Art (Nghệ thuật)</option>
+                                    <option value="MUSIC">Music (Âm nhạc)</option>
+                                    <option value="RELIGION">Religion (Tôn giáo)</option>
+                                    <option value="SPIRITUALITY">Spirituality (Tinh thần)</option>
+                                    <option value="SCIENCE">Science (Khoa học)</option>
+                                    <option value="PHILOSOPHY">Philosophy (Triết học)</option>
+                                    <option value="BUSINESS">Business (Kinh doanh)</option>
+                                    <option value="EDUCATION">Education (Giáo dục)</option>
+                                    <option value="GRAPHIC_NOVEL">Graphic Novel (Tiểu thuyết đồ họa)</option>
+                                    <option value="SPORTS">Sports (Thể thao)</option>
+                                    <option value="TECHNOLOGY">Technology (Công nghệ)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" rows="3"></textarea>
+                            </div>
+                            <div class="col">
+                                <label for="bookType" class="form-label">Book Type</label>
+                                <select class="form-select" id="bookType">
+                                    <option value="DOMESTIC">Domestic</option>
+                                    <option value="FOREIGN">Foreign</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="coverImage" class="form-label">Cover Image</label>
+                            <input type="file" class="form-control" id="coverImage">
+                        </div>
+                        <p class="text-primary" data-bs-toggle="collapse" data-bs-target="#demo">Advanced <i class="fas fa-caret-down"></i></p>
+                        <div id="demo" class="collapse">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="discount" class="form-label">Discount</label>
+                                    <input type="number" class="form-control" id="discount" value="0">
+                                </div>
+                                <div class="col">
+                                    <label for="flashSale" class="form-label">Flash Sale (Nếu có)</label>
+                                    <input type="number" class="form-control" id="flashSale" value="0">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="flashSaleExpired" class="form-label">Flash Sale Expired</label>
+                                    <input type="date" class="form-control" id="flashSaleExpired" value="1970-01-01">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="theLength" class="form-label">Dài</label>
+                                    <input type="number" class="form-control" id="theLength" placeholder="cm" value="270">
+                                </div>
+                                <div class="col">
+                                    <label for="theWidth" class="form-label">Rộng</label>
+                                    <input type="number" class="form-control" id="theWidth" placeholder="cm" value="240">
+                                </div>
+                                <div class="col">
+                                    <label for="theHeight" class="form-label">Cao</label>
+                                    <input type="number" class="form-control" id="theHeight" placeholder="cm" value="50">
+                                </div>
+                                <div class="col">
+                                    <label for="theWeight" class="form-label">Cân nặng</label>
+                                    <input type="number" class="form-control" id="theWeight" placeholder="gram" value="400">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary p-2" data-bs-dismiss="modal">Close <i class="fas fa-times"></i></button>
+                    <button type="button" id="saveBookBtn" class="btn btn-primary p-2">Save <i class="far fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modals-container"></div>
+    <script src="../js/logout.js"></script>
+    <script>
+        // Sample book data
+        var books = [];
+
+        async function getBooks() {
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/book/list',
+                type: 'GET',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
+
+        // Render books
+        async function renderBooks() {
+            var bookTable = $("#bookTable");
+            bookTable.empty();
+            books = await getBooks();
+            console.log('books=', books);
+            books.forEach(book => {
+                var row = `<tr class="text-center">
+                    <td style="vertical-align: middle;"><input type="checkbox" class="book-checkbox" data-id="${book.id}"></td>
+                    <td style="vertical-align: middle;">${book.id}</td>
+                    <td style="vertical-align: middle;">${book.title}</td>
+                    <td style="vertical-align: middle;">${book.author}</td>
+                    <td style="vertical-align: middle;">${book.publisher}</td>
+                    <td style="vertical-align: middle;">${book.publicationDate}</td>
+                    <td style="vertical-align: middle;">${book.price.toFixed(2)} đ</td>
+                    <td style="vertical-align: middle;">-${book.discount.toFixed(2)}đ</td>
+                    <td style="vertical-align: middle;">${book.stockQuantity}</td>
+                    <td style="vertical-align: middle;">${book.genre}</td>
+                    <td style="vertical-align: middle;">${book.bookType}</td>
+                    <td style="vertical-align: middle;">${book.flashSale} đ<br>End in: ${book.flashSaleExpired}</td>
+                    <td style="vertical-align: middle;">${book.length}cm x ${book.width}cm x ${book.height}cm x ${book.weight} gram</td>
+                    <td style="vertical-align: middle;"><img src="${book.coverImageUrl}" widht="64" height="64" /></td>
+                    <td class="action-btns" style="vertical-align: middle;">
+                        <i class="fas fa-edit" data-id="${book.id}" onclick="editBook(${book.id})"></i>
+                        <i class="fas fa-trash" data-id="${book.id}" onclick="deleteBook(${book.id})"></i>
+                    </td>
+                </tr>`;
+                bookTable.append(row);
+            });
+        }
+
+        // Add
+        function addBook() {
+            $("#bookId").val();// Reset id hidden input
+            $("#bookModal").modal('toggle');
+        }
+
+        function uploadImage(file) {
+            var formData = new FormData();
+            formData.append("file", file);
+
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/book/upload-image',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    return response.url; // giả sử backend trả về URL của hình ảnh đã upload
+                },
+                error: function(error) {
+                    toastr.error("Image upload failed");
+                    console.error("Image upload error: ", error);
+                    return null;
+                }
+            });
+        }
+
+        function saveBook() {
+            var bookId = $("#bookId").val();
+            if(bookId) {// Hàm update
+                console.log('Là update...');
+                saveBookData(null);
+            } else {// Hàm save
+                console.log('Là save...');
+                var coverImageFile = $("#coverImage")[0].files[0];
+                if (coverImageFile) {
+                    uploadImage(coverImageFile).then(function(coverImageUrl) {
+                        if (coverImageUrl) {
+                            console.log('---=coverImageUrl=---', coverImageUrl);
+                            saveBookData(coverImageUrl);
+                        }
+                    });
+                } else {
+                    saveBookData($("#coverImageUrl").val());
+                }
+            }
+        }
+
+        function saveBookData(coverImageUrl) {
+            var bookId = $("#bookId").val();
+            var book = {
+                bookId: bookId ? parseInt(bookId) : books.length + 1,
+                isbn: $("#isbn").val(),
+                title: $("#title").val(),
+                author: $("#author").val(),
+                publisher: $("#publisher").val(),
+                publicationDate: $("#publicationDate").val(),
+                price: parseFloat($("#price").val()),
+                description: $("#description").val(),
+                coverImageUrl: coverImageUrl,
+                stockQuantity: $("#stockQuantity").val(),
+                discount: $("#discount").val(),
+                flashSale: $("#flashSale").val(),
+                flashSaleExpired: $("#flashSaleExpired").val(),
+                genre: $("#genre").val(),
+                bookType: $("#bookType").val(),
+                length: $("#theLength").val(),
+                width: $("#theWidth").val(),
+                height: $("#theHeight").val(),
+                weight: $("#theWeight").val(),
+            };
+
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/book/save',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(book),
+                credentials: 'include', // Để gửi cookie trong request
+                success: function(bookSaved) {
+                    console.log('bookSaved=', bookSaved);
+                    if (bookId) {
+                        var index = books.findIndex(book => book.bookId === parseInt(bookId));
+                        books[index] = book;
+                    } else {
+                        books.push(book);
+                    }
+
+                    $("#bookModal").modal("hide");
+                    renderBooks();
+                    toastr.success("Book saved successfully");
+                },
+                error: function(error) {
+                    toastr.error("Save book error", 'Error!');
+                    console.error("Save book error: ", error);
+                    return null;
+                }
+            });
+        }
+
+        // Edit
+        function editBook(bookId) {
+            var book = books.find(book => book.id === bookId);
+            const publicationDate = new Date(book.publicationDate);
+            const publicationFormattedDate = publicationDate.toISOString().split('T')[0];
+            $("#bookId").val(book.id);
+            $("#isbn").val(book.isbn);
+            $("#title").val(book.title);
+            $("#author").val(book.author);
+            $("#publisher").val(book.publisher);
+            $("#publicationDate").val(publicationFormattedDate);
+            $("#price").val(book.price);
+            $("#discount").val(book.discount);
+            $("#description").val(book.description);
+            $("#coverImageUrl").val(book.coverImageUrl);
+            $("#stockQuantity").val(book.stockQuantity);
+
+            $("#bookModal").modal("show");
+        }
+
+        // Delete
+        function deleteBook(id) {
+            if (confirm('Are you sure?') != true) {
+                return;
+            }
+            $.ajax({
+                url: `http://localhost:8080/api/v1/book/delete/${id}`,
+                type: 'DELETE',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+                success: function(booleanDeleted) {
+                    console.log('booleanDeleted=', booleanDeleted);
+                    if(!booleanDeleted) {
+                        toastr.error("Book deleted failed", 'Error!');
+                        return false;
+                    }
+                    books = books.filter(book => book.id !== id);
+                    renderBooks();
+                    toastr.success("Book deleted successfully");
+                },
+                error: function(error) {
+                    toastr.error("Save book error", 'Error!');
+                    console.error("Save book error: ", error);
+                    return null;
+                }
+            });
+        }
+
+        // Delete many
+        function deleteSelectedBooks() {
+            var selectedIds = [];
+            $(".book-checkbox:checked").each(function() {
+                selectedIds.push(parseInt($(this).data("id")));
+            });
+            console.log('selectedIds=', selectedIds);
+            if (selectedIds.length <= 0) {
+                return;
+            }
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/book/deleteMany',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify(selectedIds),
+                success: function(response) {
+                    alert('Books deleted successfully!');
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error deleting books:', error);
+                    toastr.error('An error occurred while deleting books', 'Error!');
+                }
+            });
+        }
+
+        // Search
+        function searchBooks() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            const filteredBooks = books.filter(book => {
+                return (
+                    book.title.toLowerCase().includes(searchTerm) ||
+                    book.author.toLowerCase().includes(searchTerm) ||
+                    book.publisher.toLowerCase().includes(searchTerm) ||
+                    book.genre.toLowerCase().includes(searchTerm) ||
+                    book.bookType.toLowerCase().includes(searchTerm)
+                );
+            });
+            console.log('filteredBooks=', filteredBooks);
+        }
+
+        // Event listeners
+        $(document).ready(function() {
+            // 01. Kiểm tra token khi trang được tải
+            const accessToken = sessionStorage.getItem('admin_access_token');
+            if (!accessToken) {
+                window.location.href = './login.html';
+            }
+
+            // 02. Lấy data user
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/user/whoiam',
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                },
+                credentials: 'include', // Để gửi cookie trong request
+                success: function(userData) {
+                    console.log('response=', userData);
+                    // Render data user info modal
+                    const htmlContent = `
+                        <dt class="col-sm-4">ID:</dt>
+                        <dd class="col-sm-8" id="userId">#${userData.id}</dd>
+
+                        <dt class="col-sm-4">Họ:</dt>
+                        <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
+
+                        <dt class="col-sm-4">Tên:</dt>
+                        <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
+
+                        <dt class="col-sm-4">Tên đầy đủ:</dt>
+                        <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
+
+                        <dt class="col-sm-4">Tên đăng nhập:</dt>
+                        <dd class="col-sm-8" id="userName">${userData.username}</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
+
+                        <dt class="col-sm-4">Ngày tạo:</dt>
+                        <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
+                    `;
+                    $("#userInfoModalData").html(htmlContent);
+;                },
+                error: function(xhr, status, error) {
+                    toastr.error('http://localhost:8080/api/v1/users/me error.');
+                }
+            });
+
+            // 03. Load modals
+            $.when(
+                $.get("../modals/change-password-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("../modals/user-info-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+            ).done(function() {
+                console.log("Tất cả các modal đã được tải xong");
+            }).fail(function() {
+                console.log("Lỗi khi tải modal");
+            });
+
+            // 04. Render books
+            renderBooks();
+
+            // 05. Event listener
+            $("#saveBookBtn").click(saveBook);
+            $("#deleteSelectedBtn").click(deleteSelectedBooks);
+
+            $("#searchBar").on("input", function() {
+                var query = $(this).val().toLowerCase();
+                $("#bookTable tr").each(function() {
+                    var bookId = $(this).find("td:nth-child(2)").text().toLowerCase();
+                    var title = $(this).find("td:nth-child(3)").text().toLowerCase();
+                    var author = $(this).find("td:nth-child(4)").text().toLowerCase();
+                    var publisher = $(this).find("td:nth-child(5)").text().toLowerCase();
+                    var publicationDate = $(this).find("td:nth-child(6)").text().toLowerCase();
+                    var price = $(this).find("td:nth-child(7)").text().toLowerCase();
+                    var discount = $(this).find("td:nth-child(8)").text().toLowerCase();
+                    var stockQuantity = $(this).find("td:nth-child(9)").text().toLowerCase();
+                    var genre = $(this).find("td:nth-child(10)").text().toLowerCase();
+                    var bookType = $(this).find("td:nth-child(11)").text().toLowerCase();
+                    var flashSale = $(this).find("td:nth-child(12)").text().toLowerCase();
+                    var flashSaleExpired = $(this).find("td:nth-child(13)").text().toLowerCase();
+
+                    if (title.includes(query) ||
+                        author.includes(query) ||
+                        publisher.includes(query) ||
+                        publicationDate.includes(query) ||
+                        price.includes(query) ||
+                        discount.includes(query) ||
+                        stockQuantity.includes(query) ||
+                        genre.includes(query) ||
+                        bookType.includes(query) ||
+                        flashSale.includes(query) || 
+                        flashSaleExpired.includes(query)) {
+                        $(this).fadeIn();
+                    } else {
+                        $(this).fadeOut();
+                    }
+                });
+            });
+
+            $("#selectAll").change(function() {
+                $(".book-checkbox").prop("checked", $(this).prop("checked"));
+            });
+        });
+    </script>
+</body>
+</html>

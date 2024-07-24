@@ -13,13 +13,11 @@ public class WebConfig implements WebMvcConfigurer {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				// TODO Auto-generated method stub
-				registry.addMapping("/api/**")
+				registry.addMapping("/api/v1/**")
 						.allowedOrigins("http://127.0.0.1:5500")
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 						.allowedHeaders("*")
 						.allowCredentials(true);
-				WebMvcConfigurer.super.addCorsMappings(registry);
 			}
 		};
 	}

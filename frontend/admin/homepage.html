@@ -61,21 +61,16 @@
                             Quản Lý Tài Khoản
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                            <li><a class="dropdown-item" href="#">Xem Thông Tin Tài Khoản</a></li>
-                            <li><a class="dropdown-item" href="#">Đổi Mật Khẩu</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#userInfoModal">Xem Thông Tin Tài Khoản</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi Mật Khẩu</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);" onclick="logout('admin');">Đăng xuất</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Quản Lý Sách</a>
+                        <a class="nav-link" href="./book.html">Quản Lý Sách</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Quản Lý Hóa Đơn</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Quản Lý User</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Thống Kê</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -94,9 +89,12 @@
                         Thông Tin Tài Khoản
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Tên người dùng: Admin</h5>
-                        <p class="card-text">Email: admin@example.com</p>
-                        <a href="#" class="btn btn-primary">Đổi Mật Khẩu</a>
+                        <h5 class="card-title">Tên người dùng: <span id="fullNameSpan"></span></h5>
+                        <p class="card-text">Email: <span id="emailSpan">admin@example.com</span></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="." class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi Mật Khẩu</a>
+                            <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="logout('admin');"><i class="fas fa-sign-out-alt"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -121,36 +119,75 @@
                         <a href="#" class="btn btn-primary">Xem Chi Tiết</a>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        Quản Lý User
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Danh Sách User</h5>
-                        <p class="card-text">Hiển thị danh sách user ở đây...</p>
-                        <a href="#" class="btn btn-primary">Thêm User Mới</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Thống Kê
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Thống Kê Doanh Thu</h5>
-                        <p class="card-text">Hiển thị thống kê doanh thu ở đây...</p>
-                        <a href="#" class="btn btn-primary">Xem Thống Kê Chi Tiết</a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+    <div id="modals-container"></div>
+    <script src="../js/logout.js"></script>
     <script>
         $(document).ready(function() {
             // 01. Kiểm tra token khi trang được tải
-            const accessToken = sessionStorage.getItem('access_token');
+            const accessToken = sessionStorage.getItem('admin_access_token');
             if (!accessToken) {
                 window.location.href = './login.html';
             }
+
+            // 02. Lấy data user
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/user/whoiam',
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                },
+                credentials: 'include', // Để gửi cookie trong request
+                success: function(userData) {
+                    console.log('response=', userData);
+                    $("#fullNameSpan").text(userData.firstName + " " + userData.lastName);
+                    $("#emailSpan").text(userData.email)
+
+                    // Render data user info modal
+                    const htmlContent = `
+                        <dt class="col-sm-4">ID:</dt>
+                        <dd class="col-sm-8" id="userId">#${userData.id}</dd>
+
+                        <dt class="col-sm-4">Họ:</dt>
+                        <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
+
+                        <dt class="col-sm-4">Tên:</dt>
+                        <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
+
+                        <dt class="col-sm-4">Tên đầy đủ:</dt>
+                        <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
+
+                        <dt class="col-sm-4">Tên đăng nhập:</dt>
+                        <dd class="col-sm-8" id="userName">${userData.username}</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
+
+                        <dt class="col-sm-4">Ngày tạo:</dt>
+                        <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
+                    `;
+                    $("#userInfoModalData").html(htmlContent);
+;                },
+                error: function(xhr, status, error) {
+                    toastr.error('http://localhost:8080/api/v1/users/me error.');
+                }
+            });
+
+            // 03. Load modals
+            $.when(
+                $.get("../modals/change-password-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("../modals/user-info-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+            ).done(function() {
+                console.log("Tất cả các modal đã được tải xong");
+            }).fail(function() {
+                console.log("Lỗi khi tải modal");
+            });
         });
     </script>
 </body>
