@@ -1,7 +1,6 @@
 package ntp.dev.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import ntp.dev.enumric.GenreGroup;
+import ntp.dev.model.Book;
+import ntp.dev.model.OrderItemRating;
 import ntp.dev.security.dto.SaveBookDTO;
 import ntp.dev.service.BookService;
+import ntp.dev.service.OrderItemRatingService;
+import ntp.dev.service.OrderItemService;
 
 @RestController
 @RequestMapping("/api/v1/book")
@@ -28,6 +30,10 @@ public class BookController {
 
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private OrderItemService orderItemService;
+	@Autowired
+	private OrderItemRatingService orderItemRatingService;
 	
 	@PostMapping("/upload-image")
     public ResponseEntity<?> uploadBookCoverImage(@RequestParam("file") MultipartFile file) {
@@ -37,6 +43,11 @@ public class BookController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file: " + e.getMessage());
 		}
+	}
+	
+	@GetMapping("/{bookId}")
+	public ResponseEntity<?> getBookById(@PathVariable long bookId) {
+		return ResponseEntity.ok(bookService.findById(bookId));
 	}
 	
 	@GetMapping("/list")
@@ -63,5 +74,25 @@ public class BookController {
         	e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete books.");
         }
+	}
+	
+	@GetMapping("/flashSaleBooks")
+    public List<Book> getBooksOnFlashSale() {
+        return bookService.getBooksOnFlashSale();
+    }
+	
+	@GetMapping("/topSoldBooks")
+	public ResponseEntity<?> findTopSellingBooks() {
+		return ResponseEntity.ok(orderItemService.findTopSellingBooks());
+	}
+	
+	@GetMapping("/getTotalSoldOfBook/{bookId}")
+	public int getTotalSoldOfBook(@PathVariable long bookId) {
+		return orderItemService.getTotalSoldOfBook(bookId);
+	}
+	
+	@GetMapping("/getRatingsOfBook/{bookId}")
+	public List<OrderItemRating> getRatingsOfBook(@PathVariable long bookId) {
+		return orderItemRatingService.getRatingsOfBook(bookId);
 	}
 }

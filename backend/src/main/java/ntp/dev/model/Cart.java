@@ -3,6 +3,8 @@ package ntp.dev.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,5 +43,6 @@ public class Cart implements Serializable {
 	private User user;
 	
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	private List<CartItem> items;
 }

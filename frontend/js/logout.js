@@ -28,6 +28,14 @@ function logout(role) {// role expected string: user, admin
 }
 
 function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('vi-VN', options);
+}
+
+function formatVND(number) {
+    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+}
+
+function formatNumber(number) {
+    return new Intl.NumberFormat().format(number);
 }

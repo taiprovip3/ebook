@@ -40,4 +40,6 @@ public class OrderStatus implements Serializable {/**
 	
 	@Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date time;
+	
+	private String description;
 }

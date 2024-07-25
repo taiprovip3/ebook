@@ -2,10 +2,10 @@ package ntp.dev.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,7 +41,7 @@ public class Book implements Serializable {
     private String title;
     private String author;
     private String publisher;
-//    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp publicationDate;
     @Enumerated(EnumType.STRING)
     private Genre genre;
@@ -62,12 +62,14 @@ public class Book implements Serializable {
     private float weight; // gram
     
     private double flashSale;
-//    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp flashSaleExpired;
     
     @OneToMany(mappedBy = "book")
+    @JsonManagedReference
     private List<BookImage> images;
     
     @OneToMany(mappedBy = "book")
+    @JsonManagedReference
     private List<CartItem> cartItems;
 }

@@ -2,6 +2,8 @@ package ntp.dev.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +35,7 @@ public class BookImage implements Serializable {
 	
 	@ManyToOne
     @JoinColumn(name = "book_id")
+	@JsonBackReference
     private Book book;
 	
 	private String imageUrl;

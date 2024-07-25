@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        .discount-badge {
+            background-color: #ff5733;
+            color: #fff;
+            font-size: 16px;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .stock-status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="row" style="background-color: crimson;">
+            <div class="col-lg-12">
+                <div class="d-flex">
+                    <div class="col-lg-3">
+                        <a href="./"><img src="./images/ebook-logo.png" alt="EBook Store" width="100%" /></a>
+                    </div>
+
+
+                    <div class="col-lg-6 d-flex align-items-center position-relative">
+                        <div class="d-flex justify-content-around align-items-center flex-fill">
+                            <div class="dropdownContainer">
+                                <i class="fa-solid fa-square-poll-horizontal text-white fa-2x crs"></i>
+                                <div class="dropdownContent">
+                                    <div class="d-flex">
+                                        <div class="pe-2 border-end">
+                                            <a href="." class="crs default-focus text-nowrap">Sách Trong Nước</a><br>
+                                            <a href="." class="crs text-nowrap">FOREIGN BOOKS</a><br>
+                                        </div>
+                                        <div class="d-flex flex-wrap p-3 text-white" id="categoryContainer" ><!-- Mutable --></div>
+                                    </div>
+                                </div>
+                            </div>&emsp;
+                            <input type="text" class="form-control" name="" id="" placeholder="Tìm kiếm sách ở đây...">&emsp;
+                            <i class="fa-solid fa-magnifying-glass text-white fa-2x crs"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 d-flex align-items-center justify-content-end">
+                        <div class="text-center crs">
+                            <i class="fa-brands fa-shopify text-white fa-2x d-block"></i>
+                            <a href="" class="text-white">Giỏ hàng</a>
+                        </div>
+                        <div class="text-center mx-2 crs position-relative dropdownContainer">
+                            <i class="fa-regular fa-user text-white fa-2x d-block"></i>
+                            <a href="" class="text-white">Tài khoản</a>
+                            <div class="dropdownContent" style="right: 0;" id="accountMutable">
+                                <div><button class="btn btn-outline-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button></div>
+                                <div><button class="btn btn-light w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button></div>
+                                <div><button class="btn btn-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#userInfoModal">Xem thông tin</button></div>
+                                <div><button class="btn btn-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi mật khẩu</button></div>
+                                <div><button type="button" class="btn btn-light w-100 rounded-0" onclick="logout('user');">Đăng xuất <i class="fas fa-sign-out-alt"></i></button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Body -->
+        <div class="row my-3 mx-5 bg-white">
+            <div class="col-lg-12" id="bookDetail">
+                <!-- Book detail will be rendered here -->
+                <div class="row p-3">
+                    <div class="col-4">
+                        <img src="https://cdn0.fahasa.com/media/catalog/product/9/7/9786043561272_1_1.jpg" alt="tbm" class="book-cover" width="100%" />
+                    </div>
+                    <div class="col-8 p-3 rounded-2" style="background-color: #f7f7f7;">
+                        <h1>Thỏ Bảy Màu Và Những Người Nghĩ Nó Là Bạn (Tái Bản 2023)</h1>
+                        <p><strong>Author:</strong> Huỳnh Thái Ngọc</p>
+                        <p><strong>Publisher:</strong> Dân Trí NXB</p>
+                        <p><strong>Publication Date:</strong> Ngày 15 Tháng 01 Năm 2023</p>
+                        <p><strong>Genre:</strong> Non - Fiction</p>
+                        <p><strong>Book Type:</strong> Sách Trong Nước</p>
+                        <p><Strong>Stocks</Strong>: <span>20</span></p>
+                        <p><strong>Sold:</strong> 0</p>
+                        <div class="rating">⭐⭐⭐⭐⭐(1 đánh giá)</div>
+                        <div class="price">
+                            <span class="original-price">180.000 đ;</span>&emsp13;
+                            <span class="discount-badge">-15%;</span>&emsp14;
+                            <br>
+                            <span class="fwl text-danger fw-bold">150.000 đ</span><br>
+                        </div>
+                        <br>
+                        <div class="d-flex quantity-controls col-2 mb-2">
+                            <button class="btn btn-outline-light"><i class="fas fa-minus text-dark"></i></button>&emsp13;
+                            <input class="form-control text-danger" type="number" id="quantity" value="1" min="1">&emsp13;
+                            <button class="btn btn-outline-light"><i class="fas fa-plus text-dark"></i></button>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-danger add-to-cart-btn">Thêm vào giỏ hàng</button>
+                            <button class="btn btn-danger add-to-cart-btn">Mua ngay</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 mb-2" style="background-color: #f7f7f7;">
+                    <div class="description">
+                        <h4 class="text-danger fw-bold"><i class="fas fa-pen-square"></i> Mô Tả:</h3>
+                        <p>- ${book.description}</p>
+                    </div>
+                    <div class="dimensions">
+                        <h4 class="text-danger fw-bold"><i class="fas fa-pencil-ruler"></i> Kích Thước và Trọng Lượng:</h3>
+                        <ul>
+                            <li>Chiều dài: ${book.length} cm</li>
+                            <li>Chiều rộng: ${book.width} cm</li>
+                            <li>Chiều cao: ${book.height} cm</li>
+                            <li>Cân nặng: ${book.weight} gram</li>
+                        </ul>
+                    </div>
+                    <div class="reviews">
+                        <h4 class="text-danger fw-bold"><i class="fas fa-comments"></i> Đánh Giá:</h3>
+                        <div id="reviewsContainer">
+                            <i><< Chưa có đánh giá nào >></i>
+                            <!-- Reviews will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="row" style="background-color: crimson;">
+            <div class="col-lg-12">
+                <div class="d-flex text-white">
+                    <div class="col-4 p-2 border-end border-secondary">
+                        <img src="./images/ebook-logo.png" alt="ebook-logo-end">
+                        <p>✨ ĐỊA CHỈ / CHI NHÁNH: Lầu 5, 387-389 Hai Bà Trưng Quận 3 TP HCMCông Ty Cổ Phần Phát Hành Sách TP HCM - EBOOK60 - 62 Lê Lợi, Quận 1, TP. HCM, Việt Nam <i class="fas fa-map-marker-alt"></i>.</p>
+                        <p>✨ Ebook.com nhận đặt hàng trực tuyến và giao hàng tận nơi. KHÔNG hỗ trợ đặt mua và nhận hàng trực tiếp tại văn phòng cũng như tất cả Hệ Thống Ebook trên toàn quốc.</p>
+                        <div class="d-flex">
+                            ✨&emsp13;
+                            <i class="fab fa-facebook-square fa-2x"></i>&emsp;
+                            <i class="fab fa-instagram-square fa-2x"></i>&emsp;
+                            <i class="fab fa-twitter-square fa-2x"></i>&emsp;
+                            <i class="fab fa-youtube-square fa-2x"></i>&emsp;
+                            <i class="fab fa-pinterest-p fa-2x"></i>&emsp;
+                            <i class="fab fa-tumblr-square fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="col-6 px-5 pt-5">
+                        <img src="https://cdn.pixabay.com/photo/2018/07/12/13/04/copyright-3533368_1280.png" alt="" width="100" height="100" style="float: right;">
+                        <span>Giấy chứng nhận Đăng ký Kinh doanh số 0304132047 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp ngày 20/12/2005, đăng ký thay đổi lần thứ 10, ngày 20/05/2022.</span>
+                        <br>
+                        <p>- CHĂM SÓC KHÁCH HÀNG: <i class="fas fa-phone-volume"></i> 0338188506</p>
+                        <p>- Chịu trách nhiệm và hỗ trợ. Liên hệ:</p>
+                        <ul>
+                            <li>Hotline: 098 164 0961</li>
+                            <li>Email: info@ebook.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="./js/logout.js"></script>
+    <script>
+        $(document).ready(async () => {
+            // 01. Tải modals
+            $.when(
+                $.get("./modals/login-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/register-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/change-password-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/user-info-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                })
+            ).done(function() {
+                console.log("Tất cả các modal đã được tải xong");
+            }).fail(function() {
+                console.log("Lỗi khi tải modal");
+            });
+
+            // 02. Kiểm tra token
+            const accessToken = sessionStorage.getItem('user_access_token');
+            if (!accessToken) {
+                const noLoginContentHtml = `
+                    <div><button class="btn btn-outline-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button></div>
+                    <div><button class="btn btn-light w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button></div>
+                `;
+                $("#accountMutable").html(noLoginContentHtml);
+            } else {
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/user/whoiam',
+                    type: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                    },
+                    credentials: 'include', // Để gửi cookie trong request
+                    success: function(userData) {
+                        console.log('response=', userData);
+                        // Render data user info modal
+                        const htmlContent = `
+                            <dt class="col-sm-4">ID:</dt>
+                            <dd class="col-sm-8" id="userId">#${userData.id}</dd>
+
+                            <dt class="col-sm-4">Họ:</dt>
+                            <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
+
+                            <dt class="col-sm-4">Tên:</dt>
+                            <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
+
+                            <dt class="col-sm-4">Tên đầy đủ:</dt>
+                            <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
+
+                            <dt class="col-sm-4">Tên đăng nhập:</dt>
+                            <dd class="col-sm-8" id="userName">${userData.username}</dd>
+
+                            <dt class="col-sm-4">Email:</dt>
+                            <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
+
+                            <dt class="col-sm-4">Ngày tạo:</dt>
+                            <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
+                        `;
+                        $("#userInfoModalData").html(htmlContent);
+                        const loginContentHtml = `
+                            <div><button class="btn btn-danger w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#userInfoModal">Xem thông tin</button></div>
+                            <div><button class="btn btn-danger w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi mật khẩu</button></div>
+                            <div><button type="button" class="btn btn-danger w-100 rounded-0" onclick="logout('user');"><i class="fas fa-sign-out-alt"></i></button></div>
+                        `;
+                        $("#accountMutable").html(loginContentHtml);
+    ;                },
+                    error: function(xhr, status, error) {
+                        toastr.error('http://localhost:8080/api/v1/users/whoiam error.');
+                    }
+                });
+            }
+
+            // 03. Tải genres menu
+            const categoryContainer = $("#categoryContainer");
+            categoryContainer.html("");
+            const mygenres = await getGenres();
+            for (const [group, genres] of Object.entries(mygenres)) {
+                const groupName = genreGroupTranslations[group] || group;
+                const limitedGenres = genres.slice(0, 5);
+                let genreItems = limitedGenres.map(genre => {
+                    const translatedGenre = genreTranslations[genre] || genre.replace(/_/g, ' ');
+                    return `<span class="d-block crs">${translatedGenre}</span>`;
+                }).join('');
+                genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
+
+                const columnHtml = `
+                    <div class="col-3 p-2 mb-1 small">
+                        <span class="d-block fw-bold mb-2 text-truncate fs-6">${groupName}</span>
+                        ${genreItems}
+                    </div>
+                `;
+                categoryContainer.append(columnHtml);
+            }
+
+            // 04. Xử lý book-detail
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('id');
+
+            if (bookId) {
+                const book = await getBookById(bookId);
+                console.log('book==', book);
+                renderBookDetail(book);
+            } else {
+                $('#bookDetail').html('<p>No book ID provided.</p>');
+            }
+
+            $("#quantityMinus").click(function() {
+                alert('asd');
+            });
+        });
+        
+
+
+
+
+        async function getBookById(bookId) {
+            return fetch(`http://localhost:8080/api/v1/book/${bookId}`)
+                .then(response => response.json());
+        }
+        async function getGenres() {
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/genre/grouped',
+                type: 'GET',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
+        async function getRatingsOfBook(bookId) {
+            return fetch(`http://localhost:8080/api/v1/book/getRatingsOfBook/${bookId}`)
+                .then(response => response.json());
+        }
+        async function getTotalSoldOfBook(bookId) {
+            return fetch(`http://localhost:8080/api/v1/book/getTotalSoldOfBook/${bookId}`)
+                .then(response => response.json());
+        }
+
+        function minusQuantity() {
+            alert('OKK');
+            const quantityInput = $('#quantity');
+            const currentQuantity = parseInt(quantityInput.val());
+            if (currentQuantity > 1) {
+                quantityInput.val(currentQuantity - 1);
+            }
+        }
+        function plusQuantity() {
+            const quantityInput = $('#quantity');
+            const currentQuantity = parseInt(quantityInput.val());
+            quantityInput.val(currentQuantity + 1);
+        }
+        function addToCart(bookId) {
+            alert(bookId)
+            const quantity = $('#quantity').val();
+            alert(`Thêm ${quantity} sản phẩm vào giỏ hàng`);
+        }
+        function buyNow(bookId) {
+            alert(bookId)
+            const quantity = $('#quantity').val();
+            alert(`Mua ngay ${quantity} sản phẩm`);
+        }
+
+        async function renderBookDetail(book) {
+            const originalPrice = book.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            const finalPrice = (book.price - book.discount - book.flashSale).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            const discountPercent = Math.round(((book.discount + book.flashSale) / book.price) * 100);
+            const isOutOfStock = book.stockQuantity <= 0;
+            const totalSold = await getTotalSoldOfBook(book.id);
+            const reviews = await getRatingsOfBook(book.id);
+
+            $('#bookDetail').html(`
+                <div class="row p-3">
+                    <div class="col-4">
+                        <img src="${book.coverImageUrl}" alt="${book.title}" class="book-cover" width="100%" height="100%" />
+                    </div>
+                    <div class="col-8 p-3 rounded-2" style="background-color: #f7f7f7;">
+                        <h1>${book.title}</h1>
+                        <p><strong><i class="fas fa-at"></i> Author:</strong> ${book.author}</p>
+                        <p><strong><i class="fab fa-fort-awesome-alt"></i> Publisher:</strong> ${book.publisher}</p>
+                        <p><strong><i class="fas fa-clock"></i> Publication Date:</strong> ${formatDate(book.publicationDate)}</p>
+                        <p><strong><i class="fas fa-cookie"></i> Genre:</strong> ${book.genre}</p>
+                        <p><strong><i class="fas fa-globe-asia"></i> Book Type:</strong> ${book.bookType}</p>
+                        <p><strong><i class="fas fa-boxes"></i> Stocks:</strong> ${book.stockQuantity}</p>
+                        <p><strong><i class="fas fa-dolly"></i> Sold:</strong> ${totalSold}</p>
+                        <div class="rating">${renderStars(book.rating)} (${formatNumber(book.reviewCount)} đánh giá)</div>
+                        <div class="price">
+                            <span class="original-price">${formatVND(book.price)};</span>&emsp13;
+                            <span class="discount-badge">-${discountPercent}%;</span>&emsp14;
+                            <br>
+                            <span class="fwl text-danger fw-bold">${formatVND(finalPrice)}</span><br>
+                        </div>
+                        <br>
+                        <div class="d-flex quantity-controls col-2 mb-2">
+                            <button class="btn btn-outline-light" onclick="minusQuantity();"><i class="fas fa-minus text-dark"></i></button>&emsp13;
+                            <input class="form-control text-danger" type="number" id="quantity" value="1" min="1">&emsp13;
+                            <button class="btn btn-outline-light" onclick="plusQuantity();"><i class="fas fa-plus text-dark"></i></button>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-danger" onclick="addToCart(${book.id});">Thêm vào giỏ hàng</button>
+                            <button class="btn btn-danger" onclick="buyNow(${book.id});">Mua ngay</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 mb-2" style="background-color: #f7f7f7;">
+                    <div class="description">
+                        <h4 class="text-danger fw-bold"><i class="fas fa-pen-square"></i> Mô Tả:</h4>
+                        <p>${book.description}</p>
+                    </div>
+                    <div class="dimensions">
+                        <h4 class="text-danger fw-bold"><i class="fas fa-pencil-ruler"></i> Kích Thước và Trọng Lượng:</h4>
+                        <ul>
+                            <li>Chiều dài: ${book.length} cm</li>
+                            <li>Chiều rộng: ${book.width} cm</li>
+                            <li>Chiều cao: ${book.height} cm</li>
+                            <li>Cân nặng: ${book.weight} gram</li>
+                        </ul>
+                    </div>
+                    <div class="reviews">
+                        <h4 class="text-danger fw-bold"><i class="fas fa-comments"></i> Đánh Giá:</h4>
+                        <div id="reviewsContainer">
+                            ${renderReviews(reviews)}
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+        function renderStars(rating) {
+            const stars = Math.round(rating);
+            return '<span class="rating-stars">' +
+                '⭐'.repeat(stars) +
+                '✩'.repeat(5 - stars) +
+                '</span>';
+        }
+        function renderReviews(reviews) {
+            if(reviews.length <= 0) {
+                return '<i><< Chưa có đánh giá nào >></i>';
+            }
+            let appendReviews = '';
+            reviews.forEach(review => {
+                appendReviews += `
+                    <div class="review-container bg-light border ps-3 pt-3 rounded-2 mb-1">
+                        <div class="rating">${renderStars(review.ratingStars)}</div>
+                        <p>${review.comment}</p>
+                        <p class="small fst-italic">${formatDate(review.createAt)}</p>
+                    </div>
+                `;
+            });
+            return appendReviews;
+        }
+        const genreGroupTranslations = {
+            "EDUCATIONS": "GIÁO DỤC",
+            "OTHERS": "KHÁC",
+            "TEXTBOOKS": "SÁCH GIÁO KHOA - THAM KHẢO",
+            "ECONOMICS": "KINH TẾ",
+            "SPYCHOLOGIES": "TÂM LÝ & KỸ NĂNG SỐNG",
+            "LANGUAGES": "NGOẠI NGỮ",
+            "CHILDRENS": "SÁCH THIẾU NHI",
+            "BIOGRAPHIES": "TIỂU SỬ & HỒI KÝ",
+            "LITERATURES": "VĂN HỌC"
+        };
+        const genreTranslations = {
+            "PARENTING_GUIDES": "Hướng dẫn nuôi dạy con cái",
+            "CHILD_DEVELOPMENT": "Phát triển trẻ em",
+            "POSITIVE_PARENTING": "Nuôi dạy con cái tích cực",
+            "DISCIPLINE": "Kỷ luật",
+            "PARENTING_STYLES": "Các kiểu nuôi dạy con cái",
+            "SINGLE_PARENTING": "Nuôi dạy con cái đơn thân",
+            "WORK_LIFE_BALANCE": "Cân bằng công việc và cuộc sống",
+            "PARENTING_CHALLENGES": "Thách thức trong nuôi dạy con cái",
+            "SPECIAL_NEEDS": "Những nhu cầu đặc biệt",
+            "FAMILY_RELATIONSHIPS": "Mối quan hệ gia đình",
+            "PARENTING_TIPS": "Mẹo nuôi dạy con cái",
+            // Add other translations here
+            "COOKING": "Nấu ăn",
+            "TRAVEL": "Du lịch",
+            "HEALTH": "Sức khỏe",
+            "ART": "Nghệ thuật",
+            "MUSIC": "Âm nhạc",
+            "RELIGION": "Tôn giáo",
+            "SPIRITUALITY": "Tâm linh",
+            "SCIENCE": "Khoa học",
+            "PHILOSOPHY": "Triết học",
+            "BUSINESS": "Kinh doanh",
+            "EDUCATION": "Giáo dục",
+            "GRAPHIC_NOVEL": "Tiểu thuyết đồ họa",
+            "SPORTS": "Thể thao",
+            "TECHNOLOGY": "Công nghệ",
+            "TEXTBOOK": "Sách giáo khoa",
+            "REFERENCE_BOOK": "Sách tham khảo",
+            "WORKBOOK": "Sách bài tập",
+            "GUIDE": "Hướng dẫn",
+            "HANDBOOK": "Sổ tay",
+            "ENCYCLOPEDIA": "Từ điển bách khoa",
+            "ATLAS": "Bản đồ",
+            "DICTIONARY": "Từ điển",
+            "MANUAL": "Sách hướng dẫn",
+            "TEXTBOOK_SERIES": "Chuỗi sách giáo khoa",
+            "MICROECONOMICS": "Kinh tế vi mô",
+            "MACROECONOMICS": "Kinh tế vĩ mô",
+            "ECONOMIC_THEORY": "Lý thuyết kinh tế",
+            "DEVELOPMENT_ECONOMICS": "Kinh tế phát triển",
+            "INTERNATIONAL_ECONOMICS": "Kinh tế quốc tế",
+            "BEHAVIORAL_ECONOMICS": "Kinh tế hành vi",
+            "PUBLIC_ECONOMICS": "Kinh tế công",
+            "ENVIRONMENTAL_ECONOMICS": "Kinh tế môi trường",
+            "ECONOMETRICS": "Kinh tế lượng",
+            "LABOR_ECONOMICS": "Kinh tế lao động",
+            "FINANCIAL_ECONOMICS": "Kinh tế tài chính",
+            "HEALTH_ECONOMICS": "Kinh tế y tế",
+            "INDUSTRIAL_ORGANIZATION": "Tổ chức công nghiệp",
+            "SELF_HELP": "Tự trợ giúp",
+            "PERSONAL_DEVELOPMENT": "Phát triển cá nhân",
+            "EMOTIONAL_INTELLIGENCE": "Trí tuệ cảm xúc",
+            "MINDFULNESS": "Chánh niệm",
+            "STRESS_MANAGEMENT": "Quản lý căng thẳng",
+            "TIME_MANAGEMENT": "Quản lý thời gian",
+            "COMMUNICATION_SKILLS": "Kỹ năng giao tiếp",
+            "CONFLICT_RESOLUTION": "Giải quyết xung đột",
+            "MOTIVATION": "Động lực",
+            "LEADERSHIP": "Lãnh đạo",
+            "RESILIENCE": "Khả năng phục hồi",
+            "DECISION_MAKING": "Ra quyết định",
+            "RELATIONSHIP_BUILDING": "Xây dựng mối quan hệ",
+            "SELF_AWARENESS": "Nhận thức bản thân",
+            "LANGUAGE_TEXTBOOK": "Sách giáo khoa ngôn ngữ",
+            "GRAMMAR_GUIDE": "Hướng dẫn ngữ pháp",
+            "VOCABULARY_BOOK": "Sách từ vựng",
+            "LANGUAGE_WORKBOOK": "Sách bài tập ngôn ngữ",
+            "PHRASEBOOK": "Sách cụm từ",
+            "CONVERSATION_GUIDE": "Hướng dẫn hội thoại",
+            "AUDIO_LINGUAL_BOOK": "Sách ngôn ngữ âm thanh",
+            "LANGUAGE_EXERCISES": "Bài tập ngôn ngữ",
+            "LANGUAGE_COURSEBOOK": "Sách khóa học ngôn ngữ",
+            "LANGUAGE_DICTIONARY": "Từ điển ngôn ngữ",
+            "CULTURE_GUIDE": "Hướng dẫn văn hóa",
+            "LANGUAGE_ATHLETICS": "Sách thể thao ngôn ngữ",
+            "PICTURE_BOOKS": "Sách tranh",
+            "BOARD_BOOKS": "Sách bìa cứng",
+            "EARLY_READERS": "Sách đọc sớm",
+            "CHAPTER_BOOKS": "Sách chương",
+            "MIDDLE_GRADE": "Sách trung cấp",
+            "YOUNG_ADULT": "Sách cho người lớn tuổi",
+            "FAIRY_TALES": "Truyện cổ tích",
+            "EDUCATIONAL": "Giáo dục",
+            "ANIMAL_STORIES": "Truyện về động vật",
+            "EASY_READERS": "Sách dễ đọc",
+            "HUMOR": "Hài hước",
+            "BEDTIME_STORIES": "Truyện trước khi đi ngủ",
+            "FABLES": "Truyền thuyết",
+            "AUTOBIOGRAPHY": "Tự truyện",
+            "MEMOIR": "Hồi ký",
+            "BIOGRAPHY": "Tiểu sử",
+            "DIARY": "Nhật ký",
+            "PERSONAL_NARRATIVE": "Tường thuật cá nhân",
+            "AUTOBIOGRAPHICAL_NOVEL": "Tiểu thuyết tự truyện",
+            "HISTORICAL_MEMOIR": "Hồi ký lịch sử",
+            "CELEBRITY_MEMOIR": "Hồi ký của người nổi tiếng",
+            "FICTION": "Tiểu thuyết",
+            "NON_FICTION": "Phi hư cấu",
+            "MYSTERY": "Trinh thám",
+            "THRILLER": "Hồi hộp",
+            "FANTASY": "Kỳ ảo",
+            "ROMANCE": "Lãng mạn",
+            "HISTORICAL": "Lịch sử",
+            "POETRY": "Thơ",
+            "DRAMA": "Kịch",
+            "HORROR": "Kinh dị",
+            "SCIENCE_FICTION": "Khoa học viễn tưởng",
+            "CONTEMPORARY": "Hiện đại",
+            "CLASSICS": "Cổ điển",
+            "ADVENTURE": "Phiêu lưu",
+            "DYSTOPIAN": "Hậu tận thế",
+            "COMICS": "Truyện tranh"
+        };
+    </script>
+</body>
+</html>

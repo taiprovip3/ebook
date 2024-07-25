@@ -5,10 +5,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -106,8 +102,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Book> listBook() {
-	    Pageable pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "id"));
-        return bookRepository.findAll(pageable).getContent();
+//	    Pageable pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "id"));
+//        return bookRepository.findAll(pageable).getContent();
+		return bookRepository.findAll();
 	}
 
 	@Override
@@ -132,5 +129,15 @@ public class BookServiceImpl implements BookService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<Book> getBooksOnFlashSale() {
+		return bookRepository.findBooksOnFlashSale();
+	}
+
+	@Override
+	public Book findById(long bookId) {
+		return bookRepository.findById(bookId).orElse(null);
 	}
 }

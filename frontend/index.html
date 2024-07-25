@@ -12,11 +12,10 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/common.css">
-    <link rel="stylesheet" href="./css/index.css">
-    <link rel="stylesheet" href="./css/button1.css">
 </head>
 <body>
     <div class="container-fluid">
+        <!-- Header -->
         <div class="row" style="background-color: crimson;">
             <div class="col-lg-12">
                 <div class="d-flex">
@@ -35,48 +34,7 @@
                                             <a href="." class="crs default-focus text-nowrap">Sách Trong Nước</a><br>
                                             <a href="." class="crs text-nowrap">FOREIGN BOOKS</a><br>
                                         </div>
-                                        <div id="categoryContainer" class="d-flex flex-wrap p-3 text-white">
-                                            <div class="col-3 p-1 small">
-                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">VĂN HỌC</span>
-                                                <span class="d-block crs">Tiểu Thuyết</span>
-                                                <span class="d-block crs">Truyện Ngắn - Tản Văn</span>
-                                                <span class="d-block crs">Light Novel</span>
-                                                <span class="d-block crs">Ngôn Tình</span>
-                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                            </div>
-                                            <div class="col-3 p-1 small">
-                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">KINH TẾ</span>
-                                                <span class="d-block crs">Nhân Vật - Bài Học Kinh Doanh</span>
-                                                <span class="d-block crs">Quản Trị - Lãnh Đạo</span>
-                                                <span class="d-block crs">Marketing - Bán Hàng</span>
-                                                <span class="d-block crs">Phân Tích Kinh Tế</span>
-                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                            </div>
-                                            <div class="col-3 p-1 small">
-                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">TÂM LÝ - KĨ NĂNG SỐNG</span>
-                                                <span class="d-block crs">Kỹ Năng Sống</span>
-                                                <span class="d-block crs">Rèn Luyện Nhân Cách</span>
-                                                <span class="d-block crs">Tâm Lý</span>
-                                                <span class="d-block crs">Sách Cho Tuổi Mới Lớn</span>
-                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                            </div>
-                                            <div class="col-3 p-1 small">
-                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">NUÔI DẠY CON</span>
-                                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
-                                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
-                                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
-                                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
-                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                            </div>
-                                            <div class="col-3 p-1 small">
-                                                <span class="d-block fw-bold mb-2 text-truncate fs-6">SÁCH THIẾU NHI</span>
-                                                <span class="d-block crs">Cẩm Nang Làm Cha Mẹ</span>
-                                                <span class="d-block crs">Phương Pháp Giáo Dục Trẻ</span>
-                                                <span class="d-block crs">Phát Triển Trí Tuệ Cho Trẻ</span>
-                                                <span class="d-block crs">Phát Triển Kỹ Năng Cho Trẻ</span>
-                                                <span class="d-block crs text-decoration-underline">Xem tất cả</span>
-                                            </div>
-                                        </div>
+                                        <div class="d-flex flex-wrap p-3 text-white" id="categoryContainer" ><!-- Mutable --></div>
                                     </div>
                                 </div>
                             </div>&emsp;
@@ -84,8 +42,6 @@
                             <i class="fa-solid fa-magnifying-glass text-white fa-2x crs"></i>
                         </div>
                     </div>
-
-
                     <div class="col-lg-3 d-flex align-items-center justify-content-end">
                         <div class="text-center crs">
                             <i class="fa-brands fa-shopify text-white fa-2x d-block"></i>
@@ -124,7 +80,7 @@
                 </div>
                 <hr>
                 <!-- FlashSale Items -->
-                <div class="d-flex overflow-auto">
+                <div class="d-flex overflow-auto" id="flashSaleBookContainer">
                     <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white" style="background-color: #f72a3d;">
                         <div class="position-absolute top-0 start-0 m-1">
                             <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
@@ -133,7 +89,7 @@
                             <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
                         </div>
                         <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
-                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <p class="fixed-height-40">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
                         <span>
                             <span class="fwl fw-bold">49.000 đ</span>
                         </span><br>
@@ -147,7 +103,7 @@
                             <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
                         </div>
                         <div class="text-center"><img src="https://simg.zalopay.com.vn/zlp-website/assets/sach_hay_nen_doc_nha_gia_kim_ea63da0d8f.jpeg" alt="dac-nhan-tam" width="150" height="200"></div>
-                        <p class="fixed-height">Nhà Giả Kim</p>
+                        <p class="fixed-height-40">Nhà Giả Kim</p>
                         <span>
                             <span class="fwl fw-bold">49.000 đ</span>
                             <span class="small badge bg-danger fst-italic">-15%</span>
@@ -162,7 +118,7 @@
                             <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
                         </div>
                         <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
-                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <p class="fixed-height-40">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
                         <span>
                             <span class="fwl fw-bold">49.000 đ</span>
                         </span><br>
@@ -176,7 +132,7 @@
                             <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
                         </div>
                         <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
-                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <p class="fixed-height-40">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
                         <span>
                             <span class="fwl fw-bold">49.000 đ</span>
                         </span><br>
@@ -190,7 +146,7 @@
                             <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
                         </div>
                         <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
-                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <p class="fixed-height-40">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
                         <span>
                             <span class="fwl fw-bold">49.000 đ</span>
                         </span><br>
@@ -204,7 +160,7 @@
                             <span class="small badge bg-danger rounded-pill fst-italic">-15%</span>
                         </div>
                         <div class="text-center"><img src="https://upload.wikimedia.org/wikipedia/vi/0/0a/%C4%90%E1%BA%AFc_nh%C3%A2n_t%C3%A2m.jpg" alt="dac-nhan-tam" width="150" height="200"></div>
-                        <p class="fixed-height">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
+                        <p class="fixed-height-40">Làm Cách Nào Để Kết Bạn Và Tạo Ảnh Hưởng Lên Người Khác</p>
                         <span>
                             <span class="fwl fw-bold">49.000 đ</span>
                         </span><br>
@@ -215,17 +171,17 @@
         </div>
 
         <!-- Top Sold -->
-        <div class="row mt-3 mx-5 bg-white">
+        <div class="row mt-3 mx-5 p-3 bg-white">
             <div class="col-lg-12">
                 <div class="mt-2">
                     <i class="fas fa-book fwl text-danger"></i> <span class="fwl">TOP Sách Bán Chạy Nhất</span>
                     <img src="https://media.tenor.com/K3j9pwWlME0AAAAj/fire-flame.gif" alt="" width="24" height="24">
                     <hr>
                 </div>
-                <div class="d-flex overflow-auto">
+                <div class="d-flex overflow-auto" id="topSoldBookContainer">
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 3)</span>
@@ -233,7 +189,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -241,7 +197,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -249,7 +205,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -257,7 +213,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -265,7 +221,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -273,7 +229,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -281,7 +237,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -289,7 +245,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -297,7 +253,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -305,7 +261,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -313,7 +269,7 @@
                     </div>
                     <div class="col-1 text-center border me-2 p-1 small">
                         <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                        <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                        <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                         <div class="d-flex">
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                             <span class="fst-italic">(Đã bán 999)</span>
@@ -324,22 +280,22 @@
         </div>
 
         <!-- Recommended -->
-        <div class="row my-3 mx-5 bg-white">
+        <div class="row my-3 mx-5 p-3 bg-white">
             <div class="col-lg-12">
                 <div class="col-lg-12">
                     <div class="mt-2">
                         <i class="fas fa-bars fwl text-danger"></i> <span class="fwl">Gợi Ý Khác Cho Bạn</span>
                         <hr>
                     </div>
-                    <div class="d-flex overflow-auto">
+                    <div class="d-flex overflow-auto" id="bookContainer">
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span>(5⭐)</span>
@@ -347,7 +303,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span>(4.3⭐)</span>
@@ -355,7 +311,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -363,7 +319,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -371,7 +327,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -379,7 +335,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -387,7 +343,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -395,7 +351,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -403,7 +359,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -411,7 +367,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -419,7 +375,7 @@
                         </div>
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
-                            <p class="fixed-heigh d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
+                            <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
                             <div class="d-flex">
                                 <span class="flex-fill text-danger fw-bold">55.000 đ</span>
                                 <span class="fst-italic">(Đã bán 999)</span>
@@ -466,7 +422,7 @@
     <div id="modals-container"></div>
     <script src="./js/logout.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(async function() {
             // 01. Tải modals
             $.when(
                 $.get("./modals/login-modal.html", function(data) {
@@ -487,10 +443,9 @@
                 console.log("Lỗi khi tải modal");
             });
 
-            // 02. Kiểm tra token khi trang được tải
+            // 02. Kiểm tra token
             const accessToken = sessionStorage.getItem('user_access_token');
             if (!accessToken) {
-                console.log('eeasdasd');
                 const noLoginContentHtml = `
                     <div><button class="btn btn-outline-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button></div>
                     <div><button class="btn btn-light w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button></div>
@@ -542,12 +497,100 @@
                     }
                 });
             }
+
+            // 03. Tải genres menu
+            const categoryContainer = $("#categoryContainer");
+            categoryContainer.html("");
+            const mygenres = await getGenres();
+            for (const [group, genres] of Object.entries(mygenres)) {
+                const groupName = genreGroupTranslations[group] || group;
+                const limitedGenres = genres.slice(0, 5);
+                let genreItems = limitedGenres.map(genre => {
+                    const translatedGenre = genreTranslations[genre] || genre.replace(/_/g, ' ');
+                    return `<span class="d-block crs">${translatedGenre}</span>`;
+                }).join('');
+                genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
+
+                const columnHtml = `
+                    <div class="col-3 p-2 mb-1 small">
+                        <span class="d-block fw-bold mb-2 text-truncate fs-6">${groupName}</span>
+                        ${genreItems}
+                    </div>
+                `;
+                categoryContainer.append(columnHtml);
+            }
+
+            // 04. Tải sách & render
+            const flashSaleBookContainer = $("#flashSaleBookContainer");
+            flashSaleBookContainer.empty();
+            const flashSaleBooks = await getFlashSaleBooks();
+            console.log('flashSaleBooks=', flashSaleBooks);
+            flashSaleBooks.forEach(book => {
+                const finalPrice = book.price - book.discount - book.flashSale;
+                const discountPercent = Math.round(((book.discount + book.flashSale) / book.price) * 100);
+
+                const bookHtml = `
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white crs book-card" style="background-color: #f72a3d;" data-id="${book.id}">
+                        <div class="position-absolute top-0 start-0 m-1">
+                            <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-1">
+                            <span class="badge bg-light rounded-pill fst-italic text-danger">-${discountPercent}%</span>
+                        </div>
+                        <div class="text-center"><img src="${book.coverImageUrl}" alt="${book.title}" width="150" height="200"></div>
+                        <p class="fixed-height-40">${book.title}</p>
+                        <span>
+                            <span class="fwl fw-bold">${formatVND(finalPrice)}</span>
+                        </span><br>
+                        <span class="text-decoration-line-through">${formatVND(book.price)}</span>
+                    </div>
+                `;
+                flashSaleBookContainer.append(bookHtml);
+            });
+
+            const bookContainer = $("#bookContainer");
+            bookContainer.empty();
+            const books = await getBooks();
+            books.forEach(book => {
+                const bookHtml = `
+                    <div class="col-1 text-center border me-2 p-1 small align-self-baseline crs book-card" data-id="${book.id}">
+                        <img src="${book.coverImageUrl}" alt="" width="110" height="130">
+                        <p class="d-block">${book.title}</p>
+                        <span class="flex-fill text-danger fw-bold">${formatVND(book.price)}</span>
+                    </div>
+                `;
+                bookContainer.append(bookHtml);
+            });
+            
+            const topSoldBookContainer = $("#topSoldBookContainer");
+            topSoldBookContainer.empty();
+            const topSoldBooks = await getTopSoldBooks();
+            console.log('topSoldBooks=', topSoldBooks);
+            topSoldBooks.forEach(soldBookDTO => {
+                const bookHtml = `
+                    <div class="col-2 text-center border border-danger rounded-2 text-white me-2 p-3 small crs book-card" style="background-color: #ed4758;" data-id="${soldBookDTO.book.id}">
+                        <img src="${soldBookDTO.book.coverImageUrl}" alt="" width="110" height="130">
+                        <p class="fixed-height-40 d-block">${soldBookDTO.book.title}</p>
+                        <div class="d-flex">
+                            <span class="flex-fill fw-bold">${formatVND(soldBookDTO.book.price - soldBookDTO.book.discount)} đ</span>
+                            <span class="small">(Đã bán ${soldBookDTO.totalSold})</span>
+                        </div>
+                    </div>
+                `;
+                topSoldBookContainer.append(bookHtml);
+            });
+
+            // 05. book-card event listener
+            $('.book-card').on('click', function() {
+                const bookId = $(this).data('id');
+                window.location.href = `./book-detail.html?id=${bookId}`;
+            });
         });
         
         /* FlashSale Countdown */
         function updateCountdown() {
             const now = new Date();
-            const saleEndTime = new Date('2024-07-22T21:00:00'); // Thời gian kết thúc flashsale
+            const saleEndTime = new Date('2024-07-25T10:32:00'); // Thời gian kết thúc flashsale
             const timeDifference = saleEndTime - now;
 
             if (timeDifference > 0) {
@@ -555,16 +598,51 @@
                 const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-                document.getElementById('flashSaleExpired').textContent = `${hours} giờ ${minutes} phút ${seconds} giây`;
+                // document.getElementById('flashSaleExpired').textContent = `${hours} giờ ${minutes} phút ${seconds} giây`;
+                document.getElementById('flashSaleExpired').innerHTML = `
+                    <span class="badge bg-dark p-2 mx-1">${hours} Giờ</span>:<span class="badge bg-dark p-2 mx-1">${minutes} Phút</span>:<span class="badge bg-dark p-2 mx-1">${seconds} Giây</span>
+                `;
+
             } else {
                 document.getElementById('flashSaleExpired').textContent = 'Flash sale đã kết thúc';
                 clearInterval(interval);
             }
         }
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Cập nhật ngay lập tức khi trang được load
 
-        // const interval = setInterval(updateCountdown, 1000);
-        // updateCountdown(); // Cập nhật ngay lập tức khi trang được load
-
+        async function getTopSoldBooks() {
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/book/topSoldBooks',
+                type: 'GET',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
+        async function getFlashSaleBooks() {
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/book/flashSaleBooks',
+                type: 'GET',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
+        async function getBooks() {
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/book/list',
+                type: 'GET',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
+        async function getGenres() {
+            return $.ajax({
+                url: 'http://localhost:8080/api/v1/genre/grouped',
+                type: 'GET',
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
         const genreGroupTranslations = {
             "EDUCATIONS": "GIÁO DỤC",
             "OTHERS": "KHÁC",
@@ -690,16 +768,6 @@
             "DYSTOPIAN": "Hậu tận thế",
             "COMICS": "Truyện tranh"
         };
-
-
-        async function getGenres() {
-            return $.ajax({
-                url: 'http://localhost:8080/api/v1/genre/grouped',
-                type: 'GET',
-                contentType: 'application/json',
-                credentials: 'include', // Để gửi cookie trong request
-            }).then((data) => data);
-        }
 
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownLinks = document.querySelectorAll('.dropdownContent a');
