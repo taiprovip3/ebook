@@ -3,6 +3,8 @@ package ntp.dev.security.auth;
 import ntp.dev.entity.Token;
 import ntp.dev.entity.TokenType;
 import ntp.dev.entity.User;
+import ntp.dev.model.Cart;
+import ntp.dev.repository.CartRepository;
 import ntp.dev.repository.TokenRepository;
 import ntp.dev.repository.UserRepository;
 
@@ -34,7 +36,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-  private final UserRepository repository;
+  private final UserRepository userRepository;
+  private final CartRepository cartRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -44,12 +47,18 @@ public class AuthenticationService {
 	  var user = User.builder()
   	        .firstName(request.getFirstname())
   	        .lastName(request.getLastname())
+  	        .address(request.getAddress())
+  	        .phoneNumber(request.getPhoneNumber())
   	        .email(request.getEmail())
   	        .pass_word(passwordEncoder.encode(request.getPassword()))
   	        .role(request.getRole())
   	        .createdAt(new Date())
   	        .build();
-  	    var savedUser = repository.save(user);
+  	    var savedUser = userRepository.save(user);
+  	    var cart = Cart.builder()
+  	    		.user(user)
+  	    		.build();
+  	    cartRepository.save(cart);
   	    var jwtToken = jwtService.generateToken(user);
   	    var refreshToken = jwtService.generateRefreshToken(user);
   	    saveUserToken(savedUser, jwtToken);
@@ -66,7 +75,7 @@ public class AuthenticationService {
             request.getPassword()
         )
     );
-    var user = repository.findByEmail(request.getEmail())
+    var user = userRepository.findByEmail(request.getEmail())
         .orElseThrow();
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
@@ -74,7 +83,8 @@ public class AuthenticationService {
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+        .refreshToken(refreshToken)
+        .role(user.getRole())
         .build();
   }
 
@@ -113,7 +123,7 @@ public class AuthenticationService {
     refreshToken = authHeader.substring(7);
     userEmail = jwtService.extractUsername(refreshToken);
     if (userEmail != null) {
-      var user = this.repository.findByEmail(userEmail)
+      var user = this.userRepository.findByEmail(userEmail)
               .orElseThrow();
       if (jwtService.isTokenValid(refreshToken, user)) {
         var accessToken = jwtService.generateToken(user);
@@ -129,7 +139,7 @@ public class AuthenticationService {
   }
   ////
   public Optional<User> findByEmail(String email) {
-	return repository.findByEmail(email);
+	return userRepository.findByEmail(email);
 	
 }
   

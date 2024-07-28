@@ -51,10 +51,12 @@ public class SecurityConfiguration {
         .requestMatchers(
                 "/api/v1/auth/**",
                 "/api/v1/demo-controller/**",
-                "/api/v1/management/**",
+//                "/api/v1/management/**",
                 "/api/v1/user/**",
                 "/api/v1/book/**",
                 "/api/v1/genre/**",
+                "/api/v1/cart/**",
+                "/api/v1/order/**",
                 "/v2/api-docs",
                 "/v3/api-docs",
                 "/v3/api-docs/**",

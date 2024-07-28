@@ -33,7 +33,7 @@ public class ShipOrder implements Serializable {/**
 	private String emailAddress;
 	private String phoneNumber;
 	
-	private double maxWight; // gram
+	private double maxWeight; // gram
 	private double codPrice;
 	private String signature;
 	

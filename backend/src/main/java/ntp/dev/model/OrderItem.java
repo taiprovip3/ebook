@@ -41,10 +41,12 @@ public class OrderItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "book_id")
     @JsonBackReference
+    @ToString.Exclude
     private Book book;
     
     @ManyToOne
     @JoinColumn(name = "order_id")
     @JsonBackReference
+    @ToString.Exclude
     private Order order;
 }

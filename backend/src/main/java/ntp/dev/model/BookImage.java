@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
@@ -36,6 +37,7 @@ public class BookImage implements Serializable {
 	@ManyToOne
     @JoinColumn(name = "book_id")
 	@JsonBackReference
+	@ToString.Exclude
     private Book book;
 	
 	private String imageUrl;

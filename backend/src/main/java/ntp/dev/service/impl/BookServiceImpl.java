@@ -1,5 +1,6 @@
 package ntp.dev.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import ntp.dev.model.Book;
 import ntp.dev.repository.BookRepository;
@@ -33,6 +40,9 @@ public class BookServiceImpl implements BookService {
     
     @Autowired
     private BookRepository bookRepository;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
     
 	@Override
 	public String uploadBookCoverImage(MultipartFile file) {
@@ -139,5 +149,27 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Book findById(long bookId) {
 		return bookRepository.findById(bookId).orElse(null);
+	}
+
+	@Override
+	public List<Book> searchBook(String key) {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Book> query = cb.createQuery(Book.class);
+        Root<Book> book = query.from(Book.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (key != null && !key.isEmpty()) {
+            String keyPattern = "%" + key.toLowerCase() + "%";
+            predicates.add(cb.or(
+                    cb.like(cb.lower(book.get("title")), keyPattern),
+                    cb.like(cb.lower(book.get("author")), keyPattern),
+                    cb.like(cb.lower(book.get("genre").as(String.class)), keyPattern)
+            ));
+        }
+
+        query.where(predicates.toArray(new Predicate[0]));
+
+        return entityManager.createQuery(query).getResultList();
 	}
 }

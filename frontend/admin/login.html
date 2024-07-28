@@ -124,10 +124,14 @@
                     data: JSON.stringify({ email: email, password: password }),
                     credentials: 'include', // Để gửi cookie trong request
                     success: function(response) {
-                        sessionStorage.setItem('admin_access_token', response.access_token);
-                        console.log('response=', response);
-                        toastr.success('Login successful!', 'Đang chuyển hướng..');
-                        window.location.href = './homepage.html';
+                        if(response.role === 'ADMIN' || response.role === 'MANAGEMENT') {
+                            sessionStorage.setItem('admin_access_token', response.access_token);
+                            console.log('response=', response);
+                            toastr.success('Login successful!', 'Đang chuyển hướng..');
+                            window.location.href = './homepage.html';
+                        } else {
+                            toastr.error('Invalid credentials', 'Please check again!')
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.log('xhr=', xhr.responseText);

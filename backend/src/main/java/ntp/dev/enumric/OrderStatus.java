@@ -6,5 +6,6 @@ public enum OrderStatus {
 	PREPARING,
 	TRANSPORTING,
 	AWAIT_RATING,
-	COMPLETE
+	COMPLETE,
+	CANCELED,
 }

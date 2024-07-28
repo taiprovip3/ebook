@@ -3,6 +3,8 @@ package ntp.dev.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
@@ -33,6 +36,8 @@ public class OrderStatus implements Serializable {/**
 	
 	@ManyToOne
 	@JoinColumn(name = "order_id")
+	@JsonBackReference
+	@ToString.Exclude
 	private Order order;
 	
 	@Enumerated(EnumType.STRING)
@@ -42,4 +47,5 @@ public class OrderStatus implements Serializable {/**
 	private Date time;
 	
 	private String description;
+	private String classIcon;
 }

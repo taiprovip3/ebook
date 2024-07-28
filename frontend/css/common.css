@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #d4d4d4;
+    background-color: rgb(245, 240, 240);
     overflow: hidden;
 }
 
@@ -133,3 +133,10 @@
     height: 80px; /* Điều chỉnh chiều cao theo nhu cầu */
 }
 
+/* Vertical Text */
+.vertical-text {
+    writing-mode: vertical-rl;
+    transform: rotate(360deg);
+    text-align: center;
+    height: 100px;
+  }

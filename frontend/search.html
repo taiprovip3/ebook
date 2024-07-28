@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBook - Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="row" style="background-color: crimson;">
+            <div class="col-lg-12">
+                <div class="d-flex">
+                    <div class="col-lg-3">
+                        <a href="./"><img src="./images/ebook-logo.png" alt="EBook Store" width="100%" /></a>
+                    </div>
+                    <div class="col-lg-6 d-flex align-items-center position-relative">
+                        <div class="d-flex justify-content-around align-items-center flex-fill">
+                            <div class="dropdownContainer">
+                                <i class="fa-solid fa-square-poll-horizontal text-white fa-2x crs"></i>
+                                <div class="dropdownContent">
+                                    <div class="d-flex">
+                                        <div class="pe-2 border-end">
+                                            <a href="." class="crs default-focus text-nowrap">Sách Trong Nước</a><br>
+                                            <a href="." class="crs text-nowrap">FOREIGN BOOKS</a><br>
+                                        </div>
+                                        <div class="d-flex flex-wrap p-3 text-white" id="categoryContainer" ><!-- Mutable --></div>
+                                    </div>
+                                </div>
+                            </div>&emsp;
+                            <input type="text" class="form-control" name="keySearchBook" id="keySearchBook" placeholder="Tìm kiếm sách ở đây...">&emsp;
+                            <i class="fa-solid fa-magnifying-glass text-white fa-2x crs" id="searchIcon"></i>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 d-flex align-items-center justify-content-end">
+                        <div class="text-center crs" onclick="window.location.href = './cart.html'">
+                            <i class="fa-brands fa-shopify text-white fa-2x d-block"></i>
+                            <a href="javascript:void(0);" class="text-white">Giỏ hàng</a>
+                        </div>
+                        <div class="text-center mx-2 crs position-relative dropdownContainer" id="accountMutable">
+                            <!-- Mutable -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-3 mx-5 bg-white">
+            <div class="col-lg-12">
+                <div class="d-flex flex-wrap position-relative" style="min-height: 530px;" id="bookContainer">
+                    <!-- Mutable -->
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div class="row" style="background-color: crimson;">
+            <div class="col-lg-12">
+                <div class="d-flex text-white">
+                    <div class="col-4 p-2 border-end border-secondary">
+                        <img src="./images/ebook-logo.png" alt="ebook-logo-end">
+                        <p>✨ ĐỊA CHỈ / CHI NHÁNH: Lầu 5, 387-389 Hai Bà Trưng Quận 3 TP HCMCông Ty Cổ Phần Phát Hành Sách TP HCM - EBOOK60 - 62 Lê Lợi, Quận 1, TP. HCM, Việt Nam <i class="fas fa-map-marker-alt"></i>.</p>
+                        <p>✨ Ebook.com nhận đặt hàng trực tuyến và giao hàng tận nơi. KHÔNG hỗ trợ đặt mua và nhận hàng trực tiếp tại văn phòng cũng như tất cả Hệ Thống Ebook trên toàn quốc.</p>
+                        <div class="d-flex">
+                            ✨&emsp13;
+                            <i class="fab fa-facebook-square fa-2x"></i>&emsp;
+                            <i class="fab fa-instagram-square fa-2x"></i>&emsp;
+                            <i class="fab fa-twitter-square fa-2x"></i>&emsp;
+                            <i class="fab fa-youtube-square fa-2x"></i>&emsp;
+                            <i class="fab fa-pinterest-p fa-2x"></i>&emsp;
+                            <i class="fab fa-tumblr-square fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="col-6 px-5 pt-5">
+                        <img src="https://cdn.pixabay.com/photo/2018/07/12/13/04/copyright-3533368_1280.png" alt="" width="100" height="100" style="float: right;">
+                        <span>Giấy chứng nhận Đăng ký Kinh doanh số 0304132047 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp ngày 20/12/2005, đăng ký thay đổi lần thứ 10, ngày 20/05/2022.</span>
+                        <br>
+                        <p>- CHĂM SÓC KHÁCH HÀNG: <i class="fas fa-phone-volume"></i> 0338188506</p>
+                        <p>- Chịu trách nhiệm và hỗ trợ. Liên hệ:</p>
+                        <ul>
+                            <li>Hotline: 098 164 0961</li>
+                            <li>Email: info@ebook.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div id="modals-container"></div>
+    <script src="./js/search/util.js"></script>
+    <script src="./js/search-book.js"></script>
+    <script src="./js/api-get-genres.js"></script>
+    <script src="./js/get-alias.js"></script>
+    <script src="./js/calculate.js"></script>
+    <script src="./js/format.js"></script>
+    <script src="./js/logout.js"></script>
+    <script>
+        $(document).ready(async function() {
+            // 01. Tải modals
+            $.when(
+                $.get("./modals/login-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/register-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/change-password-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/user-info-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
+                $.get("./modals/order-detail-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                })
+            ).done(function() {
+                console.log("Tất cả các modal đã được tải xong");
+            }).fail(function() {
+                console.log("Lỗi khi tải modal");
+            });
+            // 02. Kiểm tra token
+            const accessToken = sessionStorage.getItem('user_access_token');
+            if (!accessToken) {
+                const noLoginContentHtml = `
+                    <i class="fa-regular fa-user text-white fa-2x d-block"></i>
+                    <a href="javascript:void(0);" class="text-white">Tài khoản</a>
+                    <div class="dropdownContent" style="right: 0;">
+                        <div><button class="btn btn-outline-light w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button></div>
+                        <div><button class="btn btn-light w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký</button></div>    
+                    </div>
+                `;
+                $("#accountMutable").html(noLoginContentHtml);
+            } else {
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/user/whoiam',
+                    type: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                    },
+                    credentials: 'include', // Để gửi cookie trong request
+                    success: function(userData) {
+                        console.log('response=', userData);
+                        // Render data user info modal
+                        const htmlContent = `
+                            <dt class="col-sm-4">ID:</dt>
+                            <dd class="col-sm-8" id="userId">#${userData.id}</dd>
+
+                            <dt class="col-sm-4">Họ:</dt>
+                            <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
+
+                            <dt class="col-sm-4">Tên:</dt>
+                            <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
+
+                            <dt class="col-sm-4">Tên đầy đủ:</dt>
+                            <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
+
+                            <dt class="col-sm-4">Tên đăng nhập:</dt>
+                            <dd class="col-sm-8" id="userName">${userData.username}</dd>
+
+                            <dt class="col-sm-4">Email:</dt>
+                            <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
+
+                            <dt class="col-sm-4">Ngày tạo:</dt>
+                            <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
+                        `;
+                        $("#userInfoModalData").html(htmlContent);
+                        const loginContentHtml = `
+                            <i class="fas fa-user-check text-white fa-2x d-block"></i>
+                            <a href="javascript:void(0);" class="text-white">Tài khoản</a>
+                            <div class="dropdownContent" style="right: 0;">
+                                <div><button class="btn btn-danger w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#userInfoModal"><i class="fas fa-info-circle"></i> Xem thông tin</button></div>
+                                <div><a href="./order.html" class="btn btn-danger w-100 rounded-0 mb-1"><i class="fas fa-shopping-cart"></i> Đơn mua</a></div>
+                                <div><button class="btn btn-danger w-100 rounded-0 mb-1" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fas fa-key"></i> Đổi mật khẩu</button></div>
+                                <div><button type="button" class="btn btn-danger w-100 rounded-0" onclick="logout('user');"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button></div>
+                            </div>
+                        `;
+                        $("#accountMutable").html(loginContentHtml);
+    ;                },
+                    error: function(xhr, status, error) {
+                        toastr.error('http://localhost:8080/api/v1/users/whoiam error.');
+                    }
+                });
+            }
+            // 03. Tải genres menu
+            const categoryContainer = $("#categoryContainer");
+            categoryContainer.html("");
+            const mygenres = await getGenres();
+            for (const [group, genres] of Object.entries(mygenres)) {
+                const groupName = genreGroupTranslations[group] || group;
+                const limitedGenres = genres.slice(0, 5);
+                let genreItems = limitedGenres.map(genre => {
+                    const translatedGenre = genreTranslations[genre] || genre.replace(/_/g, ' ');
+                    return `<span class="d-block crs">${translatedGenre}</span>`;
+                }).join('');
+                genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
+
+                const columnHtml = `
+                    <div class="col-3 p-2 mb-1 small">
+                        <span class="d-block fw-bold mb-2 text-truncate fs-6">${groupName}</span>
+                        ${genreItems}
+                    </div>
+                `;
+                categoryContainer.append(columnHtml);
+            }
+            // 04. Genre hover change
+            $('.dropdownContent a').on('mouseover', async function() {
+                $('.default-focus').removeClass('default-focus');
+                $(this).addClass('default-focus');
+
+                const mygenres = await getGenres();
+                const category = $(this).text().trim();
+                const $container = $('#categoryContainer');
+                $container.empty(); // Xóa nội dung hiện tại trong container
+
+                switch (category) {
+                    case "Sách Trong Nước":
+                        $.each(mygenres, function(group, genres) {
+                            const groupName = genreGroupTranslations[group] || group;
+                            const limitedGenres = genres.slice(0, 5);
+                            let genreItems = limitedGenres.map(genre => {
+                                const translatedGenre = genreTranslations[genre] || genre.replace(/_/g, ' ');
+                                return `<span class="d-block crs">${translatedGenre}</span>`;
+                            }).join('');
+                            genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
+
+                            const columnHtml = `
+                                <div class="col-3 p-2 mb-1 small">
+                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">${groupName}</span>
+                                    ${genreItems}
+                                </div>
+                            `;
+                            $container.append(columnHtml);
+                        });
+                        break;
+
+                    case "FOREIGN BOOKS":
+                        $.each(mygenres, function(group, genres) {
+                            const groupName = group;
+                            const limitedGenres = genres.slice(0, 5);
+                            let genreItems = limitedGenres.map(genre => `<span class="d-block crs">${genre.replace(/_/g, ' ')}</span>`).join('');
+                            genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
+
+                            const columnHtml = `
+                                <div class="col-3 p-2 mb-1 small">
+                                    <span class="d-block fw-bold mb-2 text-truncate fs-6">${groupName}</span>
+                                    ${genreItems}
+                                </div>
+                            `;
+                            $container.append(columnHtml);
+                        });
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+            // 05. Keywork Tìm kiếm book
+            $('#searchIcon').on('click', function() {
+                searchBooks();
+            });
+            $('#keySearchBook').on('keypress', function(e) {
+                if (e.which == 13) { // Enter key pressed
+                    searchBooks();
+                }
+            });
+            // 06. Handle keysearch
+            const urlParams = new URLSearchParams(window.location.search);
+            const keysearch = urlParams.get('key');
+            searchBook(keysearch);
+            const keyDecoded = decodeURIComponent(keysearch);
+            $("#keySearchBook").val(keyDecoded)
+        });
+    </script>
+</body>
+</html>

@@ -10,5 +10,5 @@ import ntp.dev.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	  Optional<User> findByEmail(String email);
+	public Optional<User> findByEmail(String email);
 }

@@ -42,10 +42,12 @@ public class CartItem implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "cart_id")
 	@JsonBackReference
+	@ToString.Exclude
 	private Cart cart;
 	
 	@ManyToOne
 	@JoinColumn(name = "book_id")
 	@JsonBackReference
+	@ToString.Exclude
 	private Book book;
 }

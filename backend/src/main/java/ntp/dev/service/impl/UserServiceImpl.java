@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
 		return new UserV0(user.getEmail(), user.getRole().name());
 	}
 
+	@Override
+	public User getUserByEmail(String email) {
+		return userRepository.findByEmail(email).orElse(null);
+	}
+
 }

@@ -27,6 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ntp.dev.entity.User;
 import ntp.dev.enumric.OrderStatus;
 import ntp.dev.enumric.PaymentMethod;
@@ -59,13 +60,19 @@ public class Order implements Serializable {
     
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;// Trạng thái hiện tại của đơn hàng # với tất cả trạng thái của đơn hạng xuyên xuốt 
+    private String deliveryAddress;// Địa chỉ deliveryAddress này khác deliveryAddress trong ShipOrder vì có thể KH muốn đổi sang chỉa chỉ ship khác khi mua sách
     
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
+    @ToString.Exclude
     private User user;
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<OrderItem> items;
+    
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private List<ntp.dev.model.OrderStatus> orderStatuses;
 }

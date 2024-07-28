@@ -20,7 +20,15 @@
                             </div>
                         </div>
                         <div class="mb-3 mt-3">
-                            <label for="re-email" class="form-label">Số điện thoại / Email:</label>
+                            <label for="re-address" class="form-label">Địa chỉ:</label>
+                            <input type="text" class="form-control" id="re-address" placeholder="Enter address" name="re-address">
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="re-phoneNumber" class="form-label">Số Điện Thoại:</label>
+                            <input type="text" class="form-control" id="re-phoneNumber" placeholder="Enter phone number" name="re-phoneNumber">
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="re-email" class="form-label">Email:</label>
                             <input type="text" class="form-control" id="re-email" placeholder="Enter email" name="re-email">
                         </div>
                         <div class="mb-3">
@@ -50,12 +58,14 @@
 
         const firstName = $("#re-firstName").val().trim();
         const lastName = $("#re-lastName").val().trim();
+        const address = $("#re-address").val().trim();
+        const phoneNumber = $("#re-phoneNumber").val().trim();
         const email = $("#re-email").val().trim();
         const password = $("#re-pwd").val().trim();
         const confirmPassword = $("#re-repwd").val().trim();
 
         // Validate inputs
-        if (firstName === "" || lastName === "" || email === "" || password === "" || confirmPassword === "") {
+        if (firstName === "" || lastName === "" || address === "" || phoneNumber === "" || email === "" || password === "" || confirmPassword === "") {
             toastr.error("Vui lòng điền đầy đủ thông tin.", "Validation!");
             return;
         }

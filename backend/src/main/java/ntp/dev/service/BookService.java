@@ -15,4 +15,5 @@ public interface BookService {
 	public Boolean deleteBooksByIds(List<Long> bookIds);
 	public List<Book> getBooksOnFlashSale();
 	public Book findById(long bookId);
+	public List<Book> searchBook(String key);
 }

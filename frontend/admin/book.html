@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/common.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -68,7 +67,7 @@
                         <a class="nav-link fw-bold text-white" href="javascript:void(0);">Quản Lý Sách</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Quản Lý Hóa Đơn</a>
+                        <a class="nav-link" href="./order.html">Quản Lý Hóa Đơn</a>
                     </li>
                 </ul>
                 <!-- <form class="d-flex">
@@ -88,23 +87,23 @@
         </div>
         <input type="text" id="searchBar" class="form-control search-bar" placeholder="Search books...">
         <table class="table table-bordered table-striped table-hover">
-            <thead class="table-primary">
+            <thead class="table-dark">
                 <tr>
-                    <th scope="col"><input type="checkbox" id="selectAll"></th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Publisher</th>
-                    <th scope="col">Publication Date</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Discount</th>
-                    <th scope="col">Stocks</th>
-                    <th scope="col">Genre</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Flash Sale</th>
-                    <th scope="col">CBM (LxWxHxW)</th>
-                    <th scope="col">Cover Image</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col" class="align-middle"><input type="checkbox" id="selectAll"></th>
+                    <th scope="col" class="align-middle">ID</th>
+                    <th scope="col" class="align-middle">Title</th>
+                    <th scope="col" class="align-middle">Author</th>
+                    <th scope="col" class="align-middle">Publisher</th>
+                    <th scope="col" class="align-middle">Publication Date</th>
+                    <th scope="col" class="align-middle">Price</th>
+                    <th scope="col" class="align-middle">Discount</th>
+                    <th scope="col" class="align-middle">Stocks</th>
+                    <th scope="col" class="align-middle">Genre</th>
+                    <th scope="col" class="align-middle">Type</th>
+                    <th scope="col" class="align-middle">Flash Sale</th>
+                    <th scope="col" class="align-middle">CBM (LxWxHxW)</th>
+                    <th scope="col" class="align-middle">Cover Image</th>
+                    <th scope="col" class="align-middle">Actions</th>
                 </tr>
             </thead>
             <tbody id="bookTable">
@@ -340,6 +339,9 @@
         </div>
     </div>
     <div id="modals-container"></div>
+    <script src="../js/get-alias.js"></script>
+    <script src="../js/calculate.js"></script>
+    <script src="../js/format.js"></script>
     <script src="../js/logout.js"></script>
     <script>
         // Sample book data
@@ -362,21 +364,21 @@
             console.log('books=', books);
             books.forEach(book => {
                 var row = `<tr class="text-center">
-                    <td style="vertical-align: middle;"><input type="checkbox" class="book-checkbox" data-id="${book.id}"></td>
-                    <td style="vertical-align: middle;">${book.id}</td>
-                    <td style="vertical-align: middle;">${book.title}</td>
-                    <td style="vertical-align: middle;">${book.author}</td>
-                    <td style="vertical-align: middle;">${book.publisher}</td>
-                    <td style="vertical-align: middle;">${book.publicationDate}</td>
-                    <td style="vertical-align: middle;">${book.price.toFixed(2)} đ</td>
-                    <td style="vertical-align: middle;">-${book.discount.toFixed(2)}đ</td>
-                    <td style="vertical-align: middle;">${book.stockQuantity}</td>
-                    <td style="vertical-align: middle;">${book.genre}</td>
-                    <td style="vertical-align: middle;">${book.bookType}</td>
-                    <td style="vertical-align: middle;">${book.flashSale} đ<br>End in: ${book.flashSaleExpired}</td>
-                    <td style="vertical-align: middle;">${book.length}cm x ${book.width}cm x ${book.height}cm x ${book.weight} gram</td>
-                    <td style="vertical-align: middle;"><img src="${book.coverImageUrl}" widht="64" height="64" /></td>
-                    <td class="action-btns" style="vertical-align: middle;">
+                    <td class="align-middle"><input type="checkbox" class="book-checkbox" data-id="${book.id}"></td>
+                    <td class="align-middle">${book.id}</td>
+                    <td class="align-middle">${book.title}</td>
+                    <td class="align-middle">${book.author}</td>
+                    <td class="align-middle">${book.publisher}</td>
+                    <td class="align-middle">${book.publicationDate}</td>
+                    <td class="align-middle">${book.price.toFixed(2)} đ</td>
+                    <td class="align-middle">-${book.discount.toFixed(2)}đ</td>
+                    <td class="align-middle">${book.stockQuantity}</td>
+                    <td class="align-middle">${book.genre}</td>
+                    <td class="align-middle">${book.bookType}</td>
+                    <td class="align-middle">${book.flashSale} đ<br>End in: ${book.flashSaleExpired}</td>
+                    <td class="align-middle">${book.length}cm x ${book.width}cm x ${book.height}cm x ${book.weight} gram</td>
+                    <td class="align-middle"><img src="${book.coverImageUrl}" widht="64" height="64" /></td>
+                    <td class="action-btns align-middle">
                         <i class="fas fa-edit" data-id="${book.id}" onclick="editBook(${book.id})"></i>
                         <i class="fas fa-trash" data-id="${book.id}" onclick="deleteBook(${book.id})"></i>
                     </td>
@@ -392,12 +394,16 @@
         }
 
         function uploadImage(file) {
+            const accessToken = sessionStorage.getItem('admin_access_token');
             var formData = new FormData();
             formData.append("file", file);
 
             return $.ajax({
                 url: 'http://localhost:8080/api/v1/book/upload-image',
                 type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                },
                 data: formData,
                 processData: false,
                 contentType: false,

@@ -11,7 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/common.css">
     <style>
         body {
             background-color: #f4f7f6;
@@ -70,7 +69,7 @@
                         <a class="nav-link" href="./book.html">Quản Lý Sách</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Quản Lý Hóa Đơn</a>
+                        <a class="nav-link" href="./order.html">Quản Lý Hóa Đơn</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -106,7 +105,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Danh Sách Sách</h5>
                         <p class="card-text">Hiển thị danh sách sách ở đây...</p>
-                        <a href="#" class="btn btn-primary">Thêm Sách Mới</a>
+                        <a href="./book.html" class="btn btn-primary">Thêm Sách Mới</a>
                     </div>
                 </div>
                 <div class="card">
@@ -116,13 +115,16 @@
                     <div class="card-body">
                         <h5 class="card-title">Danh Sách Hóa Đơn</h5>
                         <p class="card-text">Hiển thị danh sách hóa đơn ở đây...</p>
-                        <a href="#" class="btn btn-primary">Xem Chi Tiết</a>
+                        <a href="./order.html" class="btn btn-primary">Xem Chi Tiết</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div id="modals-container"></div>
+    <script src="../js/get-alias.js"></script>
+    <script src="../js/calculate.js"></script>
+    <script src="../js/format.js"></script>
     <script src="../js/logout.js"></script>
     <script>
         $(document).ready(function() {
