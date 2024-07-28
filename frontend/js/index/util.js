@@ -8,7 +8,7 @@ updateCountdown(); // Cập nhật ngay lập tức khi trang được load
 
 function updateCountdown() {
     const now = new Date();
-    const saleEndTime = new Date('2024-07-28T14:05:00'); // Thời gian kết thúc flashsale
+    const saleEndTime = new Date('2024-07-28T23:59:59'); // Thời gian kết thúc flashsale
     const timeDifference = saleEndTime - now;
 
     if (timeDifference > 0) {

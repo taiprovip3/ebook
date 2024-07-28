@@ -9,7 +9,7 @@
 		<version>3.1.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ntp.dev</groupId>
+	<groupId>phb.ebookstore.dev</groupId>
 	<artifactId>ebook-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ebook-api</name>
