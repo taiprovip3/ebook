@@ -260,7 +260,7 @@
                 const limitedGenres = genres.slice(0, 5);
                 let genreItems = limitedGenres.map(genre => {
                     const translatedGenre = genreTranslations[genre] || genre.replace(/_/g, ' ');
-                    return `<span class="d-block crs">${translatedGenre}</span>`;
+                    return `<span class="d-block crs" onclick="window.location.href = './search.html?key=${encodeURIComponent(genre)}';">${translatedGenre}</span>`;
                 }).join('');
                 genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
 
@@ -289,7 +289,7 @@
                             const limitedGenres = genres.slice(0, 5);
                             let genreItems = limitedGenres.map(genre => {
                                 const translatedGenre = genreTranslations[genre] || genre.replace(/_/g, ' ');
-                                return `<span class="d-block crs">${translatedGenre}</span>`;
+                                return `<span class="d-block crs" onclick="window.location.href = './search.html?key=${encodeURIComponent(genre)}';">${translatedGenre}</span>`;
                             }).join('');
                             genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
 
@@ -307,7 +307,7 @@
                         $.each(mygenres, function(group, genres) {
                             const groupName = group;
                             const limitedGenres = genres.slice(0, 5);
-                            let genreItems = limitedGenres.map(genre => `<span class="d-block crs">${genre.replace(/_/g, ' ')}</span>`).join('');
+                            let genreItems = limitedGenres.map(genre => `<span class="d-block crs" onclick="window.location.href = './search.html?key=${encodeURIComponent(genre)}';">${genre.replace(/_/g, ' ')}</span>`).join('');
                             genreItems += '<span class="d-block crs text-decoration-underline">Xem tất cả</span>';
 
                             const columnHtml = `
