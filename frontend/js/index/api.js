@@ -19,10 +19,11 @@ async function getFlashSaleBooks() {
         credentials: 'include', // Để gửi cookie trong request
     }).then((data) => data);
 }
-async function getBooks() {
+async function getBooks(page, size) {
     return $.ajax({
         url: 'http://localhost:8080/api/v1/book/list',
         type: 'GET',
+        data: { page, size },
         contentType: 'application/json',
         credentials: 'include', // Để gửi cookie trong request
     }).then((data) => data);

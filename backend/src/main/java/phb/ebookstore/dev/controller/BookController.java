@@ -3,6 +3,9 @@ package phb.ebookstore.dev.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,10 +53,17 @@ public class BookController {
 		return ResponseEntity.ok(bookService.findById(bookId));
 	}
 	
+//	@GetMapping("/list")
+//	public ResponseEntity<?> listBook() {
+//		return ResponseEntity.ok(bookService.listBook());
+//	}
 	@GetMapping("/list")
-	public ResponseEntity<?> listBook() {
-		return ResponseEntity.ok(bookService.listBook());
-	}
+    public ResponseEntity<?> listBook(@RequestParam(defaultValue = "0") int page, 
+                                      @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Book> books = bookService.listBook(pageable);
+        return ResponseEntity.ok(books);
+    }
 	
 	@GetMapping("/search")
 	public ResponseEntity<?> searchBook(@RequestParam String key) {

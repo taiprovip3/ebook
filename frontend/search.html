@@ -55,7 +55,7 @@
         </div>
         <div class="row my-3 mx-5 bg-white">
             <div class="col-lg-12">
-                <div class="d-flex flex-wrap position-relative" style="min-height: 530px;" id="bookContainer">
+                <div class="d-flex flex-wrap position-relative" style="min-height: 530px;" id="booksContainer">
                     <!-- Mutable -->
                 </div>
             </div>
@@ -157,30 +157,16 @@
                     credentials: 'include', // Để gửi cookie trong request
                     success: function(userData) {
                         console.log('response=', userData);
-                        // Render data user info modal
-                        const htmlContent = `
-                            <dt class="col-sm-4">ID:</dt>
-                            <dd class="col-sm-8" id="userId">#${userData.id}</dd>
-
-                            <dt class="col-sm-4">Họ:</dt>
-                            <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
-
-                            <dt class="col-sm-4">Tên:</dt>
-                            <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
-
-                            <dt class="col-sm-4">Tên đầy đủ:</dt>
-                            <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
-
-                            <dt class="col-sm-4">Tên đăng nhập:</dt>
-                            <dd class="col-sm-8" id="userName">${userData.username}</dd>
-
-                            <dt class="col-sm-4">Email:</dt>
-                            <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
-
-                            <dt class="col-sm-4">Ngày tạo:</dt>
-                            <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
-                        `;
-                        $("#userInfoModalData").html(htmlContent);
+                        // Cập nhật dữ liệu vào các trường thông tin trong modal
+                        $('#userId').text(`#${userData.id}`);
+                        $('#userFirstName').text(userData.firstName);
+                        $('#userLastName').text(userData.lastName);
+                        $('#userFullName').text(`${userData.firstName} ${userData.lastName}`);
+                        $('#userName').text(userData.username);
+                        $('#userEmail').text(userData.email);
+                        $('#userCreatedAt').text(formatDate(userData.createdAt));
+                        $('#userAddress').text(userData.address || 'Chưa có thông tin'); // Thay đổi nếu có thông tin địa chỉ
+                        $('#userPhoneNumber').text(`(+84) ${userData.phoneNumber || 'Chưa có thông tin'}`); // Thay đổi nếu có thông tin số điện thoại
                         const loginContentHtml = `
                             <i class="fas fa-user-check text-white fa-2x d-block"></i>
                             <a href="javascript:void(0);" class="text-white">Tài khoản</a>

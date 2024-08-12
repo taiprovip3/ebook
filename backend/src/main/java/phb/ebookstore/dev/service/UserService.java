@@ -6,4 +6,5 @@ import phb.ebookstore.dev.entity.User;
 public interface UserService {
 	public UserV0 getByEmail(String email);
 	public User getUserByEmail(String email);
+	public boolean changePassword(String username, String oldPassword, String newPassword);
 }

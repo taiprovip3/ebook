@@ -79,7 +79,7 @@
         console.log('cancelReasonValue=', cancelReasonValue);
         console.log('otherReasonValue=', otherReasonValue);
 
-        const encodedReason = encodeURIComponent(cancelReasonValue);
+        const encodedReason = encodeURIComponent(`${cancelReasonValue}. ${otherReasonValue}`);
 
         const accessToken = sessionStorage.getItem('admin_access_token');
         $.ajax({

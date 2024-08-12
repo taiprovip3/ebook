@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EBOOK Admin - Book</title>
+    <title>EBOOK Admin - Orders</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         body {
             background-color: #f8f9fa;
@@ -64,10 +65,13 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-bold text-white" href="javascript:void(0);">Quản Lý Sách</a>
+                        <a class="nav-link" href="./book.html">Quản Lý Sách</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./order.html">Quản Lý Hóa Đơn</a>
+                        <a class="nav-link fw-bold text-white" href="javascript:void(0);">Quản Lý Hóa Đơn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./statistic.html">Thống Kê</a>
                     </li>
                 </ul>
                 <!-- <form class="d-flex">
@@ -81,8 +85,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Order Management</h2>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm hóa đơn..." aria-label="Search">
+                <form class="d-flex" id="searchForm">
+                    <input id="searchInput" class="form-control me-2" type="search" placeholder="Tìm kiếm đơn hàng..." aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 <div class="p-3 mb-3">
@@ -113,7 +117,7 @@
                         </li>
                       </ul>
                 </div>
-                <div class="d-flex flex-column position-relative" style="min-height: 440px;" id="orderContainer">
+                <div class="d-flex flex-column position-relative" style="min-height: 440px;" id="ordersContainer">
                     <!-- Mutable -->
                 </div>
             </div>
@@ -158,30 +162,16 @@
                 credentials: 'include', // Để gửi cookie trong request
                 success: function(userData) {
                     console.log('response=', userData);
-                    // Render data user info modal
-                    const htmlContent = `
-                        <dt class="col-sm-4">ID:</dt>
-                        <dd class="col-sm-8" id="userId">#${userData.id}</dd>
-
-                        <dt class="col-sm-4">Họ:</dt>
-                        <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
-
-                        <dt class="col-sm-4">Tên:</dt>
-                        <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
-
-                        <dt class="col-sm-4">Tên đầy đủ:</dt>
-                        <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
-
-                        <dt class="col-sm-4">Tên đăng nhập:</dt>
-                        <dd class="col-sm-8" id="userName">${userData.username}</dd>
-
-                        <dt class="col-sm-4">Email:</dt>
-                        <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
-
-                        <dt class="col-sm-4">Ngày tạo:</dt>
-                        <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
-                    `;
-                    $("#userInfoModalData").html(htmlContent);
+                    // Cập nhật dữ liệu vào các trường thông tin trong modal
+                    $('#userId').text(`#${userData.id}`);
+                    $('#userFirstName').text(userData.firstName);
+                    $('#userLastName').text(userData.lastName);
+                    $('#userFullName').text(`${userData.firstName} ${userData.lastName}`);
+                    $('#userName').text(userData.username);
+                    $('#userEmail').text(userData.email);
+                    $('#userCreatedAt').text(formatDate(userData.createdAt));
+                    $('#userAddress').text(userData.address || 'Chưa có thông tin'); // Thay đổi nếu có thông tin địa chỉ
+                    $('#userPhoneNumber').text(`(+84) ${userData.phoneNumber || 'Chưa có thông tin'}`); // Thay đổi nếu có thông tin số điện thoại
 ;                },
                 error: function(xhr, status, error) {
                     toastr.error('http://localhost:8080/api/v1/users/me error.');
@@ -215,6 +205,14 @@
                 let orderStatus = $(this).data('order-status');
                 renderOrders(orderStatus)
             });
+
+            // 06. Nge searchBar
+            $('#searchForm').on('submit', function(e) {
+                e.preventDefault(); // Ngăn chặn việc submit form mặc định
+
+                const searchTerm = $('#searchInput').val().toLowerCase();
+                searchOrders(searchTerm);
+            });
         });
 
 
@@ -231,11 +229,20 @@
             $("#orderIdHidden").val(orderId);
             $("#cancelOrderModal").modal('toggle');
         }
+        async function viewOrderStatuses(orderId) {
+            alert('View con card');
+        }
+        async function reviewRating(orderId) {
+            alert('Review con cá vàng');
+        }
+        async function printOrder(orderId) {
+            alert('In con cá');
+        }
         async function handOverOrder(orderId) {
             if (confirm('Are you sure?') == true) {
                 const accessToken = sessionStorage.getItem('admin_access_token');
                 $.ajax({
-                    url: `http://localhost:8080/api/v1/order/handOverOver/${orderId}`,
+                    url: `http://localhost:8080/api/v1/order/handOverOrder/${orderId}`,
                     type: 'PATCH',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
@@ -243,7 +250,12 @@
                     credentials: 'include', // Để gửi cookie trong request,
                     success: function(response) {
                         console.log(response);
-                        toastr.success(response, 'Xác nhận')
+                        toastr.success(response, 'Xác nhận');
+                        swal({
+                            title: 'Text',
+                            text: 'Đã bàn bàn giao cho ĐVVC',
+                            icon: 'success',
+                        });
                     }, error: function(error) {
                         console.error(error);
                         toastr.error(error.responseText, 'Error!');
@@ -278,10 +290,10 @@
         async function renderOrders(orderStatus) {
             orders = await getOrders(orderStatus);
             console.log('orders=', orders);
-            const orderContainer = $("#orderContainer");
-            orderContainer.empty();
+            const ordersContainer = $("#ordersContainer");
+            ordersContainer.empty();
             if(orders.length <= 0) {
-                orderContainer.html(`
+                ordersContainer.html(`
                     <div class="text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                         <img src="../images/empty-box.png" alt="empty-box" width="64" height="64" /><br>
                         <span class="text-danger fwl">Không có đơn hàng nào!</span>
@@ -289,13 +301,12 @@
                 `);
             } else {
                 orders.forEach((order, index) => {
-                    const latestOrderStatusMessage = order.orderStatuses[0].description;
-                    const orderItemBooks = order.orderItemBooks;
-                    orderContainer.append(`
-                        <div class="p-3 border d-flex">
+                    let complexContent = '';
+                    complexContent += `
+                        <div class="d-flex">
                             <div class="col-8 pe-lg-3">
                                 <span class="d-block text-bg-danger">Mã đơn hàng: <span class="fw-bold">#${order.order.id}</span> (${order.orderItemBooks.length} sản phẩm)</span>
-                                <span class="d-block">Ngày đặt hàng: <span class="fw-bold">${formatDate(order.order.orderDate)}</span></span>
+                                <span class="d-block">Ngày đặt hàng: <span class="fw-bold">${formatDate(order.order.orderDate)}</span> (~${timeAgo(order.order.orderDate)})</span>
                                 <span class="d-block">Khách hàng: <span class="fw-bold">${order.user.firstName} ${order.user.lastName}</span></span>
                                 <span class="d-block">Phương thức thanh toán: <span class="fw-bold">${order.order.paymentMethod}</span></span>
                                 <span class="d-block">Địa chỉ Delivery: <span class="fw-bold">${order.order.deliveryAddress}</span></span>
@@ -309,7 +320,9 @@
                                 <span class="d-block">Lưu ý của KH: <span class="fw-bold">${order.order.note}</span></span>
                             </div>
                         </div>
-                    `);
+                    `;
+                    const latestOrderStatusMessage = order.orderStatuses[0].description;
+                    const orderItemBooks = order.orderItemBooks;
                     orderItemBooks.forEach((orderItemBook, index2) => {
                         const totalProductPrice = orderItemBook.book.price * orderItemBook.orderItem.quantity; // Số tiền đáng lẻ ra phải trả
                         const totalProductPriceDiscount = totalProductPrice - (orderItemBook.book.discount * orderItemBook.orderItem.quantity);
@@ -323,19 +336,27 @@
                         if(order.order.orderStatus == 'PREPARING') {
                             buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="handOverOrder(${order.order.id});">Đã bàn giao cho ĐVVC</button>`;
                         }
-                        orderContainer.append(`
-                            <div class="p-3 border mb-3" style="box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;">
+                        if(order.order.orderStatus == 'TRANSPORTING') {
+                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="printOrder(${order.order.id});">In hóa đơn</button>`;
+                        }
+                        if(order.order.orderStatus == 'AWAIT_RATING') {
+                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="reviewRating(${order.order.id});">Xem đánh giá</button>`;
+                        }
+                        if(order.order.orderStatus == 'COMPLETE') {
+                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="viewOrderStatuses(${order.order.id});">Xem lịch sử</button>`;
+                        }
+                        complexContent += `
+                            <div>
                                 <div class="d-flex">
                                     <div class="flex-fill">
-                                        <span class="text-bg-warning text-dark p-1"><i class="fas fa-bullhorn">:</i> ${latestOrderStatusMessage}</span>
+                                        <span class="text-bg-warning text-dark"><i class="fas fa-bullhorn">:</i> ${latestOrderStatusMessage}</span>
                                     </div>
                                     <div class="text-end text-danger border-start">&emsp;${orderStatusTranslations[order.order.orderStatus]}</div>
                                 </div>
-                                <hr>
                                 <div class="d-flex">
                                     <div class="flex-fill d-flex">
                                         <img src="${orderItemBook.book.coverImageUrl}" alt="book-img" width="85" height="80" class="rounded">
-                                        <div class="ps-2">
+                                        <div class="ps-1">
                                             <span class="d-block">${orderItemBook.book.title}</span>
                                             <span>x${orderItemBook.orderItem.quantity}</span>
                                         </div>
@@ -350,8 +371,20 @@
                                     </div>
                                 </div>
                             </div>
-                        `); 
+                        `;
                     });
+                    const orderContainer = document.createElement('div');
+                    $(orderContainer)
+                        .addClass('orderContainer mb-3 p-4')
+                        .html(complexContent)
+                        .appendTo(ordersContainer)
+                        .css({ "border": "1px solid black", "border-style": "dashed" })
+                        .mouseenter(function() {
+                            $(this).css({"border": "2px solid black", "border-style": "dashed"});
+                        })
+                        .mouseleave(function() {
+                            $(this).css({"border": "1px solid black", "border-style": "dashed", "font-size": "unset"});
+                        });
                 });
             }
             renderNavTab();
@@ -372,8 +405,10 @@
                 orderStatuses[order.order.orderStatus] += 1;
             });
             for (const orderStatus in orderStatuses) {
-                if(orderStatuses[orderStatus] > 0) {
+                if(orderStatuses[orderStatus] > 0) {// Nếu >0 thì int text kế bên
                     $(`#${orderStatus}`).text(`(${orderStatuses[orderStatus]})`);
+                } else {// Nếu <= 0 thì sẽ reset default là ko có text
+                    $(`#${orderStatus}`).text("");
                 }
             }
             const total = Object.values(orderStatuses).reduce((sum, value) => sum + value, 0);
@@ -401,6 +436,18 @@
                 contentType: 'application/json',
                 credentials: 'include', // Để gửi cookie trong request
             }).then((data) => data);
+        }
+        function searchOrders(term) {
+            $('.orderContainer').each(function() {
+                const orderContent = $(this).text().toLowerCase();
+
+                // Kiểm tra nếu bất kỳ phần tử nào chứa từ khóa tìm kiếm
+                if (orderContent.includes(term)) {
+                    $(this).show(); // Hiển thị các đơn hàng phù hợp
+                } else {
+                    $(this).hide(); // Ẩn các đơn hàng không phù hợp
+                }
+            });
         }
     </script>
 </body>

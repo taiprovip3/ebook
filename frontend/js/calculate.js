@@ -9,17 +9,20 @@ function timeAgo(datetime) {
     const months = Math.floor(days / 30);
     const years = Math.floor(days / 365);
     
+    // Add leading zero for numbers from 0-9
+    const formatNumber = (num) => num.toString().padStart(2, '0');
+    
     if (seconds < 60) {
-        return `${seconds} giây trước`;
+        return `${formatNumber(seconds)} giây trước`;
     } else if (minutes < 60) {
-        return `${minutes} phút trước`;
+        return `${formatNumber(minutes)} phút trước`;
     } else if (hours < 24) {
-        return `${hours} giờ trước`;
+        return `${formatNumber(hours)} giờ trước`;
     } else if (days < 30) {
-        return `${days} ngày trước`;
+        return `${formatNumber(days)} ngày trước`;
     } else if (months < 12) {
-        return `${months} tháng trước`;
+        return `${formatNumber(months)} tháng trước`;
     } else {
-        return `${years} năm trước`;
+        return `${formatNumber(years)} năm trước`;
     }
 }

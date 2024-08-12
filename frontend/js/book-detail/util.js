@@ -46,23 +46,46 @@ async function renderBookDetail(book) {
     const totalSold = await getTotalSoldOfBook(book.id);
     const reviews = await getRatingsOfBook(book.id);
 
-    $('#bookDetail').html(`
-        <div class="row p-3">
-            <div class="col-4">
-                <img src="${book.coverImageUrl}" alt="${book.title}" class="book-cover" width="100%" height="100%" />
+    let bookImageContainer = '';
+    let bookImagesComponent = '';
+    const bookImages = book.images;
+    const newElement = {
+        "id": 0,
+        "imageUrl": book.coverImageUrl
+    };
+    bookImages.unshift(newElement);
+    if(bookImages.length > 0) {
+        book.images.forEach(bookImage => {
+            bookImagesComponent += `
+                <img src="${bookImage.imageUrl}" alt="bookImage${bookImage.id}" width="84" height="84" class="rounded me-2 mb-2 crs" onclick="viewBookImage('${bookImage.imageUrl}');" />
+            `;
+        });
+        bookImageContainer += `
+            <div class="rounded-2 flex-fill d-flex align-items-end">
+                <div class="d-flex flex-wrap" style="background-color: #f7f7f7;">
+                ${bookImagesComponent}
+                </div>
             </div>
-            <div class="col-8 p-3 rounded-2">
+        `;
+    }
+
+    $('#bookDetail').html(`
+        <div class="row p-3" data-bs-toggle="tooltip" title="${book.title}">
+            <div class="col-4">
+                <img src="${book.coverImageUrl}" alt="${book.title}" class="book-cover" width="100%" height="100%" id="coverImageUrl" />
+            </div>
+            <div class="col-8 rounded-2 d-flex flex-column">
                 <div class="p-3 rounded-2 mb-2" style="background-color: #f7f7f7;">
                     <h1>${book.title}</h1>
                     <p><strong><i class="fas fa-at"></i> Author:</strong> ${book.author}</p>
                     <p><strong><i class="fab fa-fort-awesome-alt"></i> Publishers:</strong> ${book.publisher}</p>
                     <p><strong><i class="fas fa-clock"></i> Publication Date:</strong> ${formatDate(book.publicationDate)}</p>
-                    <p><strong><i class="fas fa-cookie"></i> Genre:</strong> ${book.genre}</p>
-                    <p><strong><i class="fas fa-globe-asia"></i> Book Type:</strong> ${book.bookType}</p>
+                    <p><strong><i class="fas fa-cookie"></i> Genre:</strong> ${book.genre} (${genreTranslations[book.genre]})</p>
+                    <p><strong><i class="fas fa-globe-asia"></i> Book Type:</strong> ${bookTypeTranslations[book.bookType]}</p>
                     <p><strong><i class="fas fa-boxes"></i> Stocks:</strong> ${book.stockQuantity}</p>
                     <p><strong><i class="fas fa-dolly"></i> Sold:</strong> ${totalSold}</p>
                 </div>
-                <div class="p-3 rounded-2" style="background-color: #f7f7f7;">
+                <div class="p-3 rounded-2 mb-2" style="background-color: #f7f7f7;">
                     <div class="mb-3 text-danger">${book.rating}/5 ${renderStars(book.rating)} <span>(${formatNumber(book.reviewCount)} đánh giá)</span></div>
                     <div>
                         <span class="text-decoration-line-through">${formatVND(book.price)};</span>&emsp13;
@@ -79,6 +102,8 @@ async function renderBookDetail(book) {
                         <button class="btn btn-outline-danger p-3" onclick="addToCart(${book.id});">Thêm vào giỏ hàng</button>
                         <button class="btn btn-danger p-3 px-5" onclick="buyNow(${book.id});">Mua ngay</button>
                     </div>    
+                </div>
+                ${bookImageContainer}
                 </div>
             </div>
         </div>
@@ -127,4 +152,8 @@ function renderReviews(reviews) {
         `;
     });
     return appendReviews;
+}
+function viewBookImage(url) {
+    const coverImageUrl = document.getElementById("coverImageUrl");
+    coverImageUrl.src = url;
 }

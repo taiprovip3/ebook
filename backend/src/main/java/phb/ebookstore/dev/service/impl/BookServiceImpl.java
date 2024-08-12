@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,10 +77,10 @@ public class BookServiceImpl implements BookService {
 		System.out.println("bookDTO===" + bookDTO);
 		Book book = bookRepository.findById(bookDTO.getBookId()).orElse(null);
 		if(book == null) {// Save
-			System.out.println("isSave");
+			System.out.println("Saving a new book...");
 		} else {
 			// Update
-			System.out.println("isUpdate");
+			System.out.println("Updating a book...");
 		}
 		String theDefaultCoverImageUrl = "https://cantho-school.fpt.edu.vn/wp-content/uploads/Screenshot-2023-09-28-at-15.59.13.png";
 		String coverImageUrl = bookDTO.getCoverImageUrl();
@@ -110,12 +112,16 @@ public class BookServiceImpl implements BookService {
 		return bookRepository.save(b);
 	}
 
-	@Override
-	public List<Book> listBook() {
-//	    Pageable pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "id"));
-//        return bookRepository.findAll(pageable).getContent();
-		return bookRepository.findAll();
-	}
+//	@Override
+//	public List<Book> listBook() {
+////	    Pageable pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "id"));
+////        return bookRepository.findAll(pageable).getContent();
+//		return bookRepository.findAll();
+//	}
+	
+	public Page<Book> listBook(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
 
 	@Override
 	@Transactional
@@ -153,6 +159,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<Book> searchBook(String key) {
+		if(key.equalsIgnoreCase("flashsale")) {
+			return bookRepository.findBooksOnFlashSale();
+		}
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Book> query = cb.createQuery(Book.class);
         Root<Book> book = query.from(Book.class);

@@ -50,7 +50,7 @@ function cancelOrder(orderId) {
 }
 async function orderDetail(orderIndex, orderItemBookIndex) {
     $("#orderDetailModal").modal('toggle');
-    const order = orders[orderIndex];
+    const order = orders[orderIndex];// Biến orders global
     const orderItemBook = order.orderItemBooks[orderItemBookIndex];
 
     // Tạo phần HTML cho roadmap
@@ -81,7 +81,7 @@ async function orderDetail(orderIndex, orderItemBookIndex) {
             <hr>
             <span class="d-block text-bg-danger">Mã sách: <span class="fw-bold">#${book.id}</span></span>
             <span class="d-block">Số lượng đặt: <span class="fw-bold">x${orderItem.quantity} cuốn</span></span>
-            <span class="d-block">CBM: <span class="fw-bold">${orderItem.totalWeightCBM} kg</span> (D x R x C) / 6000</span>
+            <span class="d-block">CBM: <span class="fw-bold">${orderItem.totalWeightCBM.toFixed(2)} kg</span> (D x R x C) / 6000</span>
             <hr>
             <h5>Thông Tin Vận Chuyển (nếu có):</h5>
             <span class="d-block text-bg-danger">Mã vận chuyển: <span class="fw-bold">#${order.shipOrder ? order.shipOrder.id : 'ĐH chưa xác nhận'}</span></span>

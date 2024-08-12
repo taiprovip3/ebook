@@ -4,7 +4,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -317,6 +319,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@Transactional
 	public void handOverOrder(long orderId) {
 		Order order = orderRepository.findById(orderId).orElse(null);
 		order.setOrderStatus(OrderStatus.TRANSPORTING);
@@ -331,6 +334,7 @@ public class OrderServiceImpl implements OrderService {
 				.build();
 		orderStatusRepository.save(orderStatus);
 		orderRepository.save(order);
+		System.out.println("Hand over order success!");
 	}
 
 	@Override
@@ -353,5 +357,27 @@ public class OrderServiceImpl implements OrderService {
 				.build();
 		orderStatusRepository.save(orderStatus);
 		return orderRepository.save(order);
+	}
+
+	@Override
+	public List<Integer> getAllYears() {
+		return orderRepository.findAllYearsWithOrders();
+	}
+
+	@Override
+	public Map<Integer, Double> getRevenueDataForYear(int year) {
+		List<Object[]> results = orderRepository.findMonthlyRevenueByYear(year);
+        Map<Integer, Double> revenueData = new HashMap<>();
+        for (Object[] result : results) {
+            Integer month = (Integer) result[0];
+            Double totalRevenue = (Double) result[1];
+            revenueData.put(month, totalRevenue);
+        }
+        // Đảm bảo trả về dữ liệu cho tất cả các tháng từ 1 đến 12
+        for (int i = 1; i <= 12; i++) {
+            revenueData.putIfAbsent(i, 0.0);
+        }
+        System.out.println("revenueData=" + revenueData);
+        return revenueData;
 	}
 }

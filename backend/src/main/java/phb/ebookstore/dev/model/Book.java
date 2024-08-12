@@ -2,6 +2,7 @@ package phb.ebookstore.dev.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -41,8 +42,8 @@ public class Book implements Serializable {
     private String title;
     private String author;
     private String publisher;
-    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp publicationDate;
+    @Column(columnDefinition="DATE")
+    private Date publicationDate;
     @Enumerated(EnumType.STRING)
     private Genre genre;
     @Enumerated(value = EnumType.STRING)

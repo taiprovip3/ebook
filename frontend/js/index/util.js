@@ -26,3 +26,34 @@ function updateCountdown() {
         clearInterval(interval);
     }
 }
+
+async function loadBooks(page, size) {
+    const data = await getBooks(page, size);
+    console.log('data=', data);
+    $('#pagination').empty();
+
+    const bookContainer = $("#bookContainer");
+    bookContainer.empty();
+    
+    const books = data.content
+
+    books.forEach(book => {
+        const bookHtml = `
+            <div class="col-1 text-center border me-2 p-1 small align-self-baseline crs book-card" data-id="${book.id}" data-bs-toggle="tooltip" title="${book.title}">
+                <img src="${book.coverImageUrl}" alt="" width="110" height="130">
+                <p class="d-block text-truncate">${book.title}</p>
+                <span class="flex-fill text-danger fw-bold">${formatVND(book.price)}</span>
+            </div>
+        `;
+        bookContainer.append(bookHtml);
+    });
+
+    // Add pagination links
+    for (let i = 0; i < data.totalPages; i++) {
+        $('#pagination').append(`
+            <li class="page-item ${i === page ? 'active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i + 1}</a>
+            </li>
+        `);
+    }
+}

@@ -132,3 +132,8 @@ const genreTranslations = {
     "DYSTOPIAN": "Hậu tận thế",
     "COMICS": "Truyện tranh"
 };
+
+const bookTypeTranslations = {
+    "FOREIGN": "SÁCH NƯỚC NGOÀI",
+    "DOMESTIC": "SÁCH TRONG NƯỚC",
+};

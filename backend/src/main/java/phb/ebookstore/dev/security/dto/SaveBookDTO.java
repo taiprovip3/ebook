@@ -1,6 +1,7 @@
 package phb.ebookstore.dev.security.dto;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class SaveBookDTO {
 	private Genre genre;
 	private String isbn;
 	private double price;
-	private Timestamp publicationDate;
+	private Date publicationDate;
 	private String publisher;
 	private int stockQuantity;
 	private BookType bookType;

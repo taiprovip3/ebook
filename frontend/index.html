@@ -67,7 +67,7 @@
                         <span class="fwl">. Nhanh tay kẻo lỡ nhé!</span>
                     </div>
                     <div class="d-flex align-items-center">
-                        <span class="text-danger text-decoration-underline crs">Xem tất cả <i class="fas fa-angle-right"></i></span>
+                        <a href="./search.html?key=flashsale" class="text-danger text-decoration-underline crs">Xem tất cả <i class="fas fa-angle-right"></i></a>
                     </div>
                 </div>
                 <hr>
@@ -279,7 +279,7 @@
                         <i class="fas fa-bars fwl text-danger"></i> <span class="fwl">Gợi Ý Khác Cho Bạn</span>
                         <hr>
                     </div>
-                    <div class="d-flex overflow-auto" id="bookContainer">
+                    <div class="d-flex flex-wrap mb-2" id="bookContainer">
                         <div class="col-1 text-center border me-2 p-1 small">
                             <img src="https://tiki.vn/blog/wp-content/uploads/2023/09/nHywstISaHVyMyvrEphzH5gAjQiVml9nhz1f1rVYq0NvfcmbxM_1DaixLAh2Nhw6on_NUWs60ZAPh5_A-dJiUAYw971x6BBnltywOpEb9T_aY0CGEhnJCMcKLr7ES3lL6rWJjK7BfyytLALjWOgFuko.png" alt="" width="110" height="130">
                             <p class="fixed-height-40 d-block">7 Chiến Lược Thịnh Vượng & Hạnh Phúc</p>
@@ -374,6 +374,12 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Pagination controls -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center" id="pagination">
+                            <!-- Pagination links will be inserted here -->
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -467,30 +473,17 @@
                     credentials: 'include', // Để gửi cookie trong request
                     success: function(userData) {
                         console.log('response=', userData);
-                        // Render data user info modal
-                        const htmlContent = `
-                            <dt class="col-sm-4">ID:</dt>
-                            <dd class="col-sm-8" id="userId">#${userData.id}</dd>
-
-                            <dt class="col-sm-4">Họ:</dt>
-                            <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
-
-                            <dt class="col-sm-4">Tên:</dt>
-                            <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
-
-                            <dt class="col-sm-4">Tên đầy đủ:</dt>
-                            <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
-
-                            <dt class="col-sm-4">Tên đăng nhập:</dt>
-                            <dd class="col-sm-8" id="userName">${userData.username}</dd>
-
-                            <dt class="col-sm-4">Email:</dt>
-                            <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
-
-                            <dt class="col-sm-4">Ngày tạo:</dt>
-                            <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
-                        `;
-                        $("#userInfoModalData").html(htmlContent);
+                        // Cập nhật dữ liệu vào các trường thông tin trong modal
+                        $('#userId').text(`#${userData.id}`);
+                        $('#userFirstName').text(userData.firstName);
+                        $('#userLastName').text(userData.lastName);
+                        $('#userFullName').text(`${userData.firstName} ${userData.lastName}`);
+                        $('#userName').text(userData.username);
+                        $('#userEmail').text(userData.email);
+                        $('#userCreatedAt').text(formatDate(userData.createdAt));
+                        $('#userAddress').text(userData.address || 'Chưa có thông tin'); // Thay đổi nếu có thông tin địa chỉ
+                        $('#userPhoneNumber').text(`(+84) ${userData.phoneNumber || 'Chưa có thông tin'}`); // Thay đổi nếu có thông tin số điện thoại
+                        // Cập nhật loginContent
                         const loginContentHtml = `
                             <i class="fas fa-user-check text-white fa-2x d-block"></i>
                             <a href="javascript:void(0);" class="text-white">Tài khoản</a>
@@ -502,8 +495,8 @@
                             </div>
                         `;
                         $("#accountMutable").html(loginContentHtml);
-    ;                },
-                    error: function(xhr, status, error) {
+                    }, error: function(xhr, status, error) {
+                        console.log(error);
                         toastr.error('http://localhost:8080/api/v1/users/whoiam error.');
                     }
                 });
@@ -600,7 +593,7 @@
                 const finalPrice = book.price - book.discount - book.flashSale;
                 const discountPercent = Math.round(((book.discount + book.flashSale) / book.price) * 100);
                 const bookHtml = `
-                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white crs book-card" style="background-color: #f72a3d;" data-id="${book.id}">
+                    <div class="col-2 border border rounded-3 p-3 mx-2 position-relative text-white crs book-card" style="background-color: #f72a3d;" data-id="${book.id}" data-bs-toggle="tooltip" title="${book.title}">
                         <div class="position-absolute top-0 start-0 m-1">
                             <img src="./images/hot_new.gif" alt="flash" width="32" height="32">
                         </div>
@@ -617,40 +610,40 @@
                 `;
                 flashSaleBookContainer.append(bookHtml);
             });
-
-            const bookContainer = $("#bookContainer");
-            bookContainer.empty();
-            const books = await getBooks();
-            books.forEach(book => {
-                const bookHtml = `
-                    <div class="col-1 text-center border me-2 p-1 small align-self-baseline crs book-card" data-id="${book.id}">
-                        <img src="${book.coverImageUrl}" alt="" width="110" height="130">
-                        <p class="d-block">${book.title}</p>
-                        <span class="flex-fill text-danger fw-bold">${formatVND(book.price)}</span>
-                    </div>
-                `;
-                bookContainer.append(bookHtml);
-            });
             
             const topSoldBookContainer = $("#topSoldBookContainer");
             topSoldBookContainer.empty();
             const topSoldBooks = await getTopSoldBooks();
             console.log('topSoldBooks=', topSoldBooks);
-            topSoldBooks.forEach(soldBookDTO => {
+            topSoldBooks.forEach(book => {
                 const bookHtml = `
-                    <div class="col-2 text-center border border-danger rounded-2 text-white me-2 p-3 small crs book-card" style="background-color: #ed4758;" data-id="${soldBookDTO.book.id}">
-                        <img src="${soldBookDTO.book.coverImageUrl}" alt="" width="110" height="130">
-                        <p class="fixed-height-40 d-block">${soldBookDTO.book.title}</p>
+                    <div class="col-2 text-center border border-danger rounded-2 text-white me-2 p-3 small crs book-card" style="background-color: #ed4758;" data-id="${book.book.id}" data-bs-toggle="tooltip" title="${book.title}">
+                        <img src="${book.book.coverImageUrl}" alt="" width="110" height="130">
+                        <p class="fixed-height-40 d-block">${book.book.title}</p>
                         <div class="d-flex">
-                            <span class="flex-fill fw-bold">${formatVND(soldBookDTO.book.price - soldBookDTO.book.discount)} đ</span>
-                            <span class="small">(Đã bán ${soldBookDTO.totalSold})</span>
+                            <span class="flex-fill fw-bold">${formatVND(book.book.price - book.book.discount)} đ</span>
+                            <span class="small">(Đã bán ${book.totalSold})</span>
                         </div>
                     </div>
                 `;
                 topSoldBookContainer.append(bookHtml);
             });
 
-            // 07. book-card event listener
+            // 07. Tải sách & render books
+            var currentPage = 0;
+            var pageSize = 44;
+
+            loadBooks(currentPage, pageSize);
+
+            // 08. Handle pagination click
+            $(document).on('click', '.page-link', function(e) {
+                e.preventDefault();
+                var page = $(this).data('page');
+                currentPage = page;
+                loadBooks(currentPage, pageSize);
+            });
+            
+            // 09. book-card event listener
             $('.book-card').on('click', function() {
                 const bookId = $(this).data('id');
                 window.location.href = `./book-detail.html?id=${bookId}`;

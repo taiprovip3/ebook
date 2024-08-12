@@ -1,37 +1,43 @@
 <!-- User Info Modal -->
-<div class="modal" id="userInfoModal">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userInfoModalLabel">Thông tin người dùng</h5>
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="userInfoModalLabel"><i class="fas fa-user"></i> Thông tin người dùng</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <dl class="row" id="userInfoModalData">
-                    <dt class="col-sm-4">ID:</dt>
+                <dl class="row">
+                    <dt class="col-sm-4"><i class="fas fa-id-badge"></i> ID:</dt>
                     <dd class="col-sm-8" id="userId"></dd>
 
-                    <dt class="col-sm-4">Họ:</dt>
+                    <dt class="col-sm-4"><i class="fas fa-user-tag"></i> Họ:</dt>
                     <dd class="col-sm-8" id="userFirstName"></dd>
 
-                    <dt class="col-sm-4">Tên:</dt>
+                    <dt class="col-sm-4"><i class="fas fa-user-tag"></i> Tên:</dt>
                     <dd class="col-sm-8" id="userLastName"></dd>
 
-                    <dt class="col-sm-4">Tên đầy đủ:</dt>
+                    <dt class="col-sm-4"><i class="fas fa-user"></i> Tên đầy đủ:</dt>
                     <dd class="col-sm-8" id="userFullName"></dd>
 
-                    <dt class="col-sm-4">Tên đăng nhập:</dt>
+                    <dt class="col-sm-4"><i class="fas fa-user-circle"></i> Tên đăng nhập:</dt>
                     <dd class="col-sm-8" id="userName"></dd>
 
-                    <dt class="col-sm-4">Email:</dt>
+                    <dt class="col-sm-4"><i class="fas fa-envelope"></i> Email:</dt>
                     <dd class="col-sm-8" id="userEmail"></dd>
 
-                    <dt class="col-sm-4">Ngày tạo:</dt>
+                    <dt class="col-sm-4"><i class="fas fa-calendar-alt"></i> Ngày tạo:</dt>
                     <dd class="col-sm-8" id="userCreatedAt"></dd>
+
+                    <dt class="col-sm-4"><i class="fas fa-home"></i> Địa chỉ:</dt>
+                    <dd class="col-sm-8" id="userAddress"></dd>
+
+                    <dt class="col-sm-4"><i class="fas fa-phone"></i> Số điện thoại:</dt>
+                    <dd class="col-sm-8" id="userPhoneNumber"></dd>
                 </dl>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Đóng</button>
             </div>
         </div>
     </div>

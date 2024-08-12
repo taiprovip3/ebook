@@ -1,5 +1,8 @@
 package phb.ebookstore.dev.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
+import phb.ebookstore.dev.entity.Role;
 import phb.ebookstore.dev.entity.User;
 import phb.ebookstore.dev.enumric.OrderStatus;
 import phb.ebookstore.dev.security.config.JwtService;
@@ -36,7 +40,11 @@ public class OrderController {
 	@Autowired
     private JwtService jwtUtil;
 	
-	@GetMapping("/list") // User dùng
+	/*
+	 * USER SECTION USING
+	 * 
+	 * */
+	@GetMapping("/list")
 	public ResponseEntity<?> list(@RequestHeader("Authorization") String token) {
 		if (token.startsWith("Bearer ")) {
             token = token.substring(7);
@@ -78,14 +86,18 @@ public class OrderController {
 	}
 	
 	
-	@GetMapping("/getUserOrders") // User dùng
+	/*
+	 * ADMIN SECTION USING
+	 * 
+	 * */
+	@GetMapping("/getUserOrders")
 	public ResponseEntity<?> getUserOrders(@RequestHeader("Authorization") String token) {
 		if (token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
 		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
 		User user = userService.getUserByEmail(username);
-		if(user == null) {
+		if(user == null || !user.getRole().equals(Role.ADMIN)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
 		}
 		
@@ -99,7 +111,7 @@ public class OrderController {
         }
 		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
 		User user = userService.getUserByEmail(username);
-		if(user == null) {
+		if(user == null || !user.getRole().equals(Role.ADMIN)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
 		}
 		
@@ -113,7 +125,7 @@ public class OrderController {
         }
 		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
 		User user = userService.getUserByEmail(username);
-		if(user == null) {
+		if(user == null || !user.getRole().equals(Role.ADMIN)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
 		}
 		
@@ -128,7 +140,7 @@ public class OrderController {
         }
 		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
 		User user = userService.getUserByEmail(username);
-		if(user == null) {
+		if(user == null || !user.getRole().equals(Role.ADMIN)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
 		}
 		
@@ -148,7 +160,7 @@ public class OrderController {
         }
 		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
 		User user = userService.getUserByEmail(username);
-		if(user == null) {
+		if(user == null || !user.getRole().equals(Role.ADMIN)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
 		}
 		
@@ -160,4 +172,34 @@ public class OrderController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	@GetMapping("/years")
+    public ResponseEntity<?> getAllYears(@RequestHeader("Authorization") String token) {
+		if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
+		User user = userService.getUserByEmail(username);
+		if(user == null || !user.getRole().equals(Role.ADMIN)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
+		}
+		
+        List<Integer> years = orderService.getAllYears();
+        return new ResponseEntity<>(years, HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue")
+    public ResponseEntity<?> getRevenueData(@RequestHeader("Authorization") String token, @RequestParam int year) {
+    	if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
+		User user = userService.getUserByEmail(username);
+		if(user == null || !user.getRole().equals(Role.ADMIN)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
+		}
+		
+        Map<Integer, Double> revenueData = orderService.getRevenueDataForYear(year);
+        return new ResponseEntity<>(revenueData, HttpStatus.OK);
+    }
 }

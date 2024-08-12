@@ -69,6 +69,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./order.html">Quản Lý Hóa Đơn</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./statistic.html">Thống Kê</a>
+                    </li>
                 </ul>
                 <!-- <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
@@ -86,27 +89,27 @@
             </div>
         </div>
         <input type="text" id="searchBar" class="form-control search-bar" placeholder="Search books...">
-        <table class="table table-bordered table-striped table-hover">
-            <thead class="table-dark">
+        <table class="table table-bordered table-hover">
+            <thead>
                 <tr>
                     <th scope="col" class="align-middle"><input type="checkbox" id="selectAll"></th>
-                    <th scope="col" class="align-middle">ID</th>
-                    <th scope="col" class="align-middle">Title</th>
-                    <th scope="col" class="align-middle">Author</th>
-                    <th scope="col" class="align-middle">Publisher</th>
-                    <th scope="col" class="align-middle">Publication Date</th>
-                    <th scope="col" class="align-middle">Price</th>
-                    <th scope="col" class="align-middle">Discount</th>
-                    <th scope="col" class="align-middle">Stocks</th>
-                    <th scope="col" class="align-middle">Genre</th>
-                    <th scope="col" class="align-middle">Type</th>
-                    <th scope="col" class="align-middle">Flash Sale</th>
-                    <th scope="col" class="align-middle">CBM (LxWxHxW)</th>
-                    <th scope="col" class="align-middle">Cover Image</th>
-                    <th scope="col" class="align-middle">Actions</th>
+                    <th scope="col" class="align-middle text-center">ID</th>
+                    <th scope="col" class="align-middle text-center">Title</th>
+                    <th scope="col" class="align-middle text-center">Author</th>
+                    <th scope="col" class="align-middle text-center">Publisher</th>
+                    <th scope="col" class="align-middle text-center">Publication Date</th>
+                    <th scope="col" class="align-middle text-center">Price</th>
+                    <th scope="col" class="align-middle text-center">Discount</th>
+                    <th scope="col" class="align-middle text-center">Stocks</th>
+                    <th scope="col" class="align-middle text-center">Genre</th>
+                    <th scope="col" class="align-middle text-center">Type</th>
+                    <th scope="col" class="align-middle text-center">Flash Sale</th>
+                    <th scope="col" class="align-middle text-center">CBM (LxWxHxW)</th>
+                    <th scope="col" class="align-middle text-center">Cover Image</th>
+                    <th scope="col" class="align-middle text-center">Actions</th>
                 </tr>
             </thead>
-            <tbody id="bookTable">
+            <tbody id="bookTable" class="small">
                 <!-- Rows will be added here by JavaScript -->
             </tbody>
         </table>
@@ -369,13 +372,13 @@
                     <td class="align-middle">${book.title}</td>
                     <td class="align-middle">${book.author}</td>
                     <td class="align-middle">${book.publisher}</td>
-                    <td class="align-middle">${book.publicationDate}</td>
-                    <td class="align-middle">${book.price.toFixed(2)} đ</td>
-                    <td class="align-middle">-${book.discount.toFixed(2)}đ</td>
+                    <td class="align-middle">${formatDate(book.publicationDate)}</td>
+                    <td class="align-middle">${formatVND(book.price)}</td>
+                    <td class="align-middle">-${formatVND(book.discount)}</td>
                     <td class="align-middle">${book.stockQuantity}</td>
-                    <td class="align-middle">${book.genre}</td>
+                    <td class="align-middle">${book.genre} (${genreTranslations[book.genre]})</td>
                     <td class="align-middle">${book.bookType}</td>
-                    <td class="align-middle">${book.flashSale} đ<br>End in: ${book.flashSaleExpired}</td>
+                    <td class="align-middle">${book.flashSale} đ<br>End in: ${formatDate(book.flashSaleExpired)}</td>
                     <td class="align-middle">${book.length}cm x ${book.width}cm x ${book.height}cm x ${book.weight} gram</td>
                     <td class="align-middle"><img src="${book.coverImageUrl}" widht="64" height="64" /></td>
                     <td class="action-btns align-middle">
@@ -597,30 +600,16 @@
                 credentials: 'include', // Để gửi cookie trong request
                 success: function(userData) {
                     console.log('response=', userData);
-                    // Render data user info modal
-                    const htmlContent = `
-                        <dt class="col-sm-4">ID:</dt>
-                        <dd class="col-sm-8" id="userId">#${userData.id}</dd>
-
-                        <dt class="col-sm-4">Họ:</dt>
-                        <dd class="col-sm-8" id="userFirstName">${userData.firstName}</dd>
-
-                        <dt class="col-sm-4">Tên:</dt>
-                        <dd class="col-sm-8" id="userLastName">${userData.lastName}</dd>
-
-                        <dt class="col-sm-4">Tên đầy đủ:</dt>
-                        <dd class="col-sm-8" id="userFullName">${userData.firstName} ${userData.lastName}</dd>
-
-                        <dt class="col-sm-4">Tên đăng nhập:</dt>
-                        <dd class="col-sm-8" id="userName">${userData.username}</dd>
-
-                        <dt class="col-sm-4">Email:</dt>
-                        <dd class="col-sm-8" id="userEmail">${userData.email}</dd>
-
-                        <dt class="col-sm-4">Ngày tạo:</dt>
-                        <dd class="col-sm-8" id="userCreatedAt">${formatDate(userData.createdAt)}</dd>
-                    `;
-                    $("#userInfoModalData").html(htmlContent);
+                    // Cập nhật dữ liệu vào các trường thông tin trong modal
+                    $('#userId').text(`#${userData.id}`);
+                    $('#userFirstName').text(userData.firstName);
+                    $('#userLastName').text(userData.lastName);
+                    $('#userFullName').text(`${userData.firstName} ${userData.lastName}`);
+                    $('#userName').text(userData.username);
+                    $('#userEmail').text(userData.email);
+                    $('#userCreatedAt').text(formatDate(userData.createdAt));
+                    $('#userAddress').text(userData.address || 'Chưa có thông tin'); // Thay đổi nếu có thông tin địa chỉ
+                    $('#userPhoneNumber').text(`(+84) ${userData.phoneNumber || 'Chưa có thông tin'}`); // Thay đổi nếu có thông tin số điện thoại
 ;                },
                 error: function(xhr, status, error) {
                     toastr.error('http://localhost:8080/api/v1/users/me error.');

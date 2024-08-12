@@ -3,17 +3,24 @@ package phb.ebookstore.dev.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import phb.ebookstore.dev.entity.Role;
+import phb.ebookstore.dev.entity.User;
 import phb.ebookstore.dev.security.auth.AuthenticationService;
+import phb.ebookstore.dev.security.config.JwtService;
 import phb.ebookstore.dev.security.dto.AuthenticationRequest;
 import phb.ebookstore.dev.security.dto.AuthenticationResponse;
+import phb.ebookstore.dev.security.dto.ChangePasswordRequest;
 import phb.ebookstore.dev.security.dto.RegisterRequest;
+import phb.ebookstore.dev.service.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +35,10 @@ import java.io.IOException;
 public class AuthenticationController {
 
 	private final AuthenticationService service;
+	@Autowired
+    private JwtService jwtUtil;
+	@Autowired
+	private UserService userService;
 
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
@@ -74,5 +85,25 @@ public class AuthenticationController {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+    }
+	
+	@PutMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestHeader("Authorization") String token, @RequestBody ChangePasswordRequest request) {
+		if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
+		User user = userService.getUserByEmail(username);
+		if(!user.getRole().equals(Role.USER)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized USER role access resource");
+		}
+		System.out.println("request=" + request);
+        boolean isPasswordChanged = userService.changePassword(username, request.getOldPassword(), request.getNewPassword());
+        
+        if (isPasswordChanged) {
+            return ResponseEntity.ok("Password changed successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to change password. Old password might be incorrect.");
+        }
     }
 }
