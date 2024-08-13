@@ -240,7 +240,8 @@ public class OrderServiceImpl implements OrderService {
 					.order(order)
 					.orderItemBooks(orderItemBooks)
 					.orderStatuses(orderStatuses)
-					.shipOrder(shipOrder).user(order.getUser())
+					.shipOrder(shipOrder)
+					.user(order.getUser())
 					.build();
 			listOrderDTO.add(dto);
 		}
@@ -379,5 +380,35 @@ public class OrderServiceImpl implements OrderService {
         }
         System.out.println("revenueData=" + revenueData);
         return revenueData;
+	}
+
+	@Override
+	public CustomOrderResponse findById(long orderId) {
+		Order order = orderRepository.findById(orderId).orElse(null);
+		// Lấy shipOrder
+		ShipOrder shipOrder = shipOrderRepository.findByOrder(order);
+		
+		// Lấy mảng orderItemBooks
+		List<OrderItemBook> orderItemBooks = new ArrayList<OrderItemBook>();
+		List<OrderItem> orderItems = order.getItems();
+		for (OrderItem orderItem : orderItems) {
+			OrderItemBook orderItemBook = OrderItemBook
+					.builder()
+					.orderItem(orderItem)
+					.book(orderItem.getBook())
+					.build();
+			orderItemBooks.add(orderItemBook);
+		}
+		
+		User user = order.getUser();
+		user.setOrders(null);// Giảm bớt dung lượng byte gói tin mảng orders của user
+		CustomOrderResponse dto = CustomOrderResponse
+				.builder()
+				.order(order)
+				.orderItemBooks(orderItemBooks)
+				.shipOrder(shipOrder)
+				.user(user)
+				.build();
+		return dto;
 	}
 }

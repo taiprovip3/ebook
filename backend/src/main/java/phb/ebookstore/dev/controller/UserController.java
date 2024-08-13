@@ -16,6 +16,7 @@ public class UserController {
 
 	@GetMapping("/whoiam")
 	public ResponseEntity<?> getUserById(@AuthenticationPrincipal User userPrincipal) {
+//		userPrincipal.setPass_word(null);
 		return ResponseEntity.ok(userPrincipal);
 	}
 	

@@ -13,4 +13,6 @@ import phb.ebookstore.dev.model.OrderItemRating;
 public interface OrderItemRatingRepository extends JpaRepository<OrderItemRating, Long> {
 	@Query(value = "SELECT oir.* FROM order_item_rating oir JOIN order_items oi ON oir.order_item_id = oi.id WHERE oi.book_id = :bookId", nativeQuery = true)
 	public List<OrderItemRating> getRatingsOfBook(@Param("bookId") long bookId);
+
+	public OrderItemRating findByOrderItemId(long orderItemId);
 }

@@ -137,6 +137,10 @@
 
 
 
+    <!-- Pdf Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="../js/Roboto-Regular-normal.js"></script>
 
     <div id="modals-container"></div>
     <script src="../js/get-alias.js"></script>
@@ -189,6 +193,9 @@
                 $.get("../modals/cancel-order-modal.html", function(data) {
                     $("#modals-container").append(data);
                 }),
+                $.get("../modals/view-rating-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
             ).done(function() {
                 console.log("Tất cả các modal đã được tải xong");
             }).fail(function() {
@@ -232,12 +239,77 @@
         async function viewOrderStatuses(orderId) {
             alert('View con card');
         }
-        async function reviewRating(orderId) {
-            alert('Review con cá vàng');
+        async function viewPdfOrder(orderId) {
+            const orderData = await getOrderById(orderId);
+            console.log('orderData=', orderData);
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Nhúng font tùy chỉnh (thêm font theo cách bạn đã chuyển đổi)
+            // doc.addFileToVFS("Roboto-Regular.ttf", "Base64-encoded-data-here");
+            // doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+            doc.setFont("Roboto-Regular", "normal"); // Sử dụng font Roboto cho nội dung PDF
+
+            // Thêm tiêu đề
+            doc.setFontSize(18, null, "bold");
+            doc.text("EBOOKSTORE", 105, 15, null, null, "center");
+            doc.text("Order Invoice", 105, 25, null, null, "center");
+
+            // Thêm thông tin khách hàng và địa chỉ giao hàng
+            doc.setFontSize(12);
+            doc.text(`Customer Name: ${orderData.user.firstName} ${orderData.user.lastName}`, 10, 40);
+            doc.text(`Phone Number: ${orderData.user.phoneNumber}`, 10, 50);
+            doc.text(`Email: ${orderData.user.email}`, 10, 60);
+            doc.text(`Delivery Address: ${orderData.order.deliveryAddress}`, 10, 70);
+            
+            // Thêm thông tin đơn hàng
+            doc.text(`Order ID: ${orderData.order.id}`, 10, 90);
+            doc.text(`Order Date: ${new Date(orderData.order.orderDate).toLocaleString()}`, 10, 100);
+            doc.text(`Payment Method: ${orderData.order.paymentMethod}`, 10, 110);
+            doc.text(`Order Status: ${orderData.order.orderStatus}`, 10, 120);
+            doc.text(`Note: ${orderData.order.note}`, 10, 130);
+
+            // Thêm bảng sản phẩm
+            let startY = 150;
+            doc.setFontSize(14);
+            doc.text("Order Items", 10, startY);
+            
+            startY += 10;
+            doc.setFontSize(12);
+            doc.text("Title", 10, startY);
+            doc.text("Quantity", 100, startY);
+            doc.text("Price", 140, startY);
+            doc.text("Total", 180, startY);
+
+            orderData.orderItemBooks.forEach((item, index) => {
+                startY += 10;
+                doc.text(item.book.title, 10, startY);
+                doc.text(`${item.orderItem.quantity}`, 100, startY);
+                doc.text(`${item.orderItem.price.toLocaleString()} VND`, 140, startY);
+                doc.text(`${(item.orderItem.price * item.orderItem.quantity).toLocaleString()} VND`, 180, startY);
+            });
+
+            // Thêm tổng cộng
+            startY += 20;
+            doc.text(`Total Product Price: ${orderData.order.totalProductPrice.toLocaleString()} VND`, 10, startY);
+            doc.text(`Discount: -${orderData.order.totalDiscountPrice.toLocaleString()} VND`, 10, startY + 10);
+            doc.text(`Shipping: ${orderData.order.totalShippingPrice.toLocaleString()} VND`, 10, startY + 20);
+            doc.setFontSize(14);
+            doc.text(`Total: ${orderData.order.totalPrice.toLocaleString()} VND`, 10, startY + 30);
+
+            // Hiển thị PDF trong một cửa sổ mới
+            // doc.output("dataurlnewwindow");
+
+            // Tạo blob từ PDF và mở trong tab mới
+            const pdfBlob = doc.output("blob");
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            window.open(pdfUrl, "_blank");
+
+            // Hoặc tải xuống PDF
+            // doc.save(`Order_${orderData.order.id}.pdf`);
         }
-        async function printOrder(orderId) {
-            alert('In con cá');
-        }
+
         async function handOverOrder(orderId) {
             if (confirm('Are you sure?') == true) {
                 const accessToken = sessionStorage.getItem('admin_access_token');
@@ -304,21 +376,21 @@
                     let complexContent = '';
                     complexContent += `
                         <div class="d-flex">
-                            <div class="col-8 pe-lg-3">
-                                <span class="d-block text-bg-danger">Mã đơn hàng: <span class="fw-bold">#${order.order.id}</span> (${order.orderItemBooks.length} sản phẩm)</span>
-                                <span class="d-block">Ngày đặt hàng: <span class="fw-bold">${formatDate(order.order.orderDate)}</span> (~${timeAgo(order.order.orderDate)})</span>
-                                <span class="d-block">Khách hàng: <span class="fw-bold">${order.user.firstName} ${order.user.lastName}</span></span>
-                                <span class="d-block">Phương thức thanh toán: <span class="fw-bold">${order.order.paymentMethod}</span></span>
-                                <span class="d-block">Địa chỉ Delivery: <span class="fw-bold">${order.order.deliveryAddress}</span></span>
-                                <span class="d-block">Số điện thoại: <span class="fw-bold">${order.user.phoneNumber}</span></span>
-                            </div>
-                            <div class="col-4 ps-lg-3 text-end border-start">
-                                <span class="d-block text-bg-danger">Tổng tiền sẽ nhận được: <span class="fw-bold">${formatVND(order.order.totalPrice)}</span></span>
-                                <span class="d-block">Tổng tiền hàng Đơn hàng: <span class="fw-bold">${formatVND(order.order.totalProductPrice)}</span></span>
-                                <span class="d-block">Tiền ship ước tính: <span class="fw-bold">${formatVND(order.order.totalShippingPrice)}</span></span>
-                                <span class="d-block">Áp mã giảm giá KH: <span class="fw-bold">-${formatVND(order.order.totalDiscountPrice)}</span></span>
-                                <span class="d-block">Lưu ý của KH: <span class="fw-bold">${order.order.note}</span></span>
-                            </div>
+                            <ul class="list-group list-group-flush col-8 pe-lg-3">
+                                <li class="list-group-item active d-block text-bg-danger">Mã đơn hàng: <span class="fw-bold">#${order.order.id}</span> (${order.orderItemBooks.length} sản phẩm)</li>
+                                <li class="list-group-item d-block">Ngày đặt hàng: <span class="fw-bold">${formatDate(order.order.orderDate)}</span> (~${timeAgo(order.order.orderDate)})</li>
+                                <li class="list-group-item d-block">Khách hàng: <span class="fw-bold">${order.user.firstName} ${order.user.lastName}</span></li>
+                                <li class="list-group-item d-block">Phương thức thanh toán: <span class="fw-bold">${order.order.paymentMethod}</span></li>
+                                <li class="list-group-item d-block">Địa chỉ Delivery: <span class="fw-bold">${order.order.deliveryAddress}</span></li>
+                                <li class="list-group-item d-block">Số điện thoại: <span class="fw-bold">${order.user.phoneNumber}</span></li>
+                            </ul>
+                            <ul class="list-group list-group-flush col-4 ps-lg-3 text-end border-start">
+                                <li class="list-group-item d-block text-bg-danger">Tổng tiền sẽ nhận được: <span class="fw-bold">${formatVND(order.order.totalPrice)}</span></li>
+                                <li class="list-group-item d-block">Tổng tiền hàng Đơn hàng: <span class="fw-bold">${formatVND(order.order.totalProductPrice)}</span></li>
+                                <li class="list-group-item d-block">Tiền ship ước tính: <span class="fw-bold">${formatVND(order.order.totalShippingPrice)}</span></li>
+                                <li class="list-group-item d-block">Áp mã giảm giá KH: <span class="fw-bold">-${formatVND(order.order.totalDiscountPrice)}</span></li>
+                                <li class="list-group-item d-block">Lưu ý của KH: <span class="fw-bold">${order.order.note}</span></li>
+                            </ul>
                         </div>
                     `;
                     const latestOrderStatusMessage = order.orderStatuses[0].description;
@@ -337,16 +409,16 @@
                             buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="handOverOrder(${order.order.id});">Đã bàn giao cho ĐVVC</button>`;
                         }
                         if(order.order.orderStatus == 'TRANSPORTING') {
-                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="printOrder(${order.order.id});">In hóa đơn</button>`;
+                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="viewPdfOrder(${order.order.id});">In hóa đơn</button>`;
                         }
                         if(order.order.orderStatus == 'AWAIT_RATING') {
-                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="reviewRating(${order.order.id});">Xem đánh giá</button>`;
+                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" data-order-item='${JSON.stringify(orderItemBook)}' onclick="reviewRating(this);">Xem đánh giá</button>`;
                         }
                         if(order.order.orderStatus == 'COMPLETE') {
                             buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="viewOrderStatuses(${order.order.id});">Xem lịch sử</button>`;
                         }
                         complexContent += `
-                            <div>
+                            <div class="p-3" style="border: 1px solid grey; border-style: dashed;">
                                 <div class="d-flex">
                                     <div class="flex-fill">
                                         <span class="text-bg-warning text-dark"><i class="fas fa-bullhorn">:</i> ${latestOrderStatusMessage}</span>
@@ -378,12 +450,12 @@
                         .addClass('orderContainer mb-3 p-4')
                         .html(complexContent)
                         .appendTo(ordersContainer)
-                        .css({ "border": "1px solid black", "border-style": "dashed" })
+                        .css({ "background": "#faf7f7" })
                         .mouseenter(function() {
                             $(this).css({"border": "2px solid black", "border-style": "dashed"});
                         })
                         .mouseleave(function() {
-                            $(this).css({"border": "1px solid black", "border-style": "dashed", "font-size": "unset"});
+                            $(this).css({"border": "unset", "border-style": "unset", "font-size": "unset"});
                         });
                 });
             }
@@ -429,6 +501,18 @@
             }
             return $.ajax({
                 url: `http://localhost:8080/api/v1/order/list/${orderStatus}`,
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                },
+                contentType: 'application/json',
+                credentials: 'include', // Để gửi cookie trong request
+            }).then((data) => data);
+        }
+        async function getOrderById(orderId) {
+            const accessToken = window.sessionStorage.getItem('admin_access_token');
+            return $.ajax({
+                url: `http://localhost:8080/api/v1/order/${orderId}`,
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);

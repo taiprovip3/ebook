@@ -1,0 +1,64 @@
+<!-- View Rating Modal -->
+<div class="modal" id="viewRatingModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">View Rating Order Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="ratingContainer">
+                    <!-- dynamic -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    async function reviewRating(button) {
+        const orderItemJson = button.getAttribute('data-order-item');
+        const orderItemBook = JSON.parse(orderItemJson);
+        const orderItemId = orderItemBook.orderItem.id;
+        const review = await getOrderItemRating(orderItemId);
+        console.log("review=", review); // review = null: ko có đánh giá
+        const ratingContainer = $("#ratingContainer");
+        if(!review) {
+            ratingContainer.html(`<i class="far fa-frown-open"></i><span>Rất tiếc, người mua vẫn chưa đánh giá về cuốn sách này!</span>`);
+        } else {
+            const html = `
+                <div class="d-flex">
+                    <div class="col-2">
+                        <img src="${orderItemBook.book.coverImageUrl}" alt="coverImageUrlBook" width="64" height="64" class="d-block" />
+                        <span class="d-block">${orderItemBook.book.title}</span>
+                        <span class="fw-bold">x${orderItemBook.orderItem.quantity}</span>
+                    </div>
+                    <div class="col-2">
+                        <div class="d-flex align-items-center">
+                            <i class="far fa-user-circle"></i><span>User</span>&emsp13;
+                            <i class="fas fa-pencil-alt text-warning"></i>&emsp;
+                        </div>
+                        <span class="d-block">${review.ratingStars}⭐ (${review.ratingStars}/5)</span>
+                        <span class="small">${formatDate(review.createAt)} (${timeAgo(review.createAt)})</span>
+                    </div>
+                    <div class="col-8">
+                        <p class="fst-italic">${review.comment}</p>    
+                    </div>
+                </div>
+            `;
+            ratingContainer.html(html);
+        }
+        $("#viewRatingModal").modal('toggle');
+    }
+    async function getOrderItemRating(orderItemId) {
+        const accessToken = window.sessionStorage.getItem('admin_access_token');
+        return $.ajax({
+            url: `http://localhost:8080/api/v1/order-item/rating/${orderItemId}`,
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+            },
+            contentType: 'application/json',
+            credentials: 'include', // Để gửi cookie trong request
+        }).then((data) => data);
+    }
+</script>

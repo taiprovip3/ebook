@@ -44,6 +44,18 @@ public class OrderController {
 	 * USER SECTION USING
 	 * 
 	 * */
+	@GetMapping("/{orderId}")
+	public ResponseEntity<?> getOrderById(@RequestHeader("Authorization") String token, @PathVariable long orderId) {
+		if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
+		User user = userService.getUserByEmail(username);
+		if(user == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized role access resource");
+		}
+		return ResponseEntity.ok(orderService.findById(orderId));
+	}
 	@GetMapping("/list")
 	public ResponseEntity<?> list(@RequestHeader("Authorization") String token) {
 		if (token.startsWith("Bearer ")) {

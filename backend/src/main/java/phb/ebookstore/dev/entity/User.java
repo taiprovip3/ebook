@@ -27,6 +27,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import phb.ebookstore.dev.model.Order;
+import phb.ebookstore.dev.model.OrderItemRating;
 
 @Data
 @Builder
@@ -56,6 +57,10 @@ public class User implements UserDetails {
 	@JsonManagedReference
     private List<Order> orders;
 	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@JsonManagedReference
+    private List<OrderItemRating> ratings;
+	
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
@@ -67,6 +72,8 @@ public class User implements UserDetails {
 	public String getUsername() {
 		return email;
 	}
+	
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		return pass_word;

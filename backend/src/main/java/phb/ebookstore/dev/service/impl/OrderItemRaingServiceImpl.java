@@ -20,4 +20,9 @@ public class OrderItemRaingServiceImpl implements OrderItemRatingService {
 		return orderItemRatingRepository.getRatingsOfBook(bookId);
 	}
 
+	@Override
+	public OrderItemRating getRatingOfBook(long orderItemId) {
+		return orderItemRatingRepository.findByOrderItemId(orderItemId);
+	}
+
 }

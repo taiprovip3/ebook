@@ -20,4 +20,5 @@ public interface OrderService {
 	public Order cancelOrder(long orderId, String reason);
 	public List<Integer> getAllYears();
 	public Map<Integer, Double> getRevenueDataForYear(int year);
+	public CustomOrderResponse findById(long orderId);
 }
