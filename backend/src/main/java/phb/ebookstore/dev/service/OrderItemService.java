@@ -6,4 +6,5 @@ import java.util.Map;
 public interface OrderItemService {
 	public List<Map<String, Object>> findTopSellingBooks();
 	public int getTotalSoldOfBook(long bookId);
+	public List<Map<String, Object>> getTotalSoldOfBooks();
 }

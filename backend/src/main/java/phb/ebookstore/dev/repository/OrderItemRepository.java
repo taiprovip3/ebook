@@ -13,4 +13,12 @@ import phb.ebookstore.dev.security.dto.BookSoldDTO;
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 	@Query("SELECT new phb.ebookstore.dev.security.dto.BookSoldDTO(oi.book.id, COUNT(oi.book.id)) FROM OrderItem oi GROUP BY oi.book.id ORDER BY COUNT (oi.book.id) DESC")
 	public List<BookSoldDTO> findTopSellingBooks();
+	
+	@Query("SELECT oi.book.title, SUM(oi.quantity) AS totalSold " +
+           "FROM OrderItem oi " +
+           "JOIN oi.order o " +
+           "WHERE o.orderStatus = 'COMPLETE' " +
+           "GROUP BY oi.book.title " +
+           "ORDER BY totalSold DESC")
+    public List<Object[]> getTotalSoldOfBooks();
 }

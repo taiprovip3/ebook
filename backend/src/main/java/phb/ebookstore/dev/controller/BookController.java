@@ -1,6 +1,7 @@
 package phb.ebookstore.dev.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -91,7 +92,12 @@ public class BookController {
 	}
 	
 	
-	// Admin/Management using
+	/**
+	 *  Admin/Management using
+	 * @param token
+	 * @param file
+	 * @return
+	 */
 	@PostMapping("/upload-image")
     public ResponseEntity<?> uploadBookCoverImage(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {
 		if (token.startsWith("Bearer ")) {
@@ -158,4 +164,19 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete books.");
         }
 	}
+	
+	@GetMapping("/top-selling")
+    public ResponseEntity<?> getTopSellingBooks(@RequestHeader("Authorization") String token) {
+		if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+		String username = jwtUtil.extractUsername(token); // Là username do trong UserDetail của security nó quy định là username
+		User user = userService.getUserByEmail(username);
+		if(user.getRole().equals(Role.USER)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized Admin or Management role");
+		}
+		
+        List<Map<String, Object>> totalSoldOfBooks = orderItemService.getTotalSoldOfBooks();
+        return ResponseEntity.ok(totalSoldOfBooks);
+    }
 }

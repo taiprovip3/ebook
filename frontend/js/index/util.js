@@ -35,7 +35,7 @@ async function loadBooks(page, size) {
     const bookContainer = $("#bookContainer");
     bookContainer.empty();
     
-    const books = data.content
+    const books = data.content;
 
     books.forEach(book => {
         const bookHtml = `

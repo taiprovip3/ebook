@@ -1,0 +1,243 @@
+<!-- Book Modal -->
+<div class="modal fade" id="saveBookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookModalLabel">Add/Edit Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bookForm">
+                    <input type="hidden" id="bookId">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="isbn" class="form-label">ISBN</label>
+                            <input type="text" class="form-control" id="isbn">
+                        </div>
+                        <div class="col">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="author" class="form-label">Author</label>
+                            <input type="text" class="form-control" id="author">
+                        </div>
+                        <div class="col">
+                            <label for="publisher" class="form-label">Publisher</label>
+                            <input type="text" class="form-control" id="publisher">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="publicationDate" class="form-label">Publication Date</label>
+                            <input type="date" class="form-control" id="publicationDate" value="2024-01-01">
+                        </div>
+                        <div class="col">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" step="0.01">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="stockQuantity" class="form-label">Stock Quantity</label>
+                            <input type="number" class="form-control" id="stockQuantity">
+                        </div>
+                        <div class="col">
+                            <label for="genre" class="form-label">Genre</label>
+                            <select id="genre" class="form-select">
+                                <option value="FICTION">Fiction (Hư cấu)</option>
+                                <option value="NON_FICTION">Non-fiction (Phi hư cấu)</option>
+                                <option value="MYSTERY">Mystery (Bí ẩn)</option>
+                                <option value="THRILLER">Thriller (Hồi hộp)</option>
+                                <option value="FANTASY">Fantasy (Huyền bí)</option>
+                                <option value="ROMANCE">Romance (Lãng mạn)</option>
+                                <option value="HISTORICAL">Historical (Lịch sử)</option>
+                                <option value="POETRY">Poetry (Thơ)</option>
+                                <option value="DRAMA">Drama (Kịch)</option>
+                                <option value="HORROR">Horror (Kinh dị)</option>
+                                <option value="SCIENCE_FICTION">Science Fiction (Khoa học viễn tưởng)</option>
+                                <option value="CONTEMPORARY">Contemporary (Đương đại)</option>
+                                <option value="CLASSICS">Classics (Kinh điển)</option>
+                                <option value="ADVENTURE">Adventure (Phiêu lưu)</option>
+                                <option value="DYSTOPIAN">Dystopian (Hậu tận thế)</option>
+                                <option value="COMICS">Comics (Truyện cười)</option>
+                                <option value="MICROECONOMICS">Microeconomics (Kinh tế vi mô)</option>
+                                <option value="MACROECONOMICS">Macroeconomics (Kinh tế vĩ mô)</option>
+                                <option value="ECONOMIC_THEORY">Economic Theory (Lý thuyết kinh tế)</option>
+                                <option value="DEVELOPMENT_ECONOMICS">Development Economics (Kinh tế phát triển)</option>
+                                <option value="INTERNATIONAL_ECONOMICS">International Economics (Kinh tế quốc tế)</option>
+                                <option value="BEHAVIORAL_ECONOMICS">Behavioral Economics (Kinh tế hành vi)</option>
+                                <option value="PUBLIC_ECONOMICS">Public Economics (Kinh tế công)</option>
+                                <option value="ENVIRONMENTAL_ECONOMICS">Environmental Economics (Kinh tế môi trường)</option>
+                                <option value="ECONOMETRICS">Econometrics (Kinh tế lượng)</option>
+                                <option value="LABOR_ECONOMICS">Labor Economics (Kinh tế lao động)</option>
+                                <option value="FINANCIAL_ECONOMICS">Financial Economics (Kinh tế tài chính)</option>
+                                <option value="HEALTH_ECONOMICS">Health Economics (Kinh tế y tế)</option>
+                                <option value="INDUSTRIAL_ORGANIZATION">Industrial Organization (Tổ chức công nghiệp)</option>
+                                <option value="SELF_HELP">Self Help (Tự giúp đỡ bản thân)</option>
+                                <option value="PERSONAL_DEVELOPMENT">Personal Development (Phát triển cá nhân)</option>
+                                <option value="EMOTIONAL_INTELLIGENCE">Emotional Intelligence (Trí tuệ cảm xúc)</option>
+                                <option value="MINDFULNESS">Mindfulness (Chánh niệm)</option>
+                                <option value="STRESS_MANAGEMENT">Stress Management (Quản lý căng thẳng)</option>
+                                <option value="TIME_MANAGEMENT">Time Management (Quản lý thời gian)</option>
+                                <option value="COMMUNICATION_SKILLS">Communication Skills (Kỹ năng giao tiếp)</option>
+                                <option value="CONFLICT_RESOLUTION">Conflict Resolution (Giải quyết xung đột)</option>
+                                <option value="MOTIVATION">Motivation (Động lực)</option>
+                                <option value="LEADERSHIP">Leadership (Lãnh đạo)</option>
+                                <option value="RESILIENCE">Resilience (Khả năng phục hồi)</option>
+                                <option value="DECISION_MAKING">Decision Making (Ra quyết định)</option>
+                                <option value="RELATIONSHIP_BUILDING">Relationship Building (Xây dựng mối quan hệ)</option>
+                                <option value="SELF_AWARENESS">Self Awareness (Nhận thức về bản thân)</option>
+                                <option value="PICTURE_BOOKS">Picture Books (Sách tranh)</option>
+                                <option value="BOARD_BOOKS">Board Books (Sách bìa cứng)</option>
+                                <option value="EARLY_READERS">Early Readers (Sách đọc sớm)</option>
+                                <option value="CHAPTER_BOOKS">Chapter Books (Sách chương)</option>
+                                <option value="MIDDLE_GRADE">Middle Grade (Sách trung học)</option>
+                                <option value="YOUNG_ADULT">Young Adult (Sách thiếu niên)</option>
+                                <option value="FAIRY_TALES">Fairy Tales (Truyện cổ tích)</option>
+                                <option value="EDUCATIONAL">Educational (Giáo dục)</option>
+                                <option value="ANIMAL_STORIES">Animal Stories (Câu chuyện về động vật)</option>
+                                <option value="EASY_READERS">Easy Readers (Sách đọc dễ)</option>
+                                <option value="HUMOR">Humor (Hài hước)</option>
+                                <option value="BEDTIME_STORIES">Bedtime Stories (Câu chuyện trước khi đi ngủ)</option>
+                                <option value="FABLES">Fables (Huyền thoại)</option>
+                                <option value="PARENTING_GUIDES">Parenting Guides (Hướng dẫn nuôi dạy con)</option>
+                                <option value="CHILD_DEVELOPMENT">Child Development (Phát triển trẻ em)</option>
+                                <option value="POSITIVE_PARENTING">Positive Parenting (Nuôi dạy tích cực)</option>
+                                <option value="DISCIPLINE">Discipline (Kỷ luật)</option>
+                                <option value="PARENTING_STYLES">Parenting Styles (Phong cách nuôi dạy)</option>
+                                <option value="SINGLE_PARENTING">Single Parenting (Nuôi dạy con một mình)</option>
+                                <option value="WORK_LIFE_BALANCE">Work-Life Balance (Cân bằng công việc và cuộc sống)</option>
+                                <option value="PARENTING_CHALLENGES">Parenting Challenges (Thách thức trong nuôi dạy)</option>
+                                <option value="SPECIAL_NEEDS">Special Needs (Nhu cầu đặc biệt)</option>
+                                <option value="FAMILY_RELATIONSHIPS">Family Relationships (Mối quan hệ gia đình)</option>
+                                <option value="PARENTING_TIPS">Parenting Tips (Mẹo nuôi dạy)</option>
+                                <option value="AUTOBIOGRAPHY">Autobiography (Tự truyện)</option>
+                                <option value="MEMOIR">Memoir (Hồi ký)</option>
+                                <option value="BIOGRAPHY">Biography (Tiểu sử)</option>
+                                <option value="DIARY">Diary (Nhật ký)</option>
+                                <option value="PERSONAL_NARRATIVE">Personal Narrative (Tường thuật cá nhân)</option>
+                                <option value="AUTOBIOGRAPHICAL_NOVEL">Autobiographical Novel (Tiểu thuyết tự truyện)</option>
+                                <option value="HISTORICAL_MEMOIR">Historical Memoir (Hồi ký lịch sử)</option>
+                                <option value="CELEBRITY_MEMOIR">Celebrity Memoir (Hồi ký của người nổi tiếng)</option>
+                                <option value="TEXTBOOK">Textbook (Sách giáo khoa)</option>
+                                <option value="REFERENCE_BOOK">Reference Book (Sách tham khảo)</option>
+                                <option value="WORKBOOK">Workbook (Sách bài tập)</option>
+                                <option value="GUIDE">Guide (Hướng dẫn)</option>
+                                <option value="HANDBOOK">Handbook (Cẩm nang)</option>
+                                <option value="ENCYCLOPEDIA">Encyclopedia (Từ điển bách khoa)</option>
+                                <option value="ATLAS">Atlas (Atlas)</option>
+                                <option value="DICTIONARY">Dictionary (Từ điển)</option>
+                                <option value="MANUAL">Manual (Sổ tay)</option>
+                                <option value="TEXTBOOK_SERIES">Textbook Series (Bộ sách giáo khoa)</option>
+                                <option value="LANGUAGE_TEXTBOOK">Language Textbook (Sách giáo khoa ngoại ngữ)</option>
+                                <option value="GRAMMAR_GUIDE">Grammar Guide (Hướng dẫn ngữ pháp)</option>
+                                <option value="VOCABULARY_BOOK">Vocabulary Book (Sách từ vựng)</option>
+                                <option value="LANGUAGE_WORKBOOK">Language Workbook (Sách bài tập ngoại ngữ)</option>
+                                <option value="PHRASEBOOK">Phrasebook (Sách cụm từ)</option>
+                                <option value="CONVERSATION_GUIDE">Conversation Guide (Hướng dẫn hội thoại)</option>
+                                <option value="AUDIO_LINGUAL_BOOK">Audio-Lingual Book (Sách học ngôn ngữ qua audio)</option>
+                                <option value="LANGUAGE_EXERCISES">Language Exercises (Bài tập ngôn ngữ)</option>
+                                <option value="LANGUAGE_COURSEBOOK">Language Coursebook (Sách khóa học ngôn ngữ)</option>
+                                <option value="LANGUAGE_DICTIONARY">Language Dictionary (Từ điển ngôn ngữ)</option>
+                                <option value="CULTURE_GUIDE">Culture Guide (Hướng dẫn văn hóa)</option>
+                                <option value="LANGUAGE_ATHLETICS">Language Athletics (Sách luyện tập ngôn ngữ)</option>
+                                <option value="COOKING">Cooking (Nấu ăn)</option>
+                                <option value="TRAVEL">Travel (Du lịch)</option>
+                                <option value="HEALTH">Health (Sức khỏe)</option>
+                                <option value="ART">Art (Nghệ thuật)</option>
+                                <option value="MUSIC">Music (Âm nhạc)</option>
+                                <option value="RELIGION">Religion (Tôn giáo)</option>
+                                <option value="SPIRITUALITY">Spirituality (Tinh thần)</option>
+                                <option value="SCIENCE">Science (Khoa học)</option>
+                                <option value="PHILOSOPHY">Philosophy (Triết học)</option>
+                                <option value="BUSINESS">Business (Kinh doanh)</option>
+                                <option value="EDUCATION">Education (Giáo dục)</option>
+                                <option value="GRAPHIC_NOVEL">Graphic Novel (Tiểu thuyết đồ họa)</option>
+                                <option value="SPORTS">Sports (Thể thao)</option>
+                                <option value="TECHNOLOGY">Technology (Công nghệ)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                        <div class="col">
+                            <label for="bookType" class="form-label">Book Type</label>
+                            <select class="form-select" id="bookType">
+                                <option value="DOMESTIC">Domestic</option>
+                                <option value="FOREIGN">Foreign</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="coverImage" class="form-label">Cover Image</label>
+                            <input type="file" class="form-control" id="coverImage">
+                        </div>
+                        <div class="col">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsi4Q8x3VIgIjK_ryjfc3YuybVTAfoAO2arw4zPycn4uEIu2Nt0Ney1MFLaMLnbgccT7g&usqp=CAU" alt="coverImageUrl" width="64" height="64" id="coverImagePreview" />
+                        </div>
+                    </div>
+                    <p class="text-primary" data-bs-toggle="collapse" data-bs-target="#demo">Advanced <i class="fas fa-caret-down"></i></p>
+                    <div id="demo" class="collapse">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="discount" class="form-label">Discount</label>
+                                <input type="number" class="form-control" id="discount" value="0">
+                            </div>
+                            <div class="col">
+                                <label for="flashSale" class="form-label">Flash Sale (Nếu có)</label>
+                                <input type="number" class="form-control" id="flashSale" value="0">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="flashSaleExpired" class="form-label">Flash Sale Expired</label>
+                                <input type="date" class="form-control" id="flashSaleExpired" value="1970-01-01">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="theLength" class="form-label">Dài</label>
+                                <input type="number" class="form-control" id="theLength" placeholder="cm" value="270">
+                            </div>
+                            <div class="col">
+                                <label for="theWidth" class="form-label">Rộng</label>
+                                <input type="number" class="form-control" id="theWidth" placeholder="cm" value="240">
+                            </div>
+                            <div class="col">
+                                <label for="theHeight" class="form-label">Cao</label>
+                                <input type="number" class="form-control" id="theHeight" placeholder="cm" value="50">
+                            </div>
+                            <div class="col">
+                                <label for="theWeight" class="form-label">Cân nặng</label>
+                                <input type="number" class="form-control" id="theWeight" placeholder="gram" value="400">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary p-2" data-bs-dismiss="modal">Close <i class="fas fa-times"></i></button>
+                <button type="button" id="saveBookBtn" class="btn btn-primary p-2">Save <i class="far fa-save"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#coverImage').on('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#coverImagePreview').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

@@ -69,5 +69,20 @@ public class OrderItemServiceImpl implements OrderItemService {
 	public int getTotalSoldOfBook(long bookId) {
 		return bookRepository.getTotalSoldOfBook(bookId);
 	}
+
+	@Override
+	public List<Map<String, Object>> getTotalSoldOfBooks() {
+		List<Object[]> results = orderItemRepository.getTotalSoldOfBooks();
+        List<Map<String, Object>> topSellingBooks = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Map<String, Object> bookData = new HashMap<>();
+            bookData.put("title", result[0]);
+            bookData.put("totalSold", result[1]);
+            topSellingBooks.add(bookData);
+        }
+        
+        return topSellingBooks;
+	}
 	
 }

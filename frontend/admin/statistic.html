@@ -34,7 +34,7 @@
             height: 300px;
         }
 
-        #revenueChart {
+        #revenueChart, #topSellingChart {
             width: 100%;
             height: 100%;
         }
@@ -103,7 +103,14 @@
                     </div>
 
                     <!-- Div 2: Placeholder for future stats -->
-                    <div class="statistic-box"></div>
+                    <div class="statistic-box">
+                        <div class="chart-header">
+                            <h4 class="card-title">Top Selling Books</h4>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="topSellingChart"></canvas>
+                        </div>
+                    </div>
                     <!-- Div 3: Placeholder for future stats -->
                     <div class="statistic-box"></div>
                     <!-- Div 4: Placeholder for future stats -->
@@ -185,13 +192,13 @@
             });
 
 
-            // 04. Custom javascript specify
-            // Fake data for different years
-            // const revenueData = {
-            //     2023: [1200, 900, 1500, 2000, 1800, 2200, 2400, 2100, 1700, 1300, 1600, 1900],
-            //     2022: [1000, 1100, 1200, 1600, 1400, 1500, 1700, 1600, 1200, 1300, 1400, 1500],
-            //     2021: [800, 700, 900, 1100, 950, 1200, 1300, 1200, 800, 900, 1100, 1250]
-            // };
+            // 04. Statistic revenue
+                // Fake data for different years
+                // const revenueData = {
+                //     2023: [1200, 900, 1500, 2000, 1800, 2200, 2400, 2100, 1700, 1300, 1600, 1900],
+                //     2022: [1000, 1100, 1200, 1600, 1400, 1500, 1700, 1600, 1200, 1300, 1400, 1500],
+                //     2021: [800, 700, 900, 1100, 950, 1200, 1300, 1200, 800, 900, 1100, 1250]
+                // };
 
             // Initialize Chart
             const ctx = document.getElementById('revenueChart').getContext('2d');
@@ -292,8 +299,68 @@
                 // revenueChart.data.datasets[0].data = revenueData[selectedYear];
                 // revenueChart.update();
             });
-
             fetchYears();
+
+            // 05. Statistic topSoldOfBooks
+            const ctxTopSelling = document.getElementById('topSellingChart').getContext('2d');
+            let topSellingChart;
+
+            function renderTopSellingChart(data) {
+                if (topSellingChart) {
+                    topSellingChart.destroy();
+                }
+
+                const labels = data.map(item => item.title);
+                const quantities = data.map(item => item.totalSold);
+
+                topSellingChart = new Chart(ctxTopSelling, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Total Sold',
+                            data: quantities,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Quantity Sold'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Book Titles'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function fetchTopSellingBooks() {
+                const accessToken = sessionStorage.getItem('admin_access_token');
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/book/top-selling',
+                    method: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                    },
+                    credentials: 'include', // Để gửi cookie trong request
+                    success: function (data) {
+                        renderTopSellingChart(data);
+                    }
+                });
+            }
+
+            fetchTopSellingBooks();
         });
     </script>
 </body>
