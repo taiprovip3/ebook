@@ -196,6 +196,9 @@
                 $.get("../modals/view-rating-modal.html", function(data) {
                     $("#modals-container").append(data);
                 }),
+                $.get("../modals/order-detail-modal.html", function(data) {
+                    $("#modals-container").append(data);
+                }),
             ).done(function() {
                 console.log("Tất cả các modal đã được tải xong");
             }).fail(function() {
@@ -236,8 +239,61 @@
             $("#orderIdHidden").val(orderId);
             $("#cancelOrderModal").modal('toggle');
         }
-        async function viewOrderStatuses(orderId) {
-            alert('View con card');
+        async function viewOrderItemDetail(button) {
+            $("#orderDetailModal").modal('toggle');
+            const order = JSON.parse(button.getAttribute('data-order'));
+            const orderItemBook = JSON.parse(button.getAttribute('data-order-item-book'));
+            
+            // Tạo phần HTML cho roadmap
+            let roadMapHTML = '';
+            order.orderStatuses.forEach(status => {
+                roadMapHTML += `
+                    <div class="text-center">
+                        <i class="${status.classIcon} fa-2x text-success"></i><br>
+                        <span>${status.description}</span><br>
+                        <span class="text-secondary small">${new Date(status.time).toLocaleString()}</span>
+                    </div>
+                    ${status !== order.orderStatuses[order.orderStatuses.length - 1] ? 
+                        '<div class="position-relative mb-2" style="height: 50px;"><div class="vl" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div></div>' : ''
+                    }
+                `;
+            });
+            // Tạo phần HTML cho thông tin sản phẩm
+            const book = orderItemBook.book;
+            const orderItem = orderItemBook.orderItem;
+            const productInfoHTML = `
+                <div class="ps-2">
+                    <h5>Thông Tin Sản Phẩm</h5>
+                    <span class="d-block text-bg-danger">Mã đơn hàng: <span class="fw-bold">#${order.order.id}</span></span>
+                    <span class="d-block">Đặt vào lúc: <span class="fw-bold">${formatDate(order.order.orderDate)}</span></span>
+                    <span class="d-block">Ghi chú: <span class="fst-italic">${order.order.note}</span></span>
+                    <span class="d-block">Phương thức thanh toán: <span class="fst-italic">${order.order.paymentMethod}</span></span>
+                    <span class="d-block">Địa chỉ nhận hàng: <span class="fst-italic">${order.order.deliveryAddress}</span></span>
+                    <hr>
+                    <span class="d-block text-bg-danger">Mã sách: <span class="fw-bold">#${book.id}</span></span>
+                    <span class="d-block">Số lượng đặt: <span class="fw-bold">x${orderItem.quantity} cuốn</span></span>
+                    <span class="d-block">CBM: <span class="fw-bold">${orderItem.totalWeightCBM.toFixed(2)} kg</span> (D x R x C) / 6000</span>
+                    <div class="d-flex">
+                        <img src="${book.coverImageUrl}" alt="coverImageUrlBook" width="64" height="64" />&emsp13;
+                        <div>
+                            <span class="d-block">${book.title}</span>
+                            <span class="d-block">x${orderItem.quantity}</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5>Thông Tin Vận Chuyển (nếu có):</h5>
+                    <span class="d-block text-bg-danger">Mã vận chuyển: <span class="fw-bold">#${order.shipOrder ? order.shipOrder.id : 'ĐH chưa xác nhận'}</span></span>
+                    <span class="d-block">Billing Address: <span class="fw-bold">${order.shipOrder ? order.shipOrder.billingAddress : 'ĐH chưa xác nhận'}</span></span>
+                    <span class="d-block">Delivery Address: <span class="fw-bold">${order.shipOrder ? order.shipOrder.deliveryAddress : 'ĐH chưa xác nhận'}</span></span>
+                    <span class="d-block">Trọng lượng tối đa: <span class="fw-bold">${order.shipOrder ? formatNumber(order.shipOrder.maxWeight) : 'ĐH chưa xác nhận'} gram</span></span>
+                    <span class="d-block">Tiền thu (COD): <span class="fw-bold">${order.shipOrder ? order.shipOrder.codPrice.toLocaleString() : 'ĐH chưa xác nhận'} đ</span></span>
+                    <span class="d-block text-truncate">Chữ ký nhận hàng: <span class="fw-bold">${order.shipOrder ? order.shipOrder.signature : 'ĐH chưa xác nhận'}</span></span>
+                </div>
+            `;
+
+            // Render dữ liệu vào DOM
+            $('#roadMap').html(roadMapHTML);
+            $('#info').html(productInfoHTML);
         }
         async function viewPdfOrder(orderId) {
             const orderData = await getOrderById(orderId);
@@ -415,7 +471,7 @@
                             buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" data-order-item='${JSON.stringify(orderItemBook)}' onclick="reviewRating(this);">Xem đánh giá</button>`;
                         }
                         if(order.order.orderStatus == 'COMPLETE') {
-                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" onclick="viewOrderStatuses(${order.order.id});">Xem lịch sử</button>`;
+                            buttonAction = `<button type="button" class="btn btn-danger p-2 px-4" data-order='${JSON.stringify(order)}' data-order-item-book='${JSON.stringify(orderItemBook)}' onclick="viewOrderItemDetail(this);">Xem lịch sử</button>`;
                         }
                         complexContent += `
                             <div class="p-3" style="border: 1px solid grey; border-style: dashed;">

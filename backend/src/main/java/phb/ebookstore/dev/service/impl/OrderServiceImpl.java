@@ -385,6 +385,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public CustomOrderResponse findById(long orderId) {
 		Order order = orderRepository.findById(orderId).orElse(null);
+		// Lấy mảng orderStatuses
+		List<phb.ebookstore.dev.model.OrderStatus> orderStatuses = order.getOrderStatuses();
+		orderStatuses.sort(Comparator.comparing(phb.ebookstore.dev.model.OrderStatus::getId).reversed());
+					
 		// Lấy shipOrder
 		ShipOrder shipOrder = shipOrderRepository.findByOrder(order);
 		
@@ -401,10 +405,10 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		User user = order.getUser();
-		user.setOrders(null);// Giảm bớt dung lượng byte gói tin mảng orders của user
 		CustomOrderResponse dto = CustomOrderResponse
 				.builder()
 				.order(order)
+				.orderStatuses(orderStatuses)
 				.orderItemBooks(orderItemBooks)
 				.shipOrder(shipOrder)
 				.user(user)

@@ -62,7 +62,7 @@ async function orderDetail(orderIndex, orderItemBookIndex) {
                 <span>${status.description}</span><br>
                 <span class="text-secondary small">${new Date(status.time).toLocaleString()}</span>
             </div>
-            ${status !== order.orderStatuses[order.orderStatuses.length - 1] ? 
+            ${status !== order.orderStatuses[order. orderStatuses.length - 1] ? 
                 '<div class="position-relative mb-2" style="height: 50px;"><div class="vl" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div></div>' : ''
             }
         `;
@@ -82,6 +82,13 @@ async function orderDetail(orderIndex, orderItemBookIndex) {
             <span class="d-block text-bg-danger">Mã sách: <span class="fw-bold">#${book.id}</span></span>
             <span class="d-block">Số lượng đặt: <span class="fw-bold">x${orderItem.quantity} cuốn</span></span>
             <span class="d-block">CBM: <span class="fw-bold">${orderItem.totalWeightCBM.toFixed(2)} kg</span> (D x R x C) / 6000</span>
+            <div class="d-flex">
+                <img src="${book.coverImageUrl}" alt="coverImageUrlBook" width="64" height="64" />&emsp13;
+                <div>
+                    <span class="d-block">${book.title}</span>
+                    <span class="d-block">x${orderItem.quantity}</span>
+                </div>
+            </div>
             <hr>
             <h5>Thông Tin Vận Chuyển (nếu có):</h5>
             <span class="d-block text-bg-danger">Mã vận chuyển: <span class="fw-bold">#${order.shipOrder ? order.shipOrder.id : 'ĐH chưa xác nhận'}</span></span>
